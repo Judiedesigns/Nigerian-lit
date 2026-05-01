@@ -957,7 +957,7 @@ export default function NigerianLit() {
       <DetailModal book={selectedBook} onClose={handleCloseModal} />
       {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
       <Toolbar theme={theme} onTheme={setTheme} soundEnabled={soundEnabled} onSound={toggleSound} onAbout={() => setShowAbout(true)} />
-      <div ref={ytContainerRef} style={{ position: "fixed", left: -9999, top: -9999, width: 1, height: 1 }} />
+      <div ref={ytContainerRef} style={{ position: "fixed", bottom: 0, right: 0, width: 1, height: 1, visibility: "hidden", pointerEvents: "none" }} />
       {showSplash && <SplashScreen onEnter={handleEnter} />}
     </div>
   );
