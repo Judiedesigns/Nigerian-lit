@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nostalgia Prototype — Nigerian Lit</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #F0EAD6;
+    min-height: 100vh;
+    padding: 48px 24px 80px;
+    /* subtle paper grain */
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+
+  /* ── SECTION LABEL ─────────────────────────── */
+  .section-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #999;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .divider {
+    border: none;
+    border-top: 1px solid #C9BC9E;
+    margin: 32px auto;
+    max-width: 600px;
+  }
+
+  /* ── 1. EPIGRAPH ────────────────────────────── */
+  .epigraph-wrap {
+    max-width: 560px;
+    margin: 0 auto 56px;
+    text-align: center;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .epigraph-quote {
+    font-size: 20px;
+    font-style: italic;
+    line-height: 1.65;
+    color: #2C1F14;
+    letter-spacing: 0.01em;
+    opacity: 1;
+    transition: opacity 0.7s ease;
+    margin-bottom: 12px;
+  }
+  .epigraph-quote.fade {
+    opacity: 0;
+  }
+  .epigraph-attr {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9A8A72;
+    opacity: 1;
+    transition: opacity 0.7s ease;
+  }
+  .epigraph-attr.fade {
+    opacity: 0;
+  }
+  .epigraph-dots {
+    display: flex;
+    gap: 6px;
+    margin-top: 20px;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #C9BC9E;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .dot.active { background: #6B5A45; }
+
+  /* ── 2. LIBRARY CARDS ───────────────────────── */
+  .cards-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .lib-card {
+    background: #FDFAF3;
+    border: 1px solid #C9BC9E;
+    border-bottom: none;
+    padding: 20px 24px 16px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.15s;
+    /* aged paper feel */
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+  }
+  .lib-card:first-child { border-radius: 4px 4px 0 0; }
+  .lib-card:last-child  { border-bottom: 1px solid #C9BC9E; border-radius: 0 0 4px 4px; }
+  .lib-card:hover { background: #F7F0DC; }
+
+  /* ruled lines */
+  .lib-card::before {
+    content: '';
+    position: absolute;
+    left: 24px; right: 24px; bottom: 0;
+    height: 1px;
+    background: repeating-linear-gradient(
+      90deg,
+      #D4C9A8 0px, #D4C9A8 4px,
+      transparent 4px, transparent 10px
+    );
+    opacity: 0.5;
+  }
+  .lib-card:last-child::before { display: none; }
+
+  .card-row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+  }
+  .card-genre {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #9A8A72;
+    margin-bottom: 4px;
+  }
+  .card-title {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #1C120A;
+    letter-spacing: -0.01em;
+  }
+  .card-author {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    color: #6B5A45;
+    margin-top: 4px;
+  }
+
+  /* year stamp */
+  .year-stamp {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #8B4513;
+    border: 1.5px solid #8B4513;
+    border-radius: 3px;
+    padding: 2px 7px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    opacity: 0.75;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+
+  .card-desc {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    color: #5A4A3A;
+    line-height: 1.6;
+    margin-top: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* accession strip */
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+  }
+  .accession {
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    color: #B0A080;
+    letter-spacing: 0.1em;
+  }
+  .card-tags {
+    display: flex;
+    gap: 5px;
+  }
+  .tag {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9A8A72;
+    background: #EDE4CC;
+    border-radius: 2px;
+    padding: 2px 6px;
+  }
+
+  /* ── SOUND PANEL ──────────────────────────────── */
+  .sound-panel {
+    max-width: 520px;
+    margin: 48px auto 0;
+    background: #FDFAF3;
+    border: 1px solid #C9BC9E;
+    border-radius: 4px;
+    padding: 20px 24px;
+  }
+  .sound-title {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #9A8A72;
+    margin-bottom: 16px;
+  }
+  .sound-btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .sound-btn {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    background: #EDE4CC;
+    border: 1px solid #C9BC9E;
+    border-radius: 3px;
+    padding: 8px 14px;
+    cursor: pointer;
+    color: #3C2A1A;
+    transition: background 0.1s;
+  }
+  .sound-btn:hover { background: #DDD0AA; }
+  .sound-note {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: #9A8A72;
+    margin-top: 12px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADING ──────────────────────────────────── */
+  h1 {
+    text-align: center;
+    font-size: 13px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #9A8A72;
+    margin-bottom: 48px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Nostalgia Prototype</h1>
+
+<!-- ── CONCEPT 1: EPIGRAPH ────────────────── -->
+<p class="section-label">Concept 1 — Rotating epigraph</p>
+
+<div class="epigraph-wrap">
+  <p class="epigraph-quote" id="eq">&ldquo;&rdquo;</p>
+  <p class="epigraph-attr" id="ea">—</p>
+  <div class="epigraph-dots" id="dots"></div>
+</div>
+
+<hr class="divider">
+
+<!-- ── CONCEPT 2: LIBRARY CARDS ─────────── -->
+<p class="section-label">Concept 2 — Library card aesthetic</p>
+
+<div class="cards-wrap" id="cards">
+
+  <div class="lib-card" onclick="playPageTurn()">
+    <div class="card-row-top">
+      <div>
+        <p class="card-genre">Novel</p>
+        <p class="card-title">Things Fall Apart</p>
+        <p class="card-author">Chinua Achebe</p>
+      </div>
+      <span class="year-stamp">1958</span>
+    </div>
+    <p class="card-desc">A landmark of African literature following Okonkwo, an Igbo wrestler whose world unravels with the arrival of colonialism.</p>
+    <div class="card-footer">
+      <span class="accession">ACC. NO. 0001</span>
+      <div class="card-tags">
+        <span class="tag">Classic</span>
+        <span class="tag">Colonialism</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="lib-card" onclick="playPageTurn()">
+    <div class="card-row-top">
+      <div>
+        <p class="card-genre">Novel</p>
+        <p class="card-title">Purple Hibiscus</p>
+        <p class="card-author">Chimamanda Ngozi Adichie</p>
+      </div>
+      <span class="year-stamp">2003</span>
+    </div>
+    <p class="card-desc">A teenager in a wealthy Nigerian household quietly awakens to her father's religious tyranny and the possibility of freedom.</p>
+    <div class="card-footer">
+      <span class="accession">ACC. NO. 0009</span>
+      <div class="card-tags">
+        <span class="tag">Contemporary</span>
+        <span class="tag">Family</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="lib-card" onclick="playPageTurn()">
+    <div class="card-row-top">
+      <div>
+        <p class="card-genre">Play</p>
+        <p class="card-title">Death and the King's Horseman</p>
+        <p class="card-author">Wole Soyinka</p>
+      </div>
+      <span class="year-stamp">1975</span>
+    </div>
+    <p class="card-desc">A Yoruba chief must ritually follow his king in death — but a British colonial officer intervenes.</p>
+    <div class="card-footer">
+      <span class="accession">ACC. NO. 0018</span>
+      <div class="card-tags">
+        <span class="tag">Play</span>
+        <span class="tag">Tragedy</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="lib-card" onclick="playPageTurn()">
+    <div class="card-row-top">
+      <div>
+        <p class="card-genre">Novel</p>
+        <p class="card-title">One Week One Trouble</p>
+        <p class="card-author">Anezi Okoro</p>
+      </div>
+      <span class="year-stamp">1973</span>
+    </div>
+    <p class="card-desc">The funniest Nigerian school novel — Chike's misadventures at boarding school are relentlessly entertaining.</p>
+    <div class="card-footer">
+      <span class="accession">ACC. NO. 0045</span>
+      <div class="card-tags">
+        <span class="tag">Comedy</span>
+        <span class="tag">School</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── CONCEPT 3: SOUND TESTER ────────────── -->
+<div class="sound-panel">
+  <p class="sound-title">Sound concepts — click to hear</p>
+  <div class="sound-btns">
+    <button class="sound-btn" onclick="playPageTurn()">📄 Page turn (on card open)</button>
+    <button class="sound-btn" onclick="playStamp()">🔴 Rubber stamp (on filter)</button>
+    <button class="sound-btn" onclick="playTypewriter()">⌨️ Typewriter tick (on search key)</button>
+    <button class="sound-btn" onclick="playChime()">🔔 Soft chime (on modal open)</button>
+  </div>
+  <p class="sound-note">
+    Click a card above to hear the page-turn in context. The stamp fires when a filter tag is applied.
+    Typewriter tick can play on each keystroke while searching — subtle, can be toggled off.
+  </p>
+</div>
+
+<script>
+  // ── EPIGRAPH DATA ──────────────────────────────
+  const quotes = [
+    { q: "When the moon is shining the cripple becomes hungry for a walk.", a: "Chinua Achebe — Things Fall Apart" },
+    { q: "Things break all the time. Glass and dishes and fingernails and hearts and hopes.", a: "Chimamanda Ngozi Adichie — Purple Hibiscus" },
+    { q: "Azaro, come back. Come back to us.", a: "Ben Okri — The Famished Road" },
+    { q: "The world is like a Mask dancing. If you want to see it well you do not stand in one place.", a: "Chinua Achebe — Arrow of God" },
+    { q: "I came from a country where race was not an issue. I only became black when I came to America.", a: "Chimamanda Ngozi Adichie — Americanah" },
+    { q: "The truly Nigerian story had not yet been told. The story of the ordinary man.", a: "Cyprian Ekwensi — Jagua Nana" },
+  ];
+
+  let current = 0;
+  const eq = document.getElementById('eq');
+  const ea = document.getElementById('ea');
+  const dotsEl = document.getElementById('dots');
+
+  // build dots
+  quotes.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  });
+
+  function setQuote(idx) {
+    eq.textContent = '\u201C' + quotes[idx].q + '\u201D';
+    ea.textContent = '\u2014\u2009' + quotes[idx].a;
+    document.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i === idx);
+    });
+  }
+
+  function goTo(idx) {
+    eq.classList.add('fade');
+    ea.classList.add('fade');
+    setTimeout(() => {
+      current = idx;
+      setQuote(current);
+      eq.classList.remove('fade');
+      ea.classList.remove('fade');
+    }, 700);
+  }
+
+  // initialise
+  setQuote(0);
+
+  // auto-advance
+  setInterval(() => {
+    goTo((current + 1) % quotes.length);
+  }, 6000);
+
+
+  // ── WEB AUDIO SOUNDS ────────────────────────────
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+  function playPageTurn() {
+    // Soft paper rustle: filtered white noise, short burst
+    const bufSize = ctx.sampleRate * 0.18;
+    const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < bufSize; i++) data[i] = (Math.random() * 2 - 1);
+
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+
+    // band-pass to make it rustly, not hissy
+    const bp = ctx.createBiquadFilter();
+    bp.type = 'bandpass';
+    bp.frequency.value = 800;
+    bp.Q.value = 0.8;
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+
+    src.connect(bp).connect(gain).connect(ctx.destination);
+    src.start();
+    src.stop(ctx.currentTime + 0.2);
+  }
+
+  function playStamp() {
+    // Two-part: a short thud + brief resonant decay
+    const osc = ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(160, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(60, ctx.currentTime + 0.08);
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.4, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+
+    // add a click transient
+    const bufSize = ctx.sampleRate * 0.005;
+    const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < bufSize; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / bufSize);
+    const click = ctx.createBufferSource();
+    click.buffer = buf;
+    const cGain = ctx.createGain();
+    cGain.gain.value = 0.6;
+    click.connect(cGain).connect(ctx.destination);
+    click.start();
+
+    osc.connect(gain).connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.2);
+  }
+
+  function playTypewriter() {
+    // Sharp mechanical tick
+    const bufSize = ctx.sampleRate * 0.025;
+    const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < bufSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufSize * 0.15));
+    }
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+
+    const hp = ctx.createBiquadFilter();
+    hp.type = 'highpass';
+    hp.frequency.value = 2000;
+
+    const gain = ctx.createGain();
+    gain.gain.value = 0.3;
+
+    src.connect(hp).connect(gain).connect(ctx.destination);
+    src.start();
+  }
+
+  function playChime() {
+    // Soft bell — two harmonics
+    [880, 1320].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.06);
+      gain.gain.linearRampToValueAtTime(0.12, ctx.currentTime + i * 0.06 + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.06 + 1.2);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(ctx.currentTime + i * 0.06);
+      osc.stop(ctx.currentTime + i * 0.06 + 1.3);
+    });
+  }
+</script>
+
+</body>
+</html>
