@@ -1852,7 +1852,7 @@ const css = `
     [style*="padding: 28px 40px 72px"] { padding: 24px 24px 56px !important; }
   }
   @media (max-width: 768px) {
-    .books-grid { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+    .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
     .search-row { flex-wrap: wrap !important; }
     .dropdown-row { flex-wrap: wrap !important; }
     .modal-inner { grid-template-columns: 1fr !important; }
