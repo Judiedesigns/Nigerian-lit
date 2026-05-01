@@ -590,14 +590,14 @@ const PLAYLIST_ID = "PLVZAvcfj6Em9IJ9NQlQ16oAVbAVmONoNm";
 
 const THEMES = [
   { id: "white",      label: "White",       bg: "#FAFAF8", surface: "#F0F0EE", surface2: "#EAEAE8", border: "#E2E2DF", border2: "#D8D8D5", dark: false },
-  { id: "cream",      label: "Sage",        bg: "#C8D4B0", surface: "#B8C4A0", surface2: "#A8B490", border: "#94A07C", border2: "#84906C", dark: false },
-  { id: "yellow",     label: "Peach",       bg: "#FBECDD", surface: "#F5DEC8", surface2: "#EDD0B4", border: "#DFB890", border2: "#D0A070", dark: false },
-  { id: "beige",      label: "Pink Mist",   bg: "#FFE0F8", surface: "#F5CEEC", surface2: "#EBBCDE", border: "#D8A0C8", border2: "#C888B4", dark: false },
-  { id: "blue",       label: "Cream",       bg: "#FFF8EE", surface: "#F7F0D8", surface2: "#F0E8CC", border: "#E8DFC0", border2: "#DDD3B0", dark: false },
+  { id: "sage",       label: "Sage",        bg: "#C8D4B0", surface: "#B8C4A0", surface2: "#A8B490", border: "#94A07C", border2: "#84906C", dark: false },
+  { id: "peach",      label: "Peach",       bg: "#FBECDD", surface: "#F5DEC8", surface2: "#EDD0B4", border: "#DFB890", border2: "#D0A070", dark: false },
+  { id: "terracotta", label: "Terracotta",  bg: "#F0C8A8", surface: "#E4B890", surface2: "#D8A878", border: "#C49060", border2: "#B07848", dark: false },
+  { id: "cream",      label: "Cream",       bg: "#FFF8EE", surface: "#F7F0D8", surface2: "#F0E8CC", border: "#E8DFC0", border2: "#DDD3B0", dark: false },
   { id: "lightBlue",  label: "Light Blue",  bg: "#C4DBEA", surface: "#B0CCE0", surface2: "#9CBCD6", border: "#88AACC", border2: "#74A0C0", dark: false },
-  { id: "trueBlue",   label: "Warm White",  bg: "#F8F6F0", surface: "#EEEAE0", surface2: "#E4DED0", border: "#D4CEBC", border2: "#C4BCA8", dark: false },
-  { id: "bluePurple", label: "Lavender",    bg: "#EDDFF1", surface: "#E0CCE8", surface2: "#D2B8DE", border: "#BFA0CC", border2: "#AC88BB", dark: false },
-  { id: "grayBlack",  label: "Gray Black",  bg: "#2A2A2E", surface: "#363638", surface2: "#404044", border: "#4A4A50", border2: "#565660", dark: true  },
+  { id: "warmWhite",  label: "Warm White",  bg: "#F8F6F0", surface: "#EEEAE0", surface2: "#E4DED0", border: "#D4CEBC", border2: "#C4BCA8", dark: false },
+  { id: "lavender",   label: "Lavender",    bg: "#EDDFF1", surface: "#E0CCE8", surface2: "#D2B8DE", border: "#BFA0CC", border2: "#AC88BB", dark: false },
+  { id: "dark",       label: "Gray Black",  bg: "#2A2A2E", surface: "#363638", surface2: "#404044", border: "#4A4A50", border2: "#565660", dark: true  },
 ];
 
 function SplashScreen({ onEnter }) {
