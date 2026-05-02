@@ -485,7 +485,7 @@ function DetailModal({ book, onClose }) {
               <span style={s.modalGenre}>{book.genre}</span>
               <span style={s.modalYear}>{book.year}</span>
             </div>
-            <h2 id="detail-modal-title" style={s.modalTitle}>{book.title}</h2>
+            <h2 id="detail-modal-title" className="modal-title" style={s.modalTitle}>{book.title}</h2>
             <p style={s.modalAuthor}>{book.author}</p>
             <div style={s.modalTags}>
               {book.tags.map((tag) => (
@@ -1436,6 +1436,7 @@ const s = {
     width: "100%",
     maxHeight: "90vh",
     overflowY: "auto",
+    WebkitOverflowScrolling: "touch",
     position: "relative",
     boxShadow: "0 32px 80px rgba(0, 0, 0, 0.22)",
     display: "flex",
@@ -1866,8 +1867,9 @@ const css = `
     .dropdown-row select { flex: 1 1 calc(50% - 4px) !important; min-width: 0 !important; box-sizing: border-box !important; }
     .modal-inner { grid-template-columns: 1fr !important; min-height: 0 !important; }
     .modal-left { order: 2 !important; border-radius: 0 0 12px 12px !important; padding: 20px 28px 32px !important; }
-    .modal-right { order: 1 !important; border-radius: 12px 12px 0 0 !important; padding: 36px 28px 32px !important; }
+    .modal-right { order: 1 !important; border-radius: 12px 12px 0 0 !important; padding: 36px 28px 32px !important; overflow-y: visible !important; }
     .modal-letter-wrap { display: none !important; }
+    .modal-title { font-size: 26px !important; }
   }
   @media (max-width: 480px) {
     .books-grid { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; gap: 0 !important; }
