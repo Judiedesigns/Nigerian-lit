@@ -1004,7 +1004,7 @@ const s = {
   subtitle: {
     margin: 0,
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
-    fontSize: 16,
+    fontSize: 15,
     color: "var(--text-2)",
     lineHeight: 1.5,
   },
