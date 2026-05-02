@@ -425,15 +425,17 @@ function DetailModal({ book, onClose }) {
   }
 
   return (
-    <div style={s.overlay} onClick={onClose} aria-hidden="true">
+    <div className="detail-overlay" style={s.overlay} onClick={onClose} aria-hidden="true">
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="detail-modal-title"
         ref={trapRef}
+        className="detail-modal"
         style={s.modal}
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="sheet-handle" style={{display:"none"}} />
         <div className="modal-inner" style={s.modalInner}>
           <div className="modal-left" style={s.modalLeft}>
             <div className="modal-letter-wrap" style={s.modalLetterWrap}>
@@ -835,7 +837,6 @@ export default function NigerianLit() {
           <p style={s.eyebrow}>A Reading Archive</p>
           <h1 style={s.title}>Nigerian &amp; West African Literature</h1>
           <p style={s.subtitle}>{books.length} essential works — novels, plays &amp; poetry</p>
-          <p style={s.aboutBlurb}>Started from a Twitter thread where people shared books from their Nigerian childhoods. We collected them all in one place so nothing gets lost.</p>
         </div>
       </header>
 
@@ -1852,6 +1853,10 @@ const css = `
     background-clip: text;
     animation: rainbowSweep 3s ease infinite;
   }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
   }
@@ -1867,10 +1872,13 @@ const css = `
     .dropdown-row { width: 100% !important; flex-wrap: wrap !important; }
     .dropdown-row select { flex: 1 1 calc(50% - 4px) !important; min-width: 0 !important; box-sizing: border-box !important; }
     .modal-inner { grid-template-columns: 1fr !important; min-height: 0 !important; }
-    .modal-left { order: 2 !important; border-radius: 0 0 12px 12px !important; padding: 20px 28px 32px !important; }
-    .modal-right { order: 1 !important; border-radius: 12px 12px 0 0 !important; padding: 36px 28px 32px !important; overflow-y: visible !important; }
+    .modal-left { order: 2 !important; border-radius: 0 !important; padding: 20px 28px 32px !important; }
+    .modal-right { order: 1 !important; border-radius: 0 !important; padding: 36px 28px 32px !important; overflow-y: visible !important; }
     .modal-letter-wrap { display: none !important; }
     .modal-title { font-size: 26px !important; }
+    .detail-overlay { align-items: flex-end !important; padding: 0 !important; }
+    .detail-modal { max-width: 100% !important; width: 100% !important; max-height: 88vh !important; border-radius: 20px 20px 0 0 !important; animation: slideUp 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
+    .sheet-handle { display: block !important; width: 36px; height: 4px; background: var(--border-2); border-radius: 2px; margin: 14px auto 0; flex-shrink: 0; }
   }
   @media (max-width: 480px) {
     .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
