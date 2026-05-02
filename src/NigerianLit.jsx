@@ -1277,7 +1277,7 @@ const s = {
   grid: {
     display: "grid",
     gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-    gap: "16px 16px",
+    gap: "12px 12px",
     background: "transparent",
   },
   card: {
@@ -1873,7 +1873,7 @@ const css = `
     .modal-title { font-size: 26px !important; }
   }
   @media (max-width: 480px) {
-    .books-grid { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; gap: 0 !important; }
+    .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
     .lit-controls { padding-left: 16px !important; padding-right: 16px !important; }
     .dropdown-row select { flex: 1 1 100% !important; }
     [style*="padding: 52px 40px 44px"] { padding: 32px 16px 28px !important; }
