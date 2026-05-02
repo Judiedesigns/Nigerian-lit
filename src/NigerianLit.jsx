@@ -1277,7 +1277,7 @@ const s = {
   grid: {
     display: "grid",
     gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-    gap: "12px 12px",
+    gap: "8px 8px",
     background: "transparent",
   },
   card: {
