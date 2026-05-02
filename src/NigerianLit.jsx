@@ -633,8 +633,9 @@ const spl = {
   },
   inner: {
     maxWidth: 600,
+    width: "100%",
     textAlign: "center",
-    display: "flex", flexDirection: "column", alignItems: "center", gap: 20,
+    display: "flex", flexDirection: "column", alignItems: "stretch", gap: 20,
   },
   eyebrow: {
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
@@ -662,6 +663,7 @@ const spl = {
   },
   enterBtn: {
     marginTop: 12,
+    alignSelf: "center",
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
     fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase",
     background: "transparent",
@@ -1854,13 +1856,15 @@ const css = `
   @media (max-width: 768px) {
     .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
     .search-row { flex-wrap: wrap !important; }
-    .dropdown-row { flex-wrap: wrap !important; }
+    .dropdown-row { flex: 1 1 100% !important; flex-wrap: wrap !important; }
+    .dropdown-row select { flex: 1 1 calc(50% - 4px) !important; min-width: 0 !important; }
     .modal-inner { grid-template-columns: 1fr !important; }
     [style*="border-radius: 8px 0 0 8px"] { border-radius: 8px 8px 0 0 !important; }
   }
   @media (max-width: 480px) {
     .books-grid { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; gap: 0 !important; }
     .lit-controls { padding-left: 16px !important; padding-right: 16px !important; }
+    .dropdown-row select { flex: 1 1 100% !important; }
     [style*="padding: 52px 40px 44px"] { padding: 32px 16px 28px !important; }
     [style*="padding: 28px 40px 72px"] { padding: 20px 16px 48px !important; }
     [style*="font-size: 34px"] { font-size: 26px !important; }
