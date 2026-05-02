@@ -435,8 +435,8 @@ function DetailModal({ book, onClose }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="modal-inner" style={s.modalInner}>
-          <div style={s.modalLeft}>
-            <div style={s.modalLetterWrap}>
+          <div className="modal-left" style={s.modalLeft}>
+            <div className="modal-letter-wrap" style={s.modalLetterWrap}>
               <span style={s.modalLetter}>{book.title[0]}</span>
             </div>
             <div style={s.modalLinksWrap}>
@@ -479,7 +479,7 @@ function DetailModal({ book, onClose }) {
               </div>
             </div>
           </div>
-          <div style={s.modalRight}>
+          <div className="modal-right" style={s.modalRight}>
             <button type="button" style={s.modalCloseBtn} onClick={onClose} aria-label="Close book details">×</button>
             <div style={s.modalMeta}>
               <span style={s.modalGenre}>{book.genre}</span>
@@ -514,6 +514,7 @@ function AboutModal({ onClose }) {
         aria-modal="true"
         aria-labelledby="about-modal-title"
         ref={trapRef}
+        className="about-modal"
         style={s.aboutModal}
         onClick={(e) => e.stopPropagation()}
       >
@@ -526,7 +527,7 @@ function AboutModal({ onClose }) {
         <p style={s.aboutModalBody}>
           I went through the responses, pulled out every title, and built this archive so they'd all live somewhere searchable and accessible. Every book links to where you can read or buy it.
         </p>
-        <p style={s.aboutModalBody}>Made by MARS.</p>
+        <p style={s.aboutModalBody}>Made by <a href="https://mars-portfolio.figma.site/" target="_blank" rel="noopener noreferrer" className="mars-link" style={{color: "var(--text-2)", textDecoration: "none", fontWeight: 500}}>MARS</a>.</p>
       </div>
     </div>
   );
@@ -1057,6 +1058,8 @@ const s = {
   dropdownRow: {
     display: "flex",
     gap: 8,
+    flexWrap: "wrap",
+    minWidth: 0,
   },
   select: {
     border: "1px solid var(--border-2)",
@@ -1424,7 +1427,7 @@ const s = {
     alignItems: "center",
     justifyContent: "center",
     zIndex: 100,
-    padding: 20,
+    padding: 16,
     backdropFilter: "blur(3px)",
   },
   modal: {
@@ -1765,8 +1768,11 @@ const s = {
   modalTags: {
     display: "flex",
     gap: 8,
-    flexWrap: "wrap",
+    flexWrap: "nowrap",
+    overflowX: "auto",
+    WebkitOverflowScrolling: "touch",
     marginBottom: 28,
+    paddingBottom: 4,
   },
   tag: {
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
@@ -1856,10 +1862,12 @@ const css = `
   @media (max-width: 768px) {
     .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
     .search-row { flex-wrap: wrap !important; }
-    .dropdown-row { flex: 1 1 100% !important; flex-wrap: wrap !important; }
-    .dropdown-row select { flex: 1 1 calc(50% - 4px) !important; min-width: 0 !important; }
-    .modal-inner { grid-template-columns: 1fr !important; }
-    [style*="border-radius: 8px 0 0 8px"] { border-radius: 8px 8px 0 0 !important; }
+    .dropdown-row { width: 100% !important; flex-wrap: wrap !important; }
+    .dropdown-row select { flex: 1 1 calc(50% - 4px) !important; min-width: 0 !important; box-sizing: border-box !important; }
+    .modal-inner { grid-template-columns: 1fr !important; min-height: 0 !important; }
+    .modal-left { order: 2 !important; border-radius: 0 0 12px 12px !important; padding: 20px 28px 32px !important; }
+    .modal-right { order: 1 !important; border-radius: 12px 12px 0 0 !important; padding: 36px 28px 32px !important; }
+    .modal-letter-wrap { display: none !important; }
   }
   @media (max-width: 480px) {
     .books-grid { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; gap: 0 !important; }
@@ -1869,5 +1877,8 @@ const css = `
     [style*="padding: 28px 40px 72px"] { padding: 20px 16px 48px !important; }
     [style*="font-size: 34px"] { font-size: 26px !important; }
     [style*="padding: 36px 32px 40px 28px"] { padding: 24px 16px 28px !important; }
+    .about-modal { padding: 40px 16px 28px !important; }
+    .modal-left { padding-left: 16px !important; padding-right: 16px !important; }
+    .modal-right { padding-left: 16px !important; padding-right: 16px !important; }
   }
 `;
