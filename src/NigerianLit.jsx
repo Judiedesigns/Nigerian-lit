@@ -223,13 +223,6 @@ function writeCoverCache(key, value) {
   } catch {}
 }
 
-const STATUS_KEY = "nlitStatus_v1";
-function readStatusMap() {
-  try { return JSON.parse(localStorage.getItem(STATUS_KEY) || "{}"); } catch { return {}; }
-}
-function writeStatusMap(map) {
-  try { localStorage.setItem(STATUS_KEY, JSON.stringify(map)); } catch {}
-}
 
 function useFocusTrap(active) {
   const containerRef = useRef(null);
@@ -315,6 +308,7 @@ function CustomSelect({ value, options, onChange, label }) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0, width: 0 });
   const btnRef = useRef(null);
+  const panelRef = useRef(null);
 
   function handleToggle() {
     if (open) { setOpen(false); return; }
@@ -329,13 +323,13 @@ function CustomSelect({ value, options, onChange, label }) {
   useEffect(() => {
     if (!open) return;
     function outside(e) {
-      if (!btnRef.current?.contains(e.target)) setOpen(false);
+      if (!btnRef.current?.contains(e.target) && !panelRef.current?.contains(e.target)) setOpen(false);
     }
     document.addEventListener("mousedown", outside);
-    document.addEventListener("touchstart", outside, { passive: true });
+    document.addEventListener("touchend", outside);
     return () => {
       document.removeEventListener("mousedown", outside);
-      document.removeEventListener("touchstart", outside);
+      document.removeEventListener("touchend", outside);
     };
   }, [open]);
 
@@ -361,6 +355,7 @@ function CustomSelect({ value, options, onChange, label }) {
       </button>
       {open && (
         <div
+          ref={panelRef}
           style={{ ...s.selectPanel, position: "fixed", top: pos.top, left: pos.left, minWidth: pos.width }}
           role="listbox"
         >
@@ -392,10 +387,9 @@ function FilterPill({ label, onClear }) {
   );
 }
 
-function BookCard({ book, onSelect, status, index }) {
+function BookCard({ book, onSelect, index }) {
   return (
     <button type="button" className="book-card" style={s.card} onClick={() => { playPageTurn(); onSelect(book); }}>
-      {status && <div style={{ ...s.statusStrip, background: status === "read" ? "#4CAF7D" : "#E6A817" }} />}
       <div style={s.cardCover}>
         <BookCover
           book={book}
@@ -770,8 +764,6 @@ export default function NigerianLit() {
   const [selectedBook, setSelectedBook] = useState(null);
   const [sortOrder, setSortOrder] = useState("az");
   const [viewMode, setViewMode] = useState("cards");
-  const [readingStatus, setReadingStatus] = useState(() => readStatusMap());
-  const [statusFilter, setStatusFilter] = useState("all");
   const [theme, setTheme] = useState("white");
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [showAbout, setShowAbout] = useState(false);
@@ -856,19 +848,6 @@ export default function NigerianLit() {
     history.replaceState(null, "", window.location.pathname);
   }
 
-  function handleSetStatus(bookId, newStatus) {
-    setReadingStatus((prev) => {
-      const updated = { ...prev };
-      if (newStatus === null) delete updated[bookId];
-      else updated[bookId] = newStatus;
-      writeStatusMap(updated);
-      return updated;
-    });
-  }
-
-  const readCount = Object.values(readingStatus).filter((v) => v === "read").length;
-  const wantCount = Object.values(readingStatus).filter((v) => v === "want").length;
-
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
     const list = books.filter((book) => {
@@ -880,12 +859,7 @@ export default function NigerianLit() {
       const matchesGenre = selectedGenre === "All" || book.genre === selectedGenre;
       const matchesAuthor = selectedAuthor === "All Authors" || book.author === selectedAuthor;
       const matchesAlpha = alphaFilter === "All" || book.title.toUpperCase().startsWith(alphaFilter);
-      const matchesStatus =
-        statusFilter === "all" ||
-        (statusFilter === "want" && readingStatus[book.id] === "want") ||
-        (statusFilter === "read" && readingStatus[book.id] === "read") ||
-        (statusFilter === "unread" && !readingStatus[book.id]);
-      return matchesSearch && matchesGenre && matchesAuthor && matchesAlpha && matchesStatus;
+      return matchesSearch && matchesGenre && matchesAuthor && matchesAlpha;
     });
     const sorted = [...list];
     if (sortOrder === "az") sorted.sort((a, b) => a.title.localeCompare(b.title));
@@ -893,14 +867,13 @@ export default function NigerianLit() {
     if (sortOrder === "oldest") sorted.sort((a, b) => a.year - b.year);
     if (sortOrder === "newest") sorted.sort((a, b) => b.year - a.year);
     return sorted;
-  }, [search, selectedGenre, selectedAuthor, alphaFilter, sortOrder, statusFilter, readingStatus]);
+  }, [search, selectedGenre, selectedAuthor, alphaFilter, sortOrder]);
 
   const activeFilters = [
     search ? { label: `"${search}"`, clear: () => setSearch("") } : null,
     selectedGenre !== "All" ? { label: selectedGenre, clear: () => setSelectedGenre("All") } : null,
     selectedAuthor !== "All Authors" ? { label: selectedAuthor, clear: () => setSelectedAuthor("All Authors") } : null,
     alphaFilter !== "All" ? { label: `Letter: ${alphaFilter}`, clear: () => setAlphaFilter("All") } : null,
-    statusFilter !== "all" ? { label: statusFilter === "want" ? "Want to Read" : statusFilter === "read" ? "Read" : "Not started", clear: () => setStatusFilter("all") } : null,
   ].filter(Boolean);
 
   function resetAll() {
@@ -909,7 +882,6 @@ export default function NigerianLit() {
     setSelectedAuthor("All Authors");
     setAlphaFilter("All");
     setSortOrder("az");
-    setStatusFilter("all");
   }
 
   return (
@@ -963,17 +935,6 @@ export default function NigerianLit() {
                 ]}
                 onChange={setSortOrder}
               />
-              <CustomSelect
-                label="Filter by reading status"
-                value={statusFilter}
-                options={[
-                  { value: "all", label: "All books" },
-                  { value: "want", label: "Want to Read" },
-                  { value: "read", label: "Read" },
-                  { value: "unread", label: "Not started" },
-                ]}
-                onChange={setStatusFilter}
-              />
             </div>
           </div>
 
@@ -1010,13 +971,6 @@ export default function NigerianLit() {
           <div style={s.catalogueTopRow}>
             <div>
               <p style={s.bookCount}>{filtered.length} {filtered.length === 1 ? "book" : "books"}</p>
-              {(readCount > 0 || wantCount > 0) && (
-                <p style={s.statusCount}>
-                  {readCount > 0 && `${readCount} read`}
-                  {readCount > 0 && wantCount > 0 && " · "}
-                  {wantCount > 0 && `${wantCount} want to read`}
-                </p>
-              )}
             </div>
             <ViewToggle view={viewMode} onChange={setViewMode} />
           </div>
@@ -1029,7 +983,7 @@ export default function NigerianLit() {
           ) : viewMode === "cards" ? (
             <div className="books-grid" style={s.grid}>
               {filtered.map((book, i) => (
-                <BookCard key={book.id} book={book} onSelect={handleSelectBook} status={readingStatus[book.id]} index={i} />
+                <BookCard key={book.id} book={book} onSelect={handleSelectBook} index={i} />
               ))}
             </div>
           ) : viewMode === "shelf" ? (
@@ -1436,11 +1390,6 @@ const s = {
     display: "flex",
     flexDirection: "column",
   },
-  statusStrip: {
-    height: 3,
-    width: "100%",
-    flexShrink: 0,
-  },
   cardCover: {
     background: "var(--cover)",
     position: "relative",
@@ -1792,13 +1741,6 @@ const s = {
     lineHeight: 1.75,
     color: "var(--text-2)",
     margin: "0 0 14px",
-  },
-  statusCount: {
-    fontFamily: "'Helvetica Neue', Arial, sans-serif",
-    fontSize: 11,
-    color: "var(--text-4)",
-    margin: "3px 0 0",
-    letterSpacing: "0.02em",
   },
   modalLinksWrap: {
     display: "flex",
