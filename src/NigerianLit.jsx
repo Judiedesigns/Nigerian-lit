@@ -397,7 +397,13 @@ function BookCard({ book, onSelect, status, index }) {
     <button type="button" className="book-card" style={s.card} onClick={() => { playPageTurn(); onSelect(book); }}>
       {status && <div style={{ ...s.statusStrip, background: status === "read" ? "#4CAF7D" : "#E6A817" }} />}
       <div style={s.cardCover}>
-        <span style={s.cardCoverLetter}>{book.title[0]}</span>
+        <BookCover
+          book={book}
+          delay={index * 60}
+          style={s.cardCoverImg}
+          fallbackStyle={s.cardCoverFallback}
+          letterStyle={s.cardCoverLetter}
+        />
       </div>
       <div style={s.cardBody}>
         <p style={s.cardGenreTag}>{book.genre}</p>
@@ -1431,11 +1437,27 @@ const s = {
   },
   cardCover: {
     background: "var(--cover)",
+    position: "relative",
+    height: 164,
+    flexShrink: 0,
+    overflow: "hidden",
+  },
+  cardCoverImg: {
+    position: "absolute",
+    inset: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    display: "block",
+  },
+  cardCoverFallback: {
+    position: "absolute",
+    inset: 0,
+    width: "100%",
+    height: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: 164,
-    flexShrink: 0,
   },
   cardCoverLetter: {
     fontFamily: "Georgia, 'Times New Roman', serif",
