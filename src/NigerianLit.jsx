@@ -483,13 +483,16 @@ function ViewToggle({ view, onChange }) {
 function DetailModal({ book, onClose }) {
   const [showMore, setShowMore] = useState(false);
   const [copied, setCopied] = useState(false);
-  const trapRef = useFocusTrap(!!book);
+  const trapRef = useFocusTrap(true);
+
   useEffect(() => { playChime(); }, []);
+
   useEffect(() => {
     function onEsc(e) { if (e.key === 'Escape') onClose(); }
     document.addEventListener('keydown', onEsc);
     return () => document.removeEventListener('keydown', onEsc);
   }, [onClose]);
+
   useEffect(() => {
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
@@ -498,7 +501,6 @@ function DetailModal({ book, onClose }) {
       document.body.style.overflow = '';
     };
   }, []);
-  if (!book) return null;
   const q = encodeURIComponent(`${book.title} ${book.author}`);
   const qt = encodeURIComponent(book.title);
 
@@ -1038,9 +1040,9 @@ export default function NigerianLit() {
             </div>
           ) : (
             <div style={s.listGrid}>
-              <div style={s.listHeader}>
+              <div className="list-row list-header" style={s.listHeader}>
                 <span>Title</span>
-                <span>Author</span>
+                <span className="list-author">Author</span>
                 <span>Year</span>
                 <span>Genre</span>
               </div>
@@ -1052,7 +1054,7 @@ export default function NigerianLit() {
         </div>
       </section>
 
-      <DetailModal book={selectedBook} onClose={handleCloseModal} />
+      {selectedBook && <DetailModal book={selectedBook} onClose={handleCloseModal} />}
       {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
       <Toolbar theme={theme} onTheme={setTheme} soundEnabled={soundEnabled} onSound={toggleSound} onAbout={() => setShowAbout(true)} />
       <div ref={ytContainerRef} style={{ position: "fixed", bottom: 0, right: 0, width: 1, height: 1, visibility: "hidden", pointerEvents: "none" }} />
