@@ -439,7 +439,7 @@ function ListRow({ book, onSelect }) {
   return (
     <button type="button" className="list-row" style={s.listRow} onClick={() => { playPageTurn(); onSelect(book); }}>
       <span style={s.listTitle}>{book.title}</span>
-      <span style={s.listAuthor}>{book.author}</span>
+      <span className="list-author" style={s.listAuthor}>{book.author}</span>
       <span style={s.listYear}>{book.year}</span>
       <span style={s.listGenreTag}>{book.genre}</span>
     </button>
@@ -491,17 +491,11 @@ function DetailModal({ book, onClose }) {
     return () => document.removeEventListener('keydown', onEsc);
   }, [onClose]);
   useEffect(() => {
-    const y = window.scrollY;
+    document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${y}px`;
-    document.body.style.width = '100%';
     return () => {
+      document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-      window.scrollTo(0, y);
     };
   }, []);
   if (!book) return null;
@@ -1595,6 +1589,7 @@ const s = {
     zIndex: 100,
     padding: 16,
     backdropFilter: "blur(3px)",
+    overscrollBehavior: "contain",
   },
   modal: {
     borderRadius: 12,
@@ -2043,6 +2038,8 @@ const css = `
     .detail-overlay { align-items: flex-end !important; padding: 0 !important; }
     .detail-modal { max-width: 100% !important; width: 100% !important; max-height: 88vh !important; border-radius: 20px 20px 0 0 !important; animation: slideUp 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
     .sheet-handle { display: block !important; width: 36px; height: 4px; background: var(--border-2); border-radius: 2px; margin: 14px auto 0; flex-shrink: 0; }
+    .list-row { grid-template-columns: 1fr 44px 72px !important; gap: 8px !important; }
+    .list-author { display: none !important; }
   }
   @media (max-width: 480px) {
     .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
