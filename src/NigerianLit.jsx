@@ -311,6 +311,78 @@ function BookCover({ book, style, fallbackStyle, delay = 0, letterStyle }) {
   );
 }
 
+function CustomSelect({ value, options, onChange, label }) {
+  const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState({ top: 0, left: 0, width: 0 });
+  const btnRef = useRef(null);
+
+  function handleToggle() {
+    if (open) { setOpen(false); return; }
+    const rect = btnRef.current.getBoundingClientRect();
+    const w = Math.max(rect.width, 160);
+    let left = rect.left;
+    if (left + w > window.innerWidth - 8) left = Math.max(8, rect.right - w);
+    setPos({ top: rect.bottom + 4, left, width: w });
+    setOpen(true);
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    function outside(e) {
+      if (!btnRef.current?.contains(e.target)) setOpen(false);
+    }
+    document.addEventListener("mousedown", outside);
+    document.addEventListener("touchstart", outside, { passive: true });
+    return () => {
+      document.removeEventListener("mousedown", outside);
+      document.removeEventListener("touchstart", outside);
+    };
+  }, [open]);
+
+  const current = options.find((o) => o.value === value);
+
+  return (
+    <>
+      <button
+        ref={btnRef}
+        type="button"
+        onClick={handleToggle}
+        style={s.selectBtn}
+        aria-label={label}
+        aria-expanded={open}
+        aria-haspopup="listbox"
+      >
+        <span style={{ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          {current?.label ?? value}
+        </span>
+        <svg style={s.selectChevron} width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M1 1l4 4 4-4" />
+        </svg>
+      </button>
+      {open && (
+        <div
+          style={{ ...s.selectPanel, position: "fixed", top: pos.top, left: pos.left, minWidth: pos.width }}
+          role="listbox"
+        >
+          {options.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              role="option"
+              aria-selected={opt.value === value}
+              style={opt.value === value ? { ...s.selectOption, ...s.selectOptionActive } : s.selectOption}
+              onClick={() => { onChange(opt.value); setOpen(false); }}
+            >
+              <span style={s.selectOptCheck}>{opt.value === value ? "✓" : ""}</span>
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
 function FilterPill({ label, onClear }) {
   return (
     <button type="button" style={s.pill} onClick={onClear}>
@@ -856,28 +928,40 @@ export default function NigerianLit() {
               />
             </label>
             <div className="dropdown-row" style={s.dropdownRow}>
-              <select aria-label="Filter by genre" style={s.select} value={selectedGenre} onChange={(e) => { playStamp(); setSelectedGenre(e.target.value); }}>
-                {genres.map((genre) => (
-                  <option key={genre}>{genre}</option>
-                ))}
-              </select>
-              <select aria-label="Filter by author" style={s.select} value={selectedAuthor} onChange={(e) => { playStamp(); setSelectedAuthor(e.target.value); }}>
-                {authors.map((author) => (
-                  <option key={author}>{author}</option>
-                ))}
-              </select>
-              <select aria-label="Sort order" style={s.select} value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
-                <option value="az">A → Z</option>
-                <option value="za">Z → A</option>
-                <option value="oldest">Oldest first</option>
-                <option value="newest">Newest first</option>
-              </select>
-              <select aria-label="Filter by reading status" style={s.select} value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-                <option value="all">All books</option>
-                <option value="want">Want to Read</option>
-                <option value="read">Read</option>
-                <option value="unread">Not started</option>
-              </select>
+              <CustomSelect
+                label="Filter by genre"
+                value={selectedGenre}
+                options={genres.map((g) => ({ value: g, label: g }))}
+                onChange={(v) => { playStamp(); setSelectedGenre(v); }}
+              />
+              <CustomSelect
+                label="Filter by author"
+                value={selectedAuthor}
+                options={authors.map((a) => ({ value: a, label: a }))}
+                onChange={(v) => { playStamp(); setSelectedAuthor(v); }}
+              />
+              <CustomSelect
+                label="Sort order"
+                value={sortOrder}
+                options={[
+                  { value: "az", label: "A → Z" },
+                  { value: "za", label: "Z → A" },
+                  { value: "oldest", label: "Oldest first" },
+                  { value: "newest", label: "Newest first" },
+                ]}
+                onChange={setSortOrder}
+              />
+              <CustomSelect
+                label="Filter by reading status"
+                value={statusFilter}
+                options={[
+                  { value: "all", label: "All books" },
+                  { value: "want", label: "Want to Read" },
+                  { value: "read", label: "Read" },
+                  { value: "unread", label: "Not started" },
+                ]}
+                onChange={setStatusFilter}
+              />
             </div>
           </div>
 
@@ -973,6 +1057,7 @@ const s = {
     background: "var(--bg)",
     minHeight: "100vh",
     color: "var(--text)",
+    overflowX: "hidden",
   },
   header: {
     background: "var(--surface)",
@@ -1062,16 +1147,64 @@ const s = {
     flexWrap: "wrap",
     minWidth: 0,
   },
-  select: {
+  selectBtn: {
+    display: "flex",
+    alignItems: "center",
+    gap: 6,
     border: "1px solid var(--border-2)",
     borderRadius: 6,
-    padding: "9px 12px 9px 10px",
+    padding: "9px 10px 9px 12px",
     fontSize: 13,
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
     background: "var(--surface)",
     color: "var(--text-2)",
     cursor: "pointer",
     outline: "none",
+    whiteSpace: "nowrap",
+    maxWidth: 200,
+  },
+  selectChevron: {
+    width: 10,
+    height: 6,
+    flexShrink: 0,
+    color: "var(--text-4)",
+  },
+  selectPanel: {
+    background: "var(--surface)",
+    border: "1px solid var(--border-2)",
+    borderRadius: 10,
+    boxShadow: "0 8px 32px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.08)",
+    zIndex: 200,
+    maxHeight: 280,
+    overflowY: "auto",
+    padding: "4px 0",
+    WebkitOverflowScrolling: "touch",
+  },
+  selectOption: {
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+    padding: "10px 14px",
+    fontSize: 13,
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    color: "var(--text-2)",
+    background: "transparent",
+    border: "none",
+    cursor: "pointer",
+    textAlign: "left",
+    whiteSpace: "nowrap",
+    boxSizing: "border-box",
+  },
+  selectOptionActive: {
+    color: "var(--text)",
+    fontWeight: 500,
+  },
+  selectOptCheck: {
+    width: 16,
+    flexShrink: 0,
+    color: "var(--accent)",
+    fontSize: 12,
+    fontWeight: 700,
   },
   alphaBar: {
     display: "flex",
@@ -1870,7 +2003,6 @@ const css = `
     .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
     .search-row { flex-wrap: wrap !important; }
     .dropdown-row { width: 100% !important; flex-wrap: wrap !important; }
-    .dropdown-row select { flex: 1 1 calc(50% - 4px) !important; min-width: 0 !important; box-sizing: border-box !important; }
     .modal-inner { grid-template-columns: 1fr !important; min-height: 0 !important; }
     .modal-left { order: 2 !important; border-radius: 0 !important; padding: 20px 28px 32px !important; }
     .modal-right { order: 1 !important; border-radius: 0 !important; padding: 36px 28px 32px !important; overflow-y: visible !important; }
@@ -1883,7 +2015,7 @@ const css = `
   @media (max-width: 480px) {
     .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
     .lit-controls { padding-left: 16px !important; padding-right: 16px !important; }
-    .dropdown-row select { flex: 1 1 100% !important; }
+
     [style*="padding: 52px 40px 44px"] { padding: 32px 16px 28px !important; }
     [style*="padding: 28px 40px 72px"] { padding: 20px 16px 48px !important; }
     [style*="font-size: 34px"] { font-size: 26px !important; }
