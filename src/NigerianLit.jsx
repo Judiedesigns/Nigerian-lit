@@ -658,6 +658,7 @@ function RecommendModal({ onClose, onViewBook }) {
     try {
       await fetch(RECOMMEND_SCRIPT_URL, {
         method: "POST",
+        mode: "no-cors",
         headers: { "Content-Type": "text/plain;charset=UTF-8" },
         body: JSON.stringify({
           name: form.name.trim(),
