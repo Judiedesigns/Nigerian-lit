@@ -1,5 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 
+const RECOMMEND_SCRIPT_URL = "YOUR_SCRIPT_URL_HERE";
+
 let _audioCtx = null;
 let _soundEnabled = true;
 function getAudioCtx() {
@@ -617,10 +619,134 @@ function AboutModal({ onClose }) {
   );
 }
 
-function Toolbar({ theme, onTheme, soundEnabled, onSound, onAbout }) {
+function RecommendModal({ onClose }) {
+  const [form, setForm] = useState({ name: "", bookTitle: "", author: "", why: "" });
+  const [status, setStatus] = useState("idle");
+  const trapRef = useFocusTrap(true);
+
+  useEffect(() => {
+    function onEsc(e) { if (e.key === "Escape") onClose(); }
+    document.addEventListener("keydown", onEsc);
+    return () => document.removeEventListener("keydown", onEsc);
+  }, [onClose]);
+
+  useEffect(() => {
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  function handleChange(field) {
+    return (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!form.name.trim() || !form.bookTitle.trim()) return;
+    setStatus("loading");
+    try {
+      await fetch(RECOMMEND_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify({
+          name: form.name.trim(),
+          bookTitle: form.bookTitle.trim(),
+          author: form.author.trim(),
+          why: form.why.trim(),
+        }),
+      });
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  return (
+    <div style={s.overlay} onClick={onClose} aria-hidden="true">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="recommend-modal-title"
+        ref={trapRef}
+        className="recommend-modal"
+        style={s.recommendModal}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {status === "success" ? (
+          <div style={s.recommendSuccess}>
+            <p style={s.recommendSuccessIcon}>✓</p>
+            <h2 style={s.recommendTitle}>Thank you.</h2>
+            <p style={s.recommendSubtitle}>Your recommendation has been received. We'll review it and consider adding it to the archive.</p>
+            <button type="button" style={s.recommendSubmit} onClick={onClose}>Close</button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} style={s.recommendForm}>
+            <button type="button" style={s.modalCloseBtn} onClick={onClose} aria-label="Close">×</button>
+            <p style={s.recommendEyebrow}>Nigerian &amp; West African Literature Archive</p>
+            <h2 id="recommend-modal-title" style={s.recommendTitle}>Recommend a Book.</h2>
+            <p style={s.recommendSubtitle}>Know a book that belongs in this archive? Tell us about it.</p>
+            <div style={s.recommendFields}>
+              <div style={s.recommendField}>
+                <label style={s.recommendLabel} htmlFor="rec-name">Your name <span style={s.recommendRequired}>*</span></label>
+                <input id="rec-name" type="text" required className="recommend-input" style={s.recommendInput} placeholder="e.g. Ngozi Adeyemi" value={form.name} onChange={handleChange("name")} />
+              </div>
+              <div style={s.recommendField}>
+                <label style={s.recommendLabel} htmlFor="rec-title">Book title <span style={s.recommendRequired}>*</span></label>
+                <input id="rec-title" type="text" required className="recommend-input" style={s.recommendInput} placeholder="e.g. The Palm-Wine Drinkard" value={form.bookTitle} onChange={handleChange("bookTitle")} />
+              </div>
+              <div style={s.recommendField}>
+                <label style={s.recommendLabel} htmlFor="rec-author">Author name</label>
+                <input id="rec-author" type="text" className="recommend-input" style={s.recommendInput} placeholder="e.g. Amos Tutuola" value={form.author} onChange={handleChange("author")} />
+              </div>
+              <div style={s.recommendField}>
+                <label style={s.recommendLabel} htmlFor="rec-why">Why do you recommend it?</label>
+                <textarea id="rec-why" className="recommend-input" style={{ ...s.recommendInput, ...s.recommendTextarea }} placeholder="Tell us what makes this book special..." value={form.why} onChange={handleChange("why")} />
+              </div>
+            </div>
+            {status === "error" && <p style={s.recommendError}>Something went wrong. Please try again.</p>}
+            <div style={s.recommendActions}>
+              <button type="submit" style={s.recommendSubmit} disabled={status === "loading" || !form.name.trim() || !form.bookTitle.trim()}>
+                {status === "loading" ? "Sending..." : "Submit Recommendation"}
+              </button>
+              <button type="button" style={s.recommendCancel} onClick={onClose}>Cancel</button>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function SuggestCard({ onRecommend }) {
+  return (
+    <button type="button" className="suggest-card" style={s.suggestCard} onClick={onRecommend} aria-label="Suggest a book for the archive">
+      <div style={s.suggestIcon}>
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <circle cx="18" cy="18" r="15.5" stroke="currentColor" strokeWidth="1.4" strokeDasharray="3 3" />
+          <line x1="18" y1="10" x2="18" y2="26" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          <line x1="10" y1="18" x2="26" y2="18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        </svg>
+      </div>
+      <p style={s.suggestLabel}>Suggest a Book</p>
+      <p style={s.suggestSub}>Know one that belongs here?</p>
+    </button>
+  );
+}
+
+function Toolbar({ theme, onTheme, soundEnabled, onSound, onAbout, onRecommend }) {
   const [pickerOpen, setPickerOpen] = useState(false);
   return (
     <div style={s.toolbar}>
+      <button type="button" className="toolbar-btn" style={s.toolbarBtn} onClick={onRecommend} aria-label="Recommend a book">
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+          <circle cx="8" cy="8" r="6.5" strokeDasharray="2.5 2.5" />
+          <line x1="8" y1="4.5" x2="8" y2="11.5" />
+          <line x1="4.5" y1="8" x2="11.5" y2="8" />
+        </svg>
+      </button>
       <button type="button" className="toolbar-btn" style={s.toolbarBtn} onClick={onAbout} aria-label="About this archive">
         <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
           <circle cx="8" cy="8" r="6.5" />
@@ -762,6 +888,7 @@ export default function NigerianLit() {
   const [theme, setTheme] = useState("white");
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [showAbout, setShowAbout] = useState(false);
+  const [showRecommend, setShowRecommend] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
   const ytPlayerRef = useRef(null);
   const ytContainerRef = useRef(null);
@@ -980,6 +1107,7 @@ export default function NigerianLit() {
               {filtered.map((book, i) => (
                 <BookCard key={book.id} book={book} onSelect={handleSelectBook} index={i} />
               ))}
+              <SuggestCard onRecommend={() => setShowRecommend(true)} />
             </div>
           ) : viewMode === "shelf" ? (
             <div style={s.shelfGrid}>
@@ -1005,7 +1133,8 @@ export default function NigerianLit() {
 
       {selectedBook && <DetailModal book={selectedBook} onClose={handleCloseModal} />}
       {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
-      <Toolbar theme={theme} onTheme={setTheme} soundEnabled={soundEnabled} onSound={toggleSound} onAbout={() => setShowAbout(true)} />
+      {showRecommend && <RecommendModal onClose={() => setShowRecommend(false)} />}
+      <Toolbar theme={theme} onTheme={setTheme} soundEnabled={soundEnabled} onSound={toggleSound} onAbout={() => setShowAbout(true)} onRecommend={() => setShowRecommend(true)} />
       <div ref={ytContainerRef} style={{ position: "fixed", bottom: 0, right: 0, width: 1, height: 1, visibility: "hidden", pointerEvents: "none" }} />
       {showSplash && <SplashScreen onEnter={handleEnter} />}
     </div>
@@ -1609,6 +1738,172 @@ const s = {
     justifyContent: "center",
     flexShrink: 0,
   },
+  recommendModal: {
+    background: "var(--surface)",
+    borderRadius: 12,
+    maxWidth: 480,
+    width: "100%",
+    maxHeight: "90vh",
+    overflowY: "auto",
+    overflowX: "hidden",
+    overscrollBehavior: "contain",
+    position: "relative",
+    boxShadow: "0 32px 80px rgba(0,0,0,0.22)",
+  },
+  recommendForm: {
+    padding: "48px 40px 40px",
+    display: "flex",
+    flexDirection: "column",
+  },
+  recommendSuccess: {
+    padding: "64px 40px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
+    gap: 12,
+  },
+  recommendSuccessIcon: {
+    fontSize: 28,
+    margin: 0,
+    color: "var(--text-2)",
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+  },
+  recommendEyebrow: {
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    fontSize: 10,
+    letterSpacing: "0.14em",
+    textTransform: "uppercase",
+    color: "var(--text-3)",
+    margin: "0 0 12px",
+  },
+  recommendTitle: {
+    fontFamily: "Georgia, serif",
+    fontSize: 32,
+    fontWeight: 400,
+    letterSpacing: "-0.02em",
+    lineHeight: 1.1,
+    color: "var(--text)",
+    margin: "0 0 10px",
+  },
+  recommendSubtitle: {
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    fontSize: 14,
+    color: "var(--text-3)",
+    lineHeight: 1.6,
+    margin: "0 0 28px",
+  },
+  recommendFields: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 16,
+    marginBottom: 24,
+  },
+  recommendField: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 6,
+  },
+  recommendLabel: {
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    fontSize: 10,
+    letterSpacing: "0.1em",
+    textTransform: "uppercase",
+    color: "var(--text-3)",
+    fontWeight: 500,
+  },
+  recommendRequired: {
+    color: "var(--text-2)",
+  },
+  recommendInput: {
+    background: "var(--surface-2)",
+    border: "1px solid var(--border)",
+    borderRadius: 8,
+    padding: "12px 14px",
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    fontSize: 14,
+    color: "var(--text)",
+    outline: "none",
+    width: "100%",
+    boxSizing: "border-box",
+    appearance: "none",
+  },
+  recommendTextarea: {
+    resize: "none",
+    height: 96,
+    lineHeight: 1.6,
+  },
+  recommendActions: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 10,
+  },
+  recommendSubmit: {
+    width: "100%",
+    padding: "14px",
+    borderRadius: 8,
+    border: "1px solid var(--text)",
+    background: "var(--text)",
+    color: "var(--bg)",
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    fontSize: 12,
+    letterSpacing: "0.1em",
+    textTransform: "uppercase",
+    cursor: "pointer",
+    fontWeight: 500,
+  },
+  recommendCancel: {
+    background: "none",
+    border: "none",
+    padding: "10px",
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    fontSize: 13,
+    color: "var(--text-3)",
+    cursor: "pointer",
+    letterSpacing: "0.04em",
+    textAlign: "center",
+  },
+  recommendError: {
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    fontSize: 13,
+    color: "#c0392b",
+    marginBottom: 12,
+    textAlign: "center",
+    margin: "0 0 12px",
+  },
+  suggestCard: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    background: "var(--surface)",
+    border: "1.5px dashed var(--border-2)",
+    cursor: "pointer",
+    padding: "32px 20px",
+    color: "var(--text-3)",
+    gap: 10,
+    minHeight: 280,
+    textAlign: "center",
+  },
+  suggestIcon: {
+    opacity: 0.55,
+    color: "var(--text-2)",
+  },
+  suggestLabel: {
+    fontFamily: "Georgia, serif",
+    fontSize: 15,
+    fontWeight: 400,
+    color: "var(--text-2)",
+    margin: 0,
+    letterSpacing: "-0.01em",
+  },
+  suggestSub: {
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    fontSize: 11,
+    color: "var(--text-4)",
+    margin: 0,
+    letterSpacing: "0.04em",
+  },
   aboutModal: {
     background: "var(--surface)",
     borderRadius: 12,
@@ -1808,7 +2103,11 @@ const css = `
   .link-btn-sec:hover { background: var(--cover) !important; }
   .share-icon-btn:hover { background: var(--surface-2) !important; }
   .toolbar-btn:hover { background: var(--surface-3) !important; }
+  .suggest-card:hover { opacity: 0.7; }
+  .recommend-input:focus { border-color: var(--text-3) !important; box-shadow: 0 0 0 2px rgba(0,0,0,0.06); }
+  .recommend-submit:disabled { opacity: 0.4; cursor: not-allowed !important; }
   input::placeholder { color: var(--placeholder); }
+  textarea::placeholder { color: var(--placeholder); }
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
   button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible {
@@ -1874,6 +2173,8 @@ const css = `
     [style*="font-size: 34px"] { font-size: 26px !important; }
     [style*="padding: 36px 32px 40px 28px"] { padding: 24px 16px 28px !important; }
     .about-modal { padding: 40px 16px 28px !important; }
+    .recommend-modal { padding: 0 !important; }
+    .recommend-modal form { padding: 40px 20px 32px !important; }
     .modal-left { padding-left: 16px !important; padding-right: 16px !important; }
     .modal-right { padding-left: 16px !important; padding-right: 16px !important; }
   }
