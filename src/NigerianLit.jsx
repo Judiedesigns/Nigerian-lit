@@ -713,10 +713,9 @@ function RecommendModal({ onClose, onViewBook }) {
     if (!form.name.trim() || !form.bookTitle.trim()) return;
     setStatus("loading");
     try {
-      await fetch(RECOMMEND_SCRIPT_URL, {
+      const res = await fetch("/api/recommend", {
         method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=UTF-8" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: form.name.trim(),
           bookTitle: form.bookTitle.trim(),
@@ -724,6 +723,8 @@ function RecommendModal({ onClose, onViewBook }) {
           why: form.why.trim(),
         }),
       });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || "Server error");
       setStatus("success");
     } catch {
       setStatus("error");
