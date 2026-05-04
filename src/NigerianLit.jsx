@@ -1823,7 +1823,7 @@ const s = {
     overscrollBehavior: "contain",
     position: "relative",
     boxShadow: "0 32px 80px rgba(0,0,0,0.22)",
-    animation: "modalSlideUp 0.25s cubic-bezier(0.32, 0.72, 0, 1)",
+    animation: "modalSlideUp 0.25s cubic-bezier(0.32, 0.72, 0, 1) both",
   },
   recommendForm: {
     padding: "52px 36px 40px",
@@ -2267,7 +2267,7 @@ const css = `
     .modal-title { font-size: 26px !important; }
     .detail-overlay { align-items: flex-end !important; padding: 0 !important; }
 
-    .detail-modal { max-width: 100% !important; width: 100% !important; max-height: 88vh !important; border-radius: 20px 20px 0 0 !important; animation: slideUp 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
+    .detail-modal { max-width: 100% !important; width: 100% !important; max-height: 88vh !important; border-radius: 20px 20px 0 0 !important; animation: slideUp 0.32s cubic-bezier(0.32, 0.72, 0, 1) both; }
     .sheet-handle { display: block !important; width: 36px; height: 4px; background: var(--border-2); border-radius: 2px; margin: 14px auto 0; flex-shrink: 0; }
     .list-row { grid-template-columns: 1fr 44px 72px !important; gap: 8px !important; }
     .list-author { display: none !important; }
