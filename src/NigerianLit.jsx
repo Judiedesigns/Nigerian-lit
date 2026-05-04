@@ -673,7 +673,7 @@ function RecommendModal({ onClose, onViewBook }) {
   }
 
   return (
-    <div style={s.overlay} onClick={onClose} aria-hidden="true">
+    <div className="recommend-overlay" style={{ ...s.overlay, alignItems: "stretch", justifyContent: "flex-end", padding: 0 }} onClick={onClose} aria-hidden="true">
       <div
         role="dialog"
         aria-modal="true"
@@ -1756,28 +1756,30 @@ const s = {
   },
   recommendModal: {
     background: "var(--surface)",
-    borderRadius: 12,
-    maxWidth: 480,
+    borderRadius: "12px 0 0 12px",
     width: "100%",
-    maxHeight: "90vh",
+    maxWidth: 440,
+    height: "100%",
     overflowY: "auto",
     overflowX: "hidden",
     overscrollBehavior: "contain",
     position: "relative",
-    boxShadow: "0 32px 80px rgba(0,0,0,0.22)",
+    boxShadow: "-12px 0 48px rgba(0,0,0,0.18)",
+    animation: "slideInRight 0.28s cubic-bezier(0.32, 0.72, 0, 1)",
   },
   recommendForm: {
-    padding: "48px 40px 40px",
+    padding: "52px 36px 40px",
     display: "flex",
     flexDirection: "column",
+    minHeight: "100%",
   },
   recommendSuccess: {
-    padding: "64px 40px",
+    padding: "64px 36px",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center",
+    alignItems: "flex-start",
     gap: 12,
+    minHeight: "100%",
   },
   recommendSuccessIcon: {
     fontSize: 28,
@@ -1801,6 +1803,7 @@ const s = {
     lineHeight: 1.1,
     color: "var(--text)",
     margin: "0 0 10px",
+    textAlign: "left",
   },
   recommendSubtitle: {
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
@@ -1808,6 +1811,7 @@ const s = {
     color: "var(--text-3)",
     lineHeight: 1.6,
     margin: "0 0 28px",
+    textAlign: "left",
   },
   recommendFields: {
     display: "flex",
@@ -1827,6 +1831,7 @@ const s = {
     textTransform: "uppercase",
     color: "var(--text-3)",
     fontWeight: 500,
+    textAlign: "left",
   },
   recommendRequired: {
     color: "var(--text-2)",
@@ -2180,6 +2185,10 @@ const css = `
     from { transform: translateY(100%); }
     to   { transform: translateY(0); }
   }
+  @keyframes slideInRight {
+    from { transform: translateX(100%); }
+    to   { transform: translateX(0); }
+  }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
   }
@@ -2199,6 +2208,7 @@ const css = `
     .modal-letter-wrap { display: none !important; }
     .modal-title { font-size: 26px !important; }
     .detail-overlay { align-items: flex-end !important; padding: 0 !important; }
+    .recommend-overlay { align-items: flex-end !important; justify-content: stretch !important; }
     .detail-modal { max-width: 100% !important; width: 100% !important; max-height: 88vh !important; border-radius: 20px 20px 0 0 !important; animation: slideUp 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
     .sheet-handle { display: block !important; width: 36px; height: 4px; background: var(--border-2); border-radius: 2px; margin: 14px auto 0; flex-shrink: 0; }
     .list-row { grid-template-columns: 1fr 44px 72px !important; gap: 8px !important; }
@@ -2213,8 +2223,8 @@ const css = `
     [style*="font-size: 34px"] { font-size: 26px !important; }
     [style*="padding: 36px 32px 40px 28px"] { padding: 24px 16px 28px !important; }
     .about-modal { padding: 40px 16px 28px !important; }
-    .recommend-modal { padding: 0 !important; }
-    .recommend-modal form { padding: 40px 20px 32px !important; }
+    .recommend-modal { max-width: 100% !important; border-radius: 20px 20px 0 0 !important; height: auto !important; max-height: 92vh !important; animation: slideUp 0.3s cubic-bezier(0.32, 0.72, 0, 1) !important; }
+    .recommend-modal form { padding: 36px 20px 32px !important; min-height: 0 !important; }
     .modal-left { padding-left: 16px !important; padding-right: 16px !important; }
     .modal-right { padding-left: 16px !important; padding-right: 16px !important; }
   }
