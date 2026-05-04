@@ -1682,6 +1682,7 @@ const s = {
     zIndex: 100,
     padding: 16,
     backdropFilter: "blur(3px)",
+    WebkitBackdropFilter: "blur(3px)",
     overscrollBehavior: "contain",
     overflow: "hidden",
   },
