@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 
-const RECOMMEND_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyz5aBQaBCzRKemiseLrxDbnRn4PCV_mwRExT0OxgzACwAKq4W6ImTh06CgIdJ3fdm2/exec";
+const RECOMMEND_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzXTV3oW1sDOkRVxBnY_Cw6V2dbtEMxyKkDzBznTWzOaWhHb71kxPCbZ1v8VIaIlXPq/exec";
 
 let _audioCtx = null;
 let _soundEnabled = true;
