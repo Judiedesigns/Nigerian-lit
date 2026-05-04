@@ -619,9 +619,10 @@ function AboutModal({ onClose }) {
   );
 }
 
-function RecommendModal({ onClose }) {
+function RecommendModal({ onClose, onViewBook }) {
   const [form, setForm] = useState({ name: "", bookTitle: "", author: "", why: "" });
   const [status, setStatus] = useState("idle");
+  const [duplicate, setDuplicate] = useState(null);
   const trapRef = useFocusTrap(true);
 
   useEffect(() => {
@@ -640,7 +641,14 @@ function RecommendModal({ onClose }) {
   }, []);
 
   function handleChange(field) {
-    return (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
+    return (e) => {
+      const val = e.target.value;
+      setForm((f) => ({ ...f, [field]: val }));
+      if (field === "bookTitle") {
+        const match = books.find((b) => b.title.toLowerCase() === val.trim().toLowerCase());
+        setDuplicate(match || null);
+      }
+    };
   }
 
   async function handleSubmit(e) {
@@ -650,7 +658,7 @@ function RecommendModal({ onClose }) {
     try {
       await fetch(RECOMMEND_SCRIPT_URL, {
         method: "POST",
-        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=UTF-8" },
         body: JSON.stringify({
           name: form.name.trim(),
           bookTitle: form.bookTitle.trim(),
@@ -696,6 +704,14 @@ function RecommendModal({ onClose }) {
               <div style={s.recommendField}>
                 <label style={s.recommendLabel} htmlFor="rec-title">Book title <span style={s.recommendRequired}>*</span></label>
                 <input id="rec-title" type="text" required className="recommend-input" style={s.recommendInput} placeholder="e.g. The Palm-Wine Drinkard" value={form.bookTitle} onChange={handleChange("bookTitle")} />
+                {duplicate && (
+                  <div style={s.duplicateNotice}>
+                    <span>This book is already in the archive.</span>
+                    <button type="button" style={s.duplicateLink} onClick={() => { onViewBook(duplicate); onClose(); }}>
+                      View it →
+                    </button>
+                  </div>
+                )}
               </div>
               <div style={s.recommendField}>
                 <label style={s.recommendLabel} htmlFor="rec-author">Author name</label>
@@ -1133,7 +1149,7 @@ export default function NigerianLit() {
 
       {selectedBook && <DetailModal book={selectedBook} onClose={handleCloseModal} />}
       {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
-      {showRecommend && <RecommendModal onClose={() => setShowRecommend(false)} />}
+      {showRecommend && <RecommendModal onClose={() => setShowRecommend(false)} onViewBook={handleSelectBook} />}
       <Toolbar theme={theme} onTheme={setTheme} soundEnabled={soundEnabled} onSound={toggleSound} onAbout={() => setShowAbout(true)} onRecommend={() => setShowRecommend(true)} />
       <div ref={ytContainerRef} style={{ position: "fixed", bottom: 0, right: 0, width: 1, height: 1, visibility: "hidden", pointerEvents: "none" }} />
       {showSplash && <SplashScreen onEnter={handleEnter} />}
@@ -1867,9 +1883,33 @@ const s = {
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
     fontSize: 13,
     color: "#c0392b",
-    marginBottom: 12,
     textAlign: "center",
     margin: "0 0 12px",
+  },
+  duplicateNotice: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 8,
+    background: "var(--surface-2)",
+    border: "1px solid var(--border-2)",
+    borderRadius: 6,
+    padding: "9px 12px",
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    fontSize: 12,
+    color: "var(--text-2)",
+    marginTop: 4,
+  },
+  duplicateLink: {
+    background: "none",
+    border: "none",
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    fontSize: 12,
+    color: "var(--text)",
+    cursor: "pointer",
+    padding: 0,
+    fontWeight: 500,
+    flexShrink: 0,
   },
   suggestCard: {
     display: "flex",
