@@ -133,7 +133,7 @@ const books = [
   { id: 32, title: "Christopher Okigbo: Collected Poems", author: "Christopher Okigbo", year: 1986, genre: "Poetry", description: "Collected poems from Nigeria's most celebrated modernist poet, who died fighting in the Biafra War.", synopsis: "Christopher Okigbo is widely regarded as the greatest poet in the Nigerian literary tradition. Labyrinths weaves together classical allusion, Igbo myth, and modernist technique in verse of extraordinary beauty and density. Okigbo was killed in action fighting for Biafra in 1967, at just 35. His work — including 'Heavensgate,' 'Limits,' and 'Path of Thunder' — remains essential reading: lush, difficult, and shot through with premonition.", cover: "", openLibrary: "https://openlibrary.org/search?q=christopher+okigbo+labyrinths", tags: ["Poetry", "Modernist", "Biafra", "Igbo Culture"] },
   { id: 33, title: "The Bottled Leopard", author: "Chukwuemeka Ike", year: 1985, genre: "Novel", description: "A secondary school student is haunted by dreams of a leopard — a mystical link he cannot escape.", synopsis: "Amobi is a new secondary school student troubled by recurring dreams of a leopard. When his parents consult a dibia (traditional healer), they learn of a mystical connection between their son and the leopard. As the secret leaks at school, Amobi faces ridicule and ostracism. Chukwuemeka Ike weaves together school life and Igbo spirituality in this beloved coming-of-age novel.", cover: "https://covers.openlibrary.org/b/id/8228558-L.jpg", openLibrary: "https://openlibrary.org/search?q=bottled+leopard+chukwuemeka+ike", tags: ["Coming of Age", "School Life", "Igbo Culture", "Spirituality"] },
   { id: 34, title: "Toads for Supper", author: "Chukwuemeka Ike", year: 1965, genre: "Novel", description: "A university student is caught between competing romantic and family expectations in colonial-era Nigeria.", synopsis: "Set at the University of Ibadan, Toads for Supper follows Chike Obiora, a final-year student in love with Adaeze — a Yoruba girl his Igbo parents will never accept — while also being pursued by the daughter of a powerful Igbo chief. Comic in tone but sharp in its observations about tribalism, class, and parental pressure.", cover: "https://covers.openlibrary.org/b/id/8228560-L.jpg", openLibrary: "https://openlibrary.org/search?q=toads+for+supper+chukwuemeka+ike", tags: ["Comedy", "University Life", "Tribalism", "Love"] },
-  { id: 35, title: "Eze Goes to School", author: "Onuora Nzekwu & Michael Crowder", year: 1963, genre: "Novel", description: "A village boy's determined journey to get an education against all odds — a beloved Nigerian childhood classic.", synopsis: "One of the most widely read books in Nigerian primary education. Eze, a bright village boy, is determined to attend school despite poverty and his father's lack of enthusiasm. The novel follows his struggles to raise school fees, navigate the school environment, and prove that education is worth fighting for. Honest, warm, and quietly inspiring, it shaped the reading lives of millions of Nigerian children.", cover: "https://covers.openlibrary.org/b/id/8228562-L.jpg", openLibrary: "https://openlibrary.org/search?q=eze+goes+to+school+nzekwu", tags: ["Children's", "Education", "Coming of Age"] },
+  { id: 35, title: "Eze Goes to School", author: "Onuora Nzekwu & Michael Crowder", year: 1963, genre: "Novel", description: "A village boy's determined journey to get an education against all odds — a beloved Nigerian childhood classic.", synopsis: "One of the most widely read books in Nigerian primary education. Eze, a bright village boy, is determined to attend school despite poverty and his father's lack of enthusiasm. The novel follows his struggles to raise school fees, navigate the school environment, and prove that education is worth fighting for. Honest, warm, and quietly inspiring, it shaped the reading lives of millions of Nigerian children.", cover: "", noCover: true, openLibrary: "https://openlibrary.org/search?q=eze+goes+to+school+nzekwu", tags: ["Children's", "Education", "Coming of Age"] },
   { id: 36, title: "A Woman in Her Prime", author: "Asare Konadu", year: 1967, genre: "Novel", description: "A Ghanaian woman with no children faces social shame — her desperate search for fertility drives the novel.", synopsis: "Pokuwaa is a woman of social standing who has never borne a child — in her community, the deepest possible failure. As she tries remedy after remedy — spiritual, herbal, marital — the novel becomes a moving meditation on womanhood, social expectation, and the cruelty of communities toward those who deviate from the norm. Long taught in Nigerian schools as part of the West African literary tradition.", cover: "https://covers.openlibrary.org/b/id/8228564-L.jpg", openLibrary: "https://openlibrary.org/search?q=a+woman+in+her+prime+konadu", tags: ["West African", "Women", "Tradition", "Ghana"] },
   { id: 37, title: "The Beautyful Ones Are Not Yet Born", author: "Ayi Kwei Armah", year: 1968, genre: "Novel", description: "An unnamed Ghanaian railway clerk resists corruption in a society that despises his integrity.", synopsis: "Set in post-independence Ghana under Kwame Nkrumah, this novel follows an unnamed man who refuses to take bribes despite the scorn of his wife, family, and colleagues. Armah's prose is dense and sensory — decay and rot everywhere, symbols of a nation that exchanged colonial masters for home-grown ones. When a coup arrives, the man watches the same corruption simply reassemble itself under new management.", cover: "https://covers.openlibrary.org/b/id/8228580-L.jpg", openLibrary: "https://openlibrary.org/search?q=beautyful+ones+are+not+yet+born+armah", tags: ["Pan-African", "Corruption", "Postcolonial", "Ghana"] },
   { id: 38, title: "Without a Silver Spoon", author: "Eddie Iroh", year: 1981, genre: "Novel", description: "A poor Nigerian boy's struggle to survive and succeed against the odds — a school classic.", synopsis: "Without a Silver Spoon was one of the most widely read novels in Nigerian secondary schools. It follows a young protagonist from a poor background determined to make something of his life through hard work, education, and resilience. Iroh's frank portrayal of poverty, ambition, and the struggle for dignity in Nigerian society made it enormously relatable to generations of students.", cover: "https://covers.openlibrary.org/b/id/8228598-L.jpg", openLibrary: "https://openlibrary.org/search?q=without+a+silver+spoon+eddie+iroh", tags: ["Novel", "Coming of Age", "Poverty", "School Life"] },
@@ -206,6 +206,7 @@ const books = [
   { id: 105, title: "Moremi the Courageous Queen", author: "Segun Thomas Ajayi", year: 1986, genre: "Novel", description: "The legendary Yoruba queen who sacrificed everything to save Ile-Ife — a story of courage, vow, and devastating personal cost.", synopsis: "Based on the Yoruba legend of Moremi Ajasoro, queen of Ile-Ife, who allowed herself to be captured by the enemy Igbo raiders in order to discover the secret of their power. Having learned their weakness, she returned home and helped defeat them — but only after making a vow to the river goddess Esimirin that cost her the life of her only son, Ela. Segun Thomas Ajayi's retelling gives full weight to both the heroism and the tragedy of the story, making it essential reading in Nigerian schools looking for indigenous heroic narratives.", cover: "", openLibrary: "https://openlibrary.org/search?q=moremi+courageous+queen+segun+ajayi", tags: ["Novel", "Historical", "Yoruba Culture", "Women", "Mythology", "Children's"] },
   { id: 106, title: "Eze Goes to College", author: "Onuora Nzekwu", year: 1975, genre: "Novel", description: "The sequel to Eze Goes to School follows a now older Eze through the wider world of college — new freedoms and new tests of character.", synopsis: "The sequel to the beloved Eze Goes to School picks up with Eze now old enough for college, facing the expanded challenges of higher education: greater independence, stronger social pressures, and questions about his future that school could not answer. Nzekwu extends the warmth and accessibility of the first book into a slightly more complex social world, following Eze as he negotiates ambition, friendship, and the responsibilities of becoming an educated Nigerian man. Read widely in Nigerian schools as the natural continuation of Eze's story.", cover: "", openLibrary: "https://openlibrary.org/search?q=eze+goes+to+college+nzekwu", tags: ["Novel", "Children's", "Education", "Coming of Age", "Sequel"] },
   { id: 107, title: "Koku Baboni", author: "Kola Onadipe", year: 1966, genre: "Novel", description: "A young boy's adventures and moral lessons in Yoruba village life — a beloved Nigerian children's classic.", synopsis: "Koku Baboni follows a young Yoruba boy whose curiosity, mischief, and encounters with community life teach him a series of hard-won moral lessons. Kola Onadipe — best known for The Boy Slave — brings the same warmth and accessibility to this shorter novel, rooting Koku's adventures in the rhythms of traditional village life. The book's moral clarity and engaging storytelling made it a staple of Nigerian primary school reading lists, and it remains fondly remembered by generations of readers who encountered it in their early school years.", cover: "", openLibrary: "https://openlibrary.org/search?q=koku+baboni+kola+onadipe", tags: ["Novel", "Children's", "Yoruba Culture", "Moral Lessons", "School Classic"] },
+  { id: 108, title: "Ige Adubi: The Vanguard", author: "Bola Olusanya", year: 2001, genre: "Novel", description: "A tomboy princess overcomes struggle and expectation — her name, Ige Adubi, meaning born feet-first, a Yoruba mark of resilience.", synopsis: "Ige Adubi is the traditional Yoruba name for a child born feet first — a breech birth seen as a sign of resilience and uncommon spirit. Bola Olusanya's novel follows Efunkunmi, a princess who carries that name and the identity it confers: spirited, unconventional, and unwilling to be shaped by the limits placed on her. Her story is one of struggle and self-determination, rooted in the living culture of the Yoruba world where the name Ige Adubi echoes through chants and Fuji music as a symbol of those who arrive in the world on their own terms.", cover: "", openLibrary: "https://openlibrary.org/books/OL20711635M/Ige_Adubi", noAmazon: true, noAbebooks: true, tags: ["Novel", "Yoruba Culture", "Women", "Coming of Age", "Identity"] },
 ];
 const genres = ["All", ...new Set(books.map((b) => b.genre))];
 const authors = ["All Authors", ...new Set(books.map((b) => b.author))];
@@ -257,12 +258,12 @@ function useFocusTrap(active) {
 function BookCover({ book, style, fallbackStyle, delay = 0, letterStyle }) {
   const cacheKey = `${book.title}__${book.author}`;
   const cached = readCoverCache()[cacheKey];
-  const initial = book.cover || (cached && cached !== "none" ? cached : null);
-  const [coverUrl, setCoverUrl] = useState(initial);
-  const [failed, setFailed] = useState(!book.cover && cached === "none");
+  const initial = !book.noCover && (book.cover || (cached && cached !== "none" ? cached : null));
+  const [coverUrl, setCoverUrl] = useState(initial || null);
+  const [failed, setFailed] = useState(!!book.noCover || (!book.cover && cached === "none"));
 
   useEffect(() => {
-    if (book.cover || cached) return;
+    if (book.noCover || book.cover || cached) return;
     let cancelled = false;
     const timer = setTimeout(() => {
       const q = encodeURIComponent(`${book.title} ${book.author}`);
@@ -496,7 +497,6 @@ function DetailModal({ book, onClose }) {
     };
   }, []);
   const q = encodeURIComponent(`${book.title} ${book.author}`);
-  const qt = encodeURIComponent(book.title);
 
   function handleShare() {
     const url = `${window.location.origin}${window.location.pathname}?book=${book.id}`;
@@ -527,9 +527,11 @@ function DetailModal({ book, onClose }) {
               <a href={book.openLibrary || `https://openlibrary.org/search?q=${q}`} target="_blank" rel="noopener noreferrer" style={s.linkPrimary} className="link-btn">
                 Read on Open Library →
               </a>
-              <a href={`https://www.amazon.com/s?k=${q}`} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
-                Buy on Amazon →
-              </a>
+              {!book.noAmazon && (
+                <a href={`https://www.amazon.com/s?k=${q}`} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
+                  Buy on Amazon →
+                </a>
+              )}
               {showMore && (
                 <>
                   {book.rovingHeights && (
@@ -537,9 +539,11 @@ function DetailModal({ book, onClose }) {
                       Roving Heights →
                     </a>
                   )}
-                  <a href={`https://www.abebooks.com/servlet/SearchResults?kn=${q}`} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
-                    AbeBooks →
-                  </a>
+                  {!book.noAbebooks && (
+                    <a href={`https://www.abebooks.com/servlet/SearchResults?kn=${q}`} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
+                      AbeBooks →
+                    </a>
+                  )}
                 </>
               )}
               <div style={s.modalMiniRow}>
@@ -732,15 +736,6 @@ const spl = {
     fontFamily: "'Georgia', 'Times New Roman', serif",
     fontSize: 16, lineHeight: 1.75,
     color: "var(--text-2, #444)", margin: 0, maxWidth: 520,
-  },
-  madeBy: {
-    fontFamily: "'Georgia', 'Times New Roman', serif",
-    fontSize: 16,
-    color: "var(--text-2, #444)",
-    textDecoration: "none",
-    fontWeight: 700,
-    outline: "none",
-    border: "none",
   },
   enterBtn: {
     marginTop: 12,
@@ -1287,14 +1282,6 @@ const s = {
     transition: "opacity 0.15s",
     boxShadow: "inset 1px 0 0 rgba(255,255,255,0.1), inset -2px 0 0 rgba(0,0,0,0.1)",
   },
-  spineCircle: {
-    width: 10,
-    height: 10,
-    borderRadius: "50%",
-    border: "1.5px solid rgba(255,255,255,0.35)",
-    flexShrink: 0,
-    marginBottom: 10,
-  },
   spineTitle: {
     fontFamily: "Georgia, serif",
     fontSize: 13,
@@ -1333,7 +1320,6 @@ const s = {
     gap: 16,
     alignItems: "center",
     padding: "13px 0",
-    borderBottom: "1px solid var(--border)",
     background: "none",
     border: "none",
     borderBottom: "1px solid var(--border)",
@@ -1433,25 +1419,6 @@ const s = {
     color: "var(--text-4)",
     margin: "0 0 10px",
   },
-  cardTopRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    gap: 12,
-    padding: "18px 20px 10px",
-  },
-  yearStamp: {
-    fontFamily: "'Courier New', monospace",
-    fontSize: 11,
-    color: "var(--text-3)",
-    border: "1.5px solid #AAAAAA",
-    borderRadius: 3,
-    padding: "2px 7px",
-    letterSpacing: "0.05em",
-    opacity: 0.75,
-    flexShrink: 0,
-    lineHeight: 1.6,
-  },
   cardGenreTag: {
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
     fontSize: 9,
@@ -1487,34 +1454,6 @@ const s = {
     WebkitBoxOrient: "vertical",
     overflow: "hidden",
   },
-  cardFooter: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "10px 20px 14px",
-    borderTop: "1px dashed #E4E0D8",
-    marginTop: "auto",
-  },
-  accession: {
-    fontFamily: "'Courier New', monospace",
-    fontSize: 9,
-    color: "var(--text-4)",
-    letterSpacing: "0.08em",
-  },
-  cardTagRow: {
-    display: "flex",
-    gap: 4,
-  },
-  cardTagChip: {
-    fontFamily: "'Helvetica Neue', Arial, sans-serif",
-    fontSize: 9,
-    letterSpacing: "0.1em",
-    textTransform: "uppercase",
-    color: "var(--text-3)",
-    background: "var(--surface-2)",
-    borderRadius: 2,
-    padding: "2px 6px",
-  },
   empty: {
     padding: "80px 24px",
     textAlign: "center",
@@ -1541,6 +1480,7 @@ const s = {
     padding: 16,
     backdropFilter: "blur(3px)",
     overscrollBehavior: "contain",
+    overflow: "hidden",
   },
   modal: {
     borderRadius: 12,
@@ -1548,7 +1488,8 @@ const s = {
     width: "100%",
     maxHeight: "90vh",
     overflowY: "auto",
-    WebkitOverflowScrolling: "touch",
+    overflowX: "hidden",
+    overscrollBehavior: "contain",
     position: "relative",
     boxShadow: "0 32px 80px rgba(0, 0, 0, 0.22)",
     display: "flex",
@@ -1624,55 +1565,6 @@ const s = {
     fontWeight: 400,
     lineHeight: 1,
     userSelect: "none",
-  },
-  statusToggleWrap: {
-    display: "flex",
-    flexDirection: "row",
-    gap: 8,
-  },
-  statusBtn: {
-    flex: 1,
-    padding: "9px 8px",
-    borderRadius: 8,
-    border: "1px solid var(--border-2)",
-    background: "var(--surface)",
-    cursor: "pointer",
-    fontFamily: "'Helvetica Neue', Arial, sans-serif",
-    fontSize: 12,
-    color: "var(--text-2)",
-    textAlign: "center",
-    transition: "all 0.15s",
-  },
-  statusBtnWant: {
-    background: "#FEF3C7",
-    borderColor: "#D97706",
-    color: "#92400E",
-  },
-  statusBtnRead: {
-    background: "#D1FAE5",
-    borderColor: "#059669",
-    color: "#065F46",
-  },
-  shareBtn: {
-    background: "none",
-    border: "1px solid var(--border-2)",
-    borderRadius: 999,
-    padding: "7px 14px",
-    cursor: "pointer",
-    fontFamily: "'Helvetica Neue', Arial, sans-serif",
-    fontSize: 12,
-    color: "var(--text-2)",
-    letterSpacing: "0.02em",
-    textAlign: "center",
-  },
-  aboutBlurb: {
-    margin: "16px auto 0",
-    fontFamily: "'Helvetica Neue', Arial, sans-serif",
-    fontSize: 14,
-    color: "var(--text-3)",
-    lineHeight: 1.65,
-    maxWidth: 540,
-    textAlign: "center",
   },
   toolbar: {
     position: "fixed",
@@ -1784,17 +1676,6 @@ const s = {
     color: "var(--text-3)",
     flexShrink: 0,
     padding: 0,
-  },
-  moreToggle: {
-    background: "none",
-    border: "none",
-    cursor: "pointer",
-    fontSize: 11,
-    fontFamily: "'Helvetica Neue', Arial, sans-serif",
-    letterSpacing: "0.08em",
-    color: "var(--text-3)",
-    textAlign: "center",
-    padding: "4px 0",
   },
   modalCoverWrap: { display: "none" },
   modalImg: { display: "none" },
@@ -1925,7 +1806,6 @@ const css = `
   .spine-card:hover { opacity: 0.75; }
   .list-row:hover { background: var(--bg-hover) !important; }
   .link-btn-sec:hover { background: var(--cover) !important; }
-  .status-btn:hover { opacity: 0.82; }
   .share-icon-btn:hover { background: var(--surface-2) !important; }
   .toolbar-btn:hover { background: var(--surface-3) !important; }
   input::placeholder { color: var(--placeholder); }
