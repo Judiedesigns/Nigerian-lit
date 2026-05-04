@@ -13,17 +13,38 @@
 const NOTIFY_EMAIL = "juddblck2@gmail.com";
 const SHEET_NAME   = "Book Recommendations";
 
+function getOrCreateSheet() {
+  const props = PropertiesService.getScriptProperties();
+  let ssId = props.getProperty("SPREADSHEET_ID");
+  let ss;
+
+  if (ssId) {
+    try {
+      ss = SpreadsheetApp.openById(ssId);
+    } catch (e) {
+      ssId = null;
+    }
+  }
+
+  if (!ssId) {
+    ss = SpreadsheetApp.create("Nigerian Lit — Book Recommendations");
+    props.setProperty("SPREADSHEET_ID", ss.getId());
+  }
+
+  let sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(SHEET_NAME);
+    sheet.appendRow(["Timestamp", "Name", "Book Title", "Author", "Why They Recommend It"]);
+    sheet.setFrozenRows(1);
+  }
+
+  return sheet;
+}
+
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
-
-    const ss    = SpreadsheetApp.getActiveSpreadsheet();
-    let   sheet = ss.getSheetByName(SHEET_NAME);
-    if (!sheet) {
-      sheet = ss.insertSheet(SHEET_NAME);
-      sheet.appendRow(["Timestamp", "Name", "Book Title", "Author", "Why They Recommend It"]);
-      sheet.setFrozenRows(1);
-    }
+    const sheet = getOrCreateSheet();
 
     sheet.appendRow([
       new Date().toLocaleString("en-NG", { timeZone: "Africa/Lagos" }),
