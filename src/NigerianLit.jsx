@@ -674,7 +674,7 @@ function RecommendModal({ onClose, onViewBook }) {
   }
 
   return (
-    <div className="recommend-overlay" style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", backdropFilter: "blur(3px)", zIndex: 100, overscrollBehavior: "contain" }} onClick={onClose} aria-hidden="true">
+    <div className="recommend-overlay" style={{ ...s.overlay }} onClick={onClose} aria-hidden="true">
       <div
         role="dialog"
         aria-modal="true"
@@ -1756,19 +1756,17 @@ const s = {
     flexShrink: 0,
   },
   recommendModal: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    bottom: 0,
-    width: "100%",
-    maxWidth: 440,
     background: "var(--surface)",
-    borderRadius: "12px 0 0 12px",
+    borderRadius: 12,
+    width: "100%",
+    maxWidth: 480,
+    maxHeight: "90vh",
     overflowY: "auto",
     overflowX: "hidden",
     overscrollBehavior: "contain",
-    boxShadow: "-12px 0 48px rgba(0,0,0,0.18)",
-    animation: "slideInRight 0.28s cubic-bezier(0.32, 0.72, 0, 1)",
+    position: "relative",
+    boxShadow: "0 32px 80px rgba(0,0,0,0.22)",
+    animation: "modalSlideUp 0.25s cubic-bezier(0.32, 0.72, 0, 1)",
   },
   recommendForm: {
     padding: "52px 36px 40px",
@@ -2188,9 +2186,9 @@ const css = `
     from { transform: translateY(100%); }
     to   { transform: translateY(0); }
   }
-  @keyframes slideInRight {
-    from { transform: translateX(100%); }
-    to   { transform: translateX(0); }
+  @keyframes modalSlideUp {
+    from { transform: translateY(16px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
@@ -2226,7 +2224,7 @@ const css = `
     [style*="font-size: 34px"] { font-size: 26px !important; }
     [style*="padding: 36px 32px 40px 28px"] { padding: 24px 16px 28px !important; }
     .about-modal { padding: 40px 16px 28px !important; }
-    .recommend-modal { top: auto !important; left: 0 !important; right: 0 !important; bottom: 0 !important; max-width: 100% !important; border-radius: 20px 20px 0 0 !important; height: auto !important; max-height: 92vh !important; animation: slideUp 0.3s cubic-bezier(0.32, 0.72, 0, 1) !important; }
+    .recommend-modal { max-width: 100% !important; max-height: 92vh !important; }
     .recommend-modal form { padding: 36px 20px 32px !important; min-height: 0 !important; }
     .modal-left { padding-left: 16px !important; padding-right: 16px !important; }
     .modal-right { padding-left: 16px !important; padding-right: 16px !important; }
