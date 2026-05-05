@@ -78,6 +78,43 @@ function doPost(e) {
   }
 }
 
-function doGet() {
+function doGet(e) {
+  if (e && e.parameter && e.parameter.bookTitle) {
+    try {
+      const sheet = getOrCreateSheet();
+      sheet.appendRow([
+        new Date().toLocaleString("en-NG", { timeZone: "Africa/Lagos" }),
+        e.parameter.name      || "",
+        e.parameter.bookTitle || "",
+        e.parameter.author    || "",
+        e.parameter.why       || "",
+      ]);
+
+      try {
+        MailApp.sendEmail({
+          to:      NOTIFY_EMAIL,
+          subject: `📚 New recommendation: "${e.parameter.bookTitle}"`,
+          body: [
+            "Someone recommended a book on the Nigerian Lit Archive!\n",
+            `Name:      ${e.parameter.name}`,
+            `Book:      ${e.parameter.bookTitle}`,
+            `Author:    ${e.parameter.author}`,
+            `Why:       ${e.parameter.why}`,
+            `\nTimestamp: ${new Date().toLocaleString()}`,
+          ].join("\n"),
+        });
+      } catch (_) {}
+
+      return ContentService
+        .createTextOutput(JSON.stringify({ success: true }))
+        .setMimeType(ContentService.MimeType.JSON);
+
+    } catch (err) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ success: false, error: err.message }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+
   return ContentService.createTextOutput("Nigerian Lit — recommendation endpoint is live.");
 }

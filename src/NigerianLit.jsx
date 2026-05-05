@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 
-const RECOMMEND_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbybgJwWk-B-AObai5DWbMEJv53__YATpIkWSsDHiK7__BYLuZ-aCx7ajSUZeM-Mpr59/exec";
+const RECOMMEND_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzaB4_-RyljURd0jzFyRB-XbDO397UQjyI97l62DWog22LUxNXrnnEczl0XbR66vmro/exec";
 
 let _audioCtx = null;
 let _soundEnabled = true;
@@ -714,16 +714,15 @@ function RecommendModal({ onClose, onViewBook }) {
     if (!form.name.trim() || !form.bookTitle.trim()) return;
     setStatus("loading");
     try {
-      await fetch(RECOMMEND_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=UTF-8" },
-        body: JSON.stringify({
-          name: form.name.trim(),
-          bookTitle: form.bookTitle.trim(),
-          author: form.author.trim(),
-          why: form.why.trim(),
-        }),
+      const params = new URLSearchParams({
+        name:      form.name.trim(),
+        bookTitle: form.bookTitle.trim(),
+        author:    form.author.trim(),
+        why:       form.why.trim(),
+      });
+      await fetch(`${RECOMMEND_SCRIPT_URL}?${params}`, {
+        method: "GET",
+        mode:   "no-cors",
       });
       setStatus("success");
     } catch {
