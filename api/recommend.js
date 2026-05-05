@@ -1,5 +1,5 @@
 const APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzXTV3oW1sDOkRVxBnY_Cw6V2dbtEMxyKkDzBznTWzOaWhHb71kxPCbZ1v8VIaIlXPq/exec";
+  "https://script.google.com/macros/s/AKfycbybgJwWk-B-AObai5DWbMEJv53__YATpIkWSsDHiK7__BYLuZ-aCx7ajSUZeM-Mpr59/exec";
 
 export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
