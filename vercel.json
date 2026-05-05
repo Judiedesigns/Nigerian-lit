@@ -9,7 +9,7 @@
         { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://s.ytimg.com; connect-src 'self' https://openlibrary.org https://covers.openlibrary.org https://script.google.com; img-src 'self' data: https://covers.openlibrary.org https://*.archive.org https://archive.org; frame-src https://www.youtube.com; style-src 'self' 'unsafe-inline'"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://s.ytimg.com; connect-src 'self' https://openlibrary.org https://covers.openlibrary.org https://script.google.com https://script.googleusercontent.com; img-src 'self' data: https://covers.openlibrary.org https://*.archive.org https://archive.org; frame-src https://www.youtube.com; style-src 'self' 'unsafe-inline'"
         }
       ]
     }
