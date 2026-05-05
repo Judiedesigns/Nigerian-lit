@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 
-const RECOMMEND_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzaB4_-RyljURd0jzFyRB-XbDO397UQjyI97l62DWog22LUxNXrnnEczl0XbR66vmro/exec";
 
 let _audioCtx = null;
 let _soundEnabled = true;
@@ -714,17 +713,18 @@ function RecommendModal({ onClose, onViewBook }) {
     if (!form.name.trim() || !form.bookTitle.trim()) return;
     setStatus("loading");
     try {
-      const params = new URLSearchParams({
-        name:      form.name.trim(),
-        bookTitle: form.bookTitle.trim(),
-        author:    form.author.trim(),
-        why:       form.why.trim(),
+      const res = await fetch("/api/recommend", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name:      form.name.trim(),
+          bookTitle: form.bookTitle.trim(),
+          author:    form.author.trim(),
+          why:       form.why.trim(),
+        }),
       });
-      await fetch(`${RECOMMEND_SCRIPT_URL}?${params}`, {
-        method: "GET",
-        mode:   "no-cors",
-      });
-      setStatus("success");
+      const data = await res.json();
+      setStatus(data.success ? "success" : "error");
     } catch {
       setStatus("error");
     }
