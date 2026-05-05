@@ -699,7 +699,8 @@ function RecommendModal({ onClose, onViewBook }) {
 
   function handleChange(field) {
     return (e) => {
-      const val = e.target.value;
+      let val = e.target.value;
+      if (field === "name") val = val.replace(/[^A-Za-z\s\-']/g, "");
       setForm((f) => ({ ...f, [field]: val }));
       if (field === "bookTitle") {
         const match = books.find((b) => b.title.toLowerCase() === val.trim().toLowerCase());
