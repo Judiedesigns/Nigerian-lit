@@ -671,11 +671,17 @@ function fireConfetti() {
   }, 5000);
 }
 
+const APPS_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbzaB4_-RyljURd0jzFyRB-XbDO397UQjyI97l62DWog22LUxNXrnnEczl0XbR66vmro/exec";
+
 function RecommendModal({ onClose, onViewBook }) {
   const [form, setForm] = useState({ name: "", bookTitle: "", author: "", why: "" });
   const [status, setStatus] = useState("idle");
   const [duplicate, setDuplicate] = useState(null);
   const trapRef = useFocusTrap(true);
+  const submittingRef = useRef(false);
+  const formRef = useRef(null);
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
     if (status === "success" && !duplicate) fireConfetti();
@@ -708,30 +714,34 @@ function RecommendModal({ onClose, onViewBook }) {
     };
   }
 
-  async function handleSubmit(e) {
+  function handleIframeLoad() {
+    if (submittingRef.current) {
+      submittingRef.current = false;
+      clearTimeout(timeoutRef.current);
+      setStatus("success");
+      setForm({ name: "", bookTitle: "", author: "", why: "" });
+    }
+  }
+
+  function handleSubmit(e) {
     e.preventDefault();
     if (!form.name.trim() || !form.bookTitle.trim()) return;
     setStatus("loading");
-    try {
-      const res = await fetch("/api/recommend", {
-        method:  "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name:      form.name.trim(),
-          bookTitle: form.bookTitle.trim(),
-          author:    form.author.trim(),
-          why:       form.why.trim(),
-        }),
-      });
-      const text = await res.text();
-      console.log("[recommend] status:", res.status, "body:", text);
-      let data;
-      try { data = JSON.parse(text); } catch { data = { success: false }; }
-      setStatus(data.success ? "success" : "error");
-    } catch (err) {
-      console.error("[recommend] fetch error:", err.message);
-      setStatus("error");
-    }
+    submittingRef.current = true;
+
+    const f = formRef.current;
+    f.querySelector('[name="name"]').value = form.name.trim();
+    f.querySelector('[name="bookTitle"]').value = form.bookTitle.trim();
+    f.querySelector('[name="author"]').value = form.author.trim();
+    f.querySelector('[name="why"]').value = form.why.trim();
+    f.submit();
+
+    timeoutRef.current = setTimeout(() => {
+      if (submittingRef.current) {
+        submittingRef.current = false;
+        setStatus("error");
+      }
+    }, 15000);
   }
 
   return (
@@ -793,6 +803,26 @@ function RecommendModal({ onClose, onViewBook }) {
             </div>
           </form>
         )}
+        <iframe
+          name="recommend-target"
+          title=""
+          aria-hidden="true"
+          onLoad={handleIframeLoad}
+          style={{ display: "none" }}
+        />
+        <form
+          ref={formRef}
+          action={APPS_SCRIPT_URL}
+          method="GET"
+          target="recommend-target"
+          aria-hidden="true"
+          style={{ display: "none" }}
+        >
+          <input name="name" />
+          <input name="bookTitle" />
+          <input name="author" />
+          <input name="why" />
+        </form>
       </div>
     </div>
   );
