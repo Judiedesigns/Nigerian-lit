@@ -723,9 +723,13 @@ function RecommendModal({ onClose, onViewBook }) {
           why:       form.why.trim(),
         }),
       });
-      const data = await res.json();
+      const text = await res.text();
+      console.log("[recommend] status:", res.status, "body:", text);
+      let data;
+      try { data = JSON.parse(text); } catch { data = { success: false }; }
       setStatus(data.success ? "success" : "error");
-    } catch {
+    } catch (err) {
+      console.error("[recommend] fetch error:", err.message);
       setStatus("error");
     }
   }
