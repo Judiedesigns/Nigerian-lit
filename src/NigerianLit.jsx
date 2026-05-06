@@ -542,6 +542,11 @@ function DetailModal({ book, onClose }) {
                 Read on Open Library →
               </a>
               {!book.noAmazon && (
+                <a href={`https://bookshop.org/search?keywords=${q}&affiliate=florenceeze`} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
+                  Buy on Bookshop.org →
+                </a>
+              )}
+              {!book.noAmazon && (
                 <a href={`https://www.amazon.com/s?k=${q}&tag=judie02-20`} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
                   Buy on Amazon →
                 </a>
@@ -1343,6 +1348,12 @@ export default function NigerianLit() {
           )}
         </div>
       </section>
+
+      <footer style={{ textAlign: "center", padding: "40px 24px 100px", fontFamily: "'Helvetica Neue', Arial, sans-serif", fontSize: 12, color: "var(--text-2)", lineHeight: 1.7 }}>
+        This archive contains affiliate links.{" "}
+        <a href="https://bookshop.org/?affiliate=florenceeze" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline" }}>Bookshop.org</a>
+        {" "}and Amazon links earn a small commission if you buy — at no extra cost to you.
+      </footer>
 
       {selectedBook && <DetailModal book={selectedBook} onClose={handleCloseModal} />}
       {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
