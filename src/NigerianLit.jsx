@@ -542,30 +542,30 @@ function DetailModal({ book, onClose }) {
               {!book.noAmazon ? (
                 <div style={{ display: "flex", gap: 8 }}>
                   <a href={`https://bookshop.org/search?keywords=${q}&affiliate=florenceeze`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkPrimary, flex: 1 }} className="link-btn">
-                    Bookshop.org →
+                    Bookshop.org
                   </a>
                   <a href={`https://www.amazon.com/s?k=${q}&tag=judie02-20`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: 1 }} className="link-btn-sec">
-                    Amazon →
+                    Amazon
                   </a>
                 </div>
               ) : (
                 <a href={`https://bookshop.org/search?keywords=${q}&affiliate=florenceeze`} target="_blank" rel="noopener noreferrer" style={s.linkPrimary} className="link-btn">
-                  Buy on Bookshop.org →
+                  Buy on Bookshop.org
                 </a>
               )}
               {showMore && (
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                   <a href={book.openLibrary || `https://openlibrary.org/search?q=${q}`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: "1 1 calc(50% - 4px)" }} className="link-btn-sec">
-                    Read on Open Library →
+                    Open Library
                   </a>
                   {book.rovingHeights && (
                     <a href={book.rovingHeights} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: "1 1 calc(50% - 4px)" }} className="link-btn-sec">
-                      Roving Heights →
+                      Roving Heights
                     </a>
                   )}
                   {!book.noAbebooks && (
                     <a href={`https://www.abebooks.com/servlet/SearchResults?kn=${q}`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: "1 1 calc(50% - 4px)" }} className="link-btn-sec">
-                      AbeBooks →
+                      AbeBooks
                     </a>
                   )}
                 </div>
@@ -1879,15 +1879,15 @@ const s = {
   },
   modalCloseBtn: {
     position: "absolute",
-    top: 16,
-    right: 20,
+    top: 10,
+    right: 14,
     background: "none",
     border: "none",
     color: "var(--text-3)",
     fontSize: 24,
     lineHeight: 1,
     cursor: "pointer",
-    padding: "2px 6px",
+    padding: "8px 10px",
     zIndex: 10,
   },
   modalInner: {
@@ -2361,7 +2361,8 @@ const css = `
     --border-2:   #D8D5CF;
     --placeholder:#767676;
   }
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  button, a, [role="button"] { touch-action: manipulation; }
   body { margin: 0; background: var(--bg); }
   .book-card { transition: background 0.15s; }
   .book-card:hover { background: var(--bg-hover) !important; }
@@ -2437,7 +2438,7 @@ const css = `
     .modal-title { font-size: 26px !important; }
     .detail-overlay { align-items: flex-end !important; padding: 0 !important; }
 
-    .detail-modal { max-width: 100% !important; width: 100% !important; max-height: 88vh !important; border-radius: 20px 20px 0 0 !important; animation: slideUp 0.32s cubic-bezier(0.32, 0.72, 0, 1) both; will-change: transform; -webkit-overflow-scrolling: touch; }
+    .detail-modal { max-width: 100% !important; width: 100% !important; max-height: 88vh; max-height: 88dvh; border-radius: 20px 20px 0 0 !important; animation: slideUp 0.32s cubic-bezier(0.32, 0.72, 0, 1) both; will-change: transform; -webkit-overflow-scrolling: touch; }
     .sheet-handle { display: block !important; width: 36px; height: 4px; background: var(--border-2); border-radius: 2px; margin: 14px auto 0; flex-shrink: 0; }
     .list-row { grid-template-columns: 1fr 44px 72px !important; gap: 8px !important; }
     .list-author { display: none !important; }
