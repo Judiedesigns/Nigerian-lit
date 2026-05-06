@@ -538,21 +538,25 @@ function DetailModal({ book, onClose }) {
               <span style={s.modalLetter}>{book.title[0]}</span>
             </div>
             <div style={s.modalLinksWrap}>
-              <a href={book.openLibrary || `https://openlibrary.org/search?q=${q}`} target="_blank" rel="noopener noreferrer" style={s.linkPrimary} className="link-btn">
-                Read on Open Library →
-              </a>
-              {!book.noAmazon && (
-                <a href={`https://bookshop.org/search?keywords=${q}&affiliate=florenceeze`} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
+              {!book.noAmazon ? (
+                <div style={{ display: "flex", gap: 8 }}>
+                  <a href={`https://bookshop.org/search?keywords=${q}&affiliate=florenceeze`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkPrimary, flex: 1 }} className="link-btn">
+                    Bookshop.org →
+                  </a>
+                  <a href={`https://www.amazon.com/s?k=${q}&tag=judie02-20`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: 1 }} className="link-btn-sec">
+                    Amazon →
+                  </a>
+                </div>
+              ) : (
+                <a href={`https://bookshop.org/search?keywords=${q}&affiliate=florenceeze`} target="_blank" rel="noopener noreferrer" style={s.linkPrimary} className="link-btn">
                   Buy on Bookshop.org →
-                </a>
-              )}
-              {!book.noAmazon && (
-                <a href={`https://www.amazon.com/s?k=${q}&tag=judie02-20`} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
-                  Buy on Amazon →
                 </a>
               )}
               {showMore && (
                 <>
+                  <a href={book.openLibrary || `https://openlibrary.org/search?q=${q}`} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
+                    Read on Open Library →
+                  </a>
                   {book.rovingHeights && (
                     <a href={book.rovingHeights} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
                       Roving Heights →
