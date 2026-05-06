@@ -1040,14 +1040,14 @@ function SplashScreen({ onEnter }) {
     <div style={spl.overlay}>
       <div ref={trapRef} style={spl.inner}>
         <p style={spl.eyebrow}>Nigerian &amp; West African Literature Archive</p>
-        <h1 style={spl.title}>Words That Shaped a World</h1>
-        <p style={spl.body}>
+        <h1 className="spl-title" style={spl.title}>Words That Shaped a World</h1>
+        <p className="spl-body" style={spl.body}>
           These are the books that raised us. The ones your literature teacher slapped on the desk on the first day of term — from Achebe's Umuofia to Adichie's Lagos, voices that refused to be quiet. The ones you carried home, read cover to cover, and still remember like old friends.
         </p>
-        <p style={spl.body}>
+        <p className="spl-body" style={spl.body}>
           It started with a tweet. Over 300 Nigerians named every book they remembered from literature class. This is where those titles live now.
         </p>
-        <p style={spl.body}>
+        <p className="spl-body" style={spl.body}>
           A playlist plays while you browse — music chosen to sit beside these books, not above them.
         </p>
         <button type="button" style={spl.enterBtn} onClick={onEnter}>
@@ -1063,13 +1063,15 @@ const spl = {
     position: "fixed", inset: 0, zIndex: 200,
     background: "var(--bg, #FAFAF8)",
     display: "flex", alignItems: "center", justifyContent: "center",
-    padding: "40px 24px",
+    padding: "40px 24px calc(40px + env(safe-area-inset-bottom, 0px))",
+    overflowY: "auto",
   },
   inner: {
     maxWidth: 600,
     width: "100%",
     textAlign: "center",
     display: "flex", flexDirection: "column", alignItems: "stretch", gap: 20,
+    padding: "8px 0",
   },
   eyebrow: {
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
@@ -2444,6 +2446,8 @@ const css = `
   @media (max-width: 480px) {
     .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
     .lit-controls { padding-left: 16px !important; padding-right: 16px !important; }
+    .spl-title { font-size: 24px !important; }
+    .spl-body { font-size: 14px !important; line-height: 1.6 !important; }
 
     [style*="padding: 52px 40px 44px"] { padding: 32px 16px 28px !important; }
     [style*="padding: 28px 40px 72px"] { padding: 20px 16px 48px !important; }
