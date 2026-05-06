@@ -1097,6 +1097,10 @@ const spl = {
     borderRadius: 100,
     padding: "14px 36px",
     cursor: "pointer",
+    outline: "none",
+    WebkitTapHighlightColor: "transparent",
+    appearance: "none",
+    WebkitAppearance: "none",
   },
 };
 
@@ -2268,6 +2272,8 @@ const s = {
     borderRadius: "0 12px 12px 0",
     position: "relative",
     overflowY: "auto",
+    minWidth: 0,
+    overflowX: "hidden",
   },
   modalMeta: {
     display: "flex",
@@ -2298,6 +2304,8 @@ const s = {
     lineHeight: 1.08,
     color: "var(--text)",
     textAlign: "left",
+    overflowWrap: "break-word",
+    wordBreak: "break-word",
   },
   modalAuthor: {
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
