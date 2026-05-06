@@ -493,6 +493,7 @@ function DetailModal({ book, onClose }) {
   const [showMore, setShowMore] = useState(false);
   const [copied, setCopied] = useState(false);
   const trapRef = useFocusTrap(true);
+  const isMobile = useIsMobile();
 
   useEffect(() => { playChime(); }, []);
 
@@ -521,7 +522,7 @@ function DetailModal({ book, onClose }) {
   }
 
   return (
-    <div className="detail-overlay" style={s.overlay} onClick={onClose} aria-hidden="true">
+    <div className="detail-overlay" style={{ ...s.overlay, alignItems: isMobile ? "flex-end" : "center", padding: isMobile ? 0 : 16 }} onClick={onClose} aria-hidden="true">
       <div
         role="dialog"
         aria-modal="true"
@@ -553,21 +554,21 @@ function DetailModal({ book, onClose }) {
                 </a>
               )}
               {showMore && (
-                <>
-                  <a href={book.openLibrary || `https://openlibrary.org/search?q=${q}`} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  <a href={book.openLibrary || `https://openlibrary.org/search?q=${q}`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: "1 1 calc(50% - 4px)" }} className="link-btn-sec">
                     Read on Open Library →
                   </a>
                   {book.rovingHeights && (
-                    <a href={book.rovingHeights} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
+                    <a href={book.rovingHeights} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: "1 1 calc(50% - 4px)" }} className="link-btn-sec">
                       Roving Heights →
                     </a>
                   )}
                   {!book.noAbebooks && (
-                    <a href={`https://www.abebooks.com/servlet/SearchResults?kn=${q}`} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
+                    <a href={`https://www.abebooks.com/servlet/SearchResults?kn=${q}`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: "1 1 calc(50% - 4px)" }} className="link-btn-sec">
                       AbeBooks →
                     </a>
                   )}
-                </>
+                </div>
               )}
               <div style={s.modalMiniRow}>
                 <button type="button" style={s.moreToggleMin} onClick={() => setShowMore(v => !v)}>
@@ -2427,7 +2428,7 @@ const css = `
     .modal-title { font-size: 26px !important; }
     .detail-overlay { align-items: flex-end !important; padding: 0 !important; }
 
-    .detail-modal { max-width: 100% !important; width: 100% !important; max-height: 88vh !important; border-radius: 20px 20px 0 0 !important; animation: slideUp 0.32s cubic-bezier(0.32, 0.72, 0, 1) both; }
+    .detail-modal { max-width: 100% !important; width: 100% !important; max-height: 88vh !important; border-radius: 20px 20px 0 0 !important; animation: slideUp 0.32s cubic-bezier(0.32, 0.72, 0, 1) both; will-change: transform; -webkit-overflow-scrolling: touch; }
     .sheet-handle { display: block !important; width: 36px; height: 4px; background: var(--border-2); border-radius: 2px; margin: 14px auto 0; flex-shrink: 0; }
     .list-row { grid-template-columns: 1fr 44px 72px !important; gap: 8px !important; }
     .list-author { display: none !important; }
