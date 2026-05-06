@@ -2275,7 +2275,6 @@ const s = {
     position: "relative",
     overflowY: "auto",
     minWidth: 0,
-    overflowX: "hidden",
   },
   modalMeta: {
     display: "flex",
