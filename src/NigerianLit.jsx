@@ -542,7 +542,7 @@ function DetailModal({ book, onClose }) {
                 Read on Open Library →
               </a>
               {!book.noAmazon && (
-                <a href={`https://www.amazon.com/s?k=${q}`} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
+                <a href={`https://www.amazon.com/s?k=${q}&tag=judie02-20`} target="_blank" rel="noopener noreferrer" style={s.linkSecondary} className="link-btn-sec">
                   Buy on Amazon →
                 </a>
               )}
