@@ -1845,7 +1845,6 @@ const s = {
     backdropFilter: "blur(3px)",
     WebkitBackdropFilter: "blur(3px)",
     overscrollBehavior: "contain",
-    overflow: "hidden",
   },
   modal: {
     borderRadius: 12,
@@ -2217,11 +2216,14 @@ const s = {
     background: "none",
     border: "none",
     cursor: "pointer",
-    fontSize: 11,
+    fontSize: 12,
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
     letterSpacing: "0.04em",
-    color: "var(--text-3)",
+    color: "var(--text-2)",
     padding: "4px 0",
+    textDecoration: "underline",
+    textUnderlineOffset: 3,
+    textDecorationColor: "var(--border-2)",
   },
   shareIconBtn: {
     background: "transparent",
@@ -2438,7 +2440,7 @@ const css = `
     .modal-title { font-size: 26px !important; }
     .detail-overlay { align-items: flex-end !important; padding: 0 !important; }
 
-    .detail-modal { max-width: 100% !important; width: 100% !important; max-height: 88vh; max-height: 88dvh; border-radius: 20px 20px 0 0 !important; animation: slideUp 0.32s cubic-bezier(0.32, 0.72, 0, 1) both; will-change: transform; -webkit-overflow-scrolling: touch; }
+    .detail-modal { max-width: 100% !important; width: 100% !important; max-height: 88vh; max-height: 88dvh; border-radius: 20px 20px 0 0 !important; animation: slideUp 0.32s cubic-bezier(0.32, 0.72, 0, 1) both; -webkit-overflow-scrolling: touch; }
     .sheet-handle { display: block !important; width: 36px; height: 4px; background: var(--border-2); border-radius: 2px; margin: 14px auto 0; flex-shrink: 0; }
     .list-row { grid-template-columns: 1fr 44px 72px !important; gap: 8px !important; }
     .list-author { display: none !important; }
