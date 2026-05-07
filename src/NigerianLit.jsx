@@ -1289,7 +1289,8 @@ export default function NigerianLit() {
             </div>
           </div>
 
-          <div style={s.alphaBar} role="group" aria-label="Filter by letter">
+          <div className="alpha-bar-wrap">
+          <div className="alpha-bar" style={s.alphaBar} role="group" aria-label="Filter by letter">
             {alphabet.map((letter) => (
               <button
                 key={letter}
@@ -1302,6 +1303,7 @@ export default function NigerianLit() {
                 {letter}
               </button>
             ))}
+          </div>
           </div>
 
           {activeFilters.length > 0 && (
@@ -1534,7 +1536,10 @@ const s = {
   alphaBar: {
     display: "flex",
     gap: 1,
-    flexWrap: "wrap",
+    overflowX: "auto",
+    WebkitOverflowScrolling: "touch",
+    scrollbarWidth: "none",
+    msOverflowStyle: "none",
   },
   alphaBtn: {
     minWidth: 30,
@@ -2388,6 +2393,9 @@ const css = `
     border-radius: 2px;
   }
   .alpha-active { background: var(--text) !important; color: var(--bg) !important; }
+  .alpha-bar::-webkit-scrollbar { display: none; }
+  .alpha-bar-wrap { position: relative; }
+  .alpha-bar-wrap::after { content: ""; pointer-events: none; position: absolute; top: 0; right: 0; width: 48px; height: 100%; background: linear-gradient(to right, transparent, var(--bg)); }
   .view-active  { background: var(--text) !important; color: var(--bg) !important; }
   @keyframes rainbowSweep {
     0%   { background-position: 0% 50%; }
