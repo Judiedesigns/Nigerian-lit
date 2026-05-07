@@ -136,7 +136,7 @@ const books = [
   { id: 34, title: "Toads for Supper", author: "Chukwuemeka Ike", year: 1965, genre: "Novel", description: "A university student is caught between competing romantic and family expectations in colonial-era Nigeria.", synopsis: "Set at the University of Ibadan, Toads for Supper follows Chike Obiora, a final-year student in love with Adaeze — a Yoruba girl his Igbo parents will never accept — while also being pursued by the daughter of a powerful Igbo chief. Comic in tone but sharp in its observations about tribalism, class, and parental pressure.", cover: "https://covers.openlibrary.org/b/id/8228560-L.jpg", openLibrary: "https://openlibrary.org/search?q=toads+for+supper+chukwuemeka+ike", tags: ["Comedy", "University Life", "Tribalism", "Love"] },
   { id: 35, title: "Eze Goes to School", author: "Onuora Nzekwu & Michael Crowder", year: 1963, genre: "Novel", description: "A village boy's determined journey to get an education against all odds — a beloved Nigerian childhood classic.", synopsis: "One of the most widely read books in Nigerian primary education. Eze, a bright village boy, is determined to attend school despite poverty and his father's lack of enthusiasm. The novel follows his struggles to raise school fees, navigate the school environment, and prove that education is worth fighting for. Honest, warm, and quietly inspiring, it shaped the reading lives of millions of Nigerian children.", cover: "", noCover: true, openLibrary: "https://openlibrary.org/search?q=eze+goes+to+school+nzekwu", tags: ["Children's", "Education", "Coming of Age"] },
   { id: 36, title: "A Woman in Her Prime", author: "Asare Konadu", year: 1967, genre: "Novel", description: "A Ghanaian woman with no children faces social shame — her desperate search for fertility drives the novel.", synopsis: "Pokuwaa is a woman of social standing who has never borne a child — in her community, the deepest possible failure. As she tries remedy after remedy — spiritual, herbal, marital — the novel becomes a moving meditation on womanhood, social expectation, and the cruelty of communities toward those who deviate from the norm. Long taught in Nigerian schools as part of the West African literary tradition.", cover: "https://covers.openlibrary.org/b/id/8228564-L.jpg", openLibrary: "https://openlibrary.org/search?q=a+woman+in+her+prime+konadu", tags: ["West African", "Women", "Tradition", "Ghana"] },
-  { id: 37, title: "The Beautyful Ones Are Not Yet Born", author: "Ayi Kwei Armah", year: 1968, genre: "Novel", description: "An unnamed Ghanaian railway clerk resists corruption in a society that despises his integrity.", synopsis: "Set in post-independence Ghana under Kwame Nkrumah, this novel follows an unnamed man who refuses to take bribes despite the scorn of his wife, family, and colleagues. Armah's prose is dense and sensory — decay and rot everywhere, symbols of a nation that exchanged colonial masters for home-grown ones. When a coup arrives, the man watches the same corruption simply reassemble itself under new management.", cover: "https://covers.openlibrary.org/b/id/8228580-L.jpg", openLibrary: "https://openlibrary.org/search?q=beautyful+ones+are+not+yet+born+armah", tags: ["Pan-African", "Corruption", "Postcolonial", "Ghana"] },
+  { id: 37, title: "The Beautyful Ones Are Not Yet Born", author: "Ayi Kwei Armah", year: 1968, genre: "Novel", description: "An unnamed Ghanaian railway clerk resists corruption in a society that despises his integrity.", synopsis: "Set in post-independence Ghana under Kwame Nkrumah, this novel follows an unnamed man who refuses to take bribes despite the scorn of his wife, family, and colleagues. Armah's prose is dense and sensory — decay and rot everywhere, symbols of a nation that exchanged colonial masters for home-grown ones. When a coup arrives, the man watches the same corruption simply reassemble itself under new management.", cover: "https://covers.openlibrary.org/b/id/8228580-L.jpg", openLibrary: "https://openlibrary.org/search?q=beautyful+ones+are+not+yet+born+armah", noBookshop: true, tags: ["Pan-African", "Corruption", "Postcolonial", "Ghana"] },
   { id: 38, title: "Without a Silver Spoon", author: "Eddie Iroh", year: 1981, genre: "Novel", description: "A poor Nigerian boy's struggle to survive and succeed against the odds — a school classic.", synopsis: "Without a Silver Spoon was one of the most widely read novels in Nigerian secondary schools. It follows a young protagonist from a poor background determined to make something of his life through hard work, education, and resilience. Iroh's frank portrayal of poverty, ambition, and the struggle for dignity in Nigerian society made it enormously relatable to generations of students.", cover: "https://covers.openlibrary.org/b/id/8228598-L.jpg", openLibrary: "https://openlibrary.org/search?q=without+a+silver+spoon+eddie+iroh", tags: ["Novel", "Coming of Age", "Poverty", "School Life"] },
   { id: 39, title: "The Drummer Boy", author: "Cyprian Ekwensi", year: 1960, genre: "Novel", description: "Akin, a blind boy with extraordinary musical talent, navigates Lagos in search of his destiny.", synopsis: "One of Ekwensi's most beloved books for young readers. Akin is a blind boy whose gift for drumming is remarkable. Navigating the streets and social hierarchies of Lagos, Akin uses his music to survive, connect, and eventually find his place in the world. Ekwensi captures the texture of Lagos city life with his characteristic energy and empathy.", cover: "https://covers.openlibrary.org/b/id/8228600-L.jpg", openLibrary: "https://openlibrary.org/search?q=the+drummer+boy+cyprian+ekwensi", tags: ["Children's", "Lagos", "Music", "Coming of Age"] },
   { id: 40, title: "Jagua Nana", author: "Cyprian Ekwensi", year: 1961, genre: "Novel", description: "A glamorous, ageing Lagos woman pursues love and money in the chaos of Nigeria on the eve of independence.", synopsis: "Jagua Nana is Ekwensi's most celebrated novel and one of the great portraits of Lagos. Jagua is a middle-aged woman of stunning charm who makes her living from men — politicians, traders, young lovers — in the bars and dance halls of 1950s Lagos. Her tragic relationship with the young Freddie drives the plot through betrayal, violence, and political intrigue. Groundbreaking in its treatment of female sexuality and urban African life.", cover: "https://covers.openlibrary.org/b/id/8228602-L.jpg", openLibrary: "https://openlibrary.org/works/OL946926W", rovingHeights: "https://rhbooks.com.ng/product/jagua-nana/", tags: ["Novel", "Lagos", "Urban Life", "Women", "Classic"] },
@@ -539,25 +539,23 @@ function DetailModal({ book, onClose }) {
               <span style={s.modalLetter}>{book.title[0]}</span>
             </div>
             <div style={s.modalLinksWrap}>
-              {!book.noAmazon ? (
-                <div style={{ display: "flex", gap: 8 }}>
-                  <a href={`https://bookshop.org/search?keywords=${q}&affiliate=florenceeze`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkPrimary, flex: 1 }} className="link-btn">
-                    Bookshop.org
-                  </a>
+              <div style={{ display: "flex", gap: 8 }}>
+                <a href={book.openLibrary || `https://openlibrary.org/search?q=${q}`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkPrimary, flex: 1 }} className="link-btn">
+                  Open Library
+                </a>
+                {!book.noAmazon && (
                   <a href={`https://www.amazon.com/s?k=${q}&tag=judie02-20`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: 1 }} className="link-btn-sec">
                     Amazon
                   </a>
-                </div>
-              ) : (
-                <a href={`https://bookshop.org/search?keywords=${q}&affiliate=florenceeze`} target="_blank" rel="noopener noreferrer" style={s.linkPrimary} className="link-btn">
-                  Buy on Bookshop.org
-                </a>
-              )}
+                )}
+              </div>
               {showMore && (
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  <a href={book.openLibrary || `https://openlibrary.org/search?q=${q}`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: "1 1 calc(50% - 4px)" }} className="link-btn-sec">
-                    Open Library
-                  </a>
+                  {!book.noBookshop && (
+                    <a href={`https://bookshop.org/search?keywords=${q}&affiliate=florenceeze`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: "1 1 calc(50% - 4px)" }} className="link-btn-sec">
+                      Bookshop.org
+                    </a>
+                  )}
                   {book.rovingHeights && (
                     <a href={book.rovingHeights} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: "1 1 calc(50% - 4px)" }} className="link-btn-sec">
                       Roving Heights
@@ -1045,7 +1043,7 @@ function SplashScreen({ onEnter }) {
           These are the books that raised us. The ones your literature teacher slapped on the desk on the first day of term — from Achebe's Umuofia to Adichie's Lagos, voices that refused to be quiet. The ones you carried home, read cover to cover, and still remember like old friends.
         </p>
         <p className="spl-body" style={spl.body}>
-          It started with a tweet. Over 300 Nigerians named every book they remembered from literature class. This is where those titles live now.
+          It started with a <a href="https://x.com/mochievous/status/2044355352808796469" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecorationLine: "underline", textUnderlineOffset: 3, fontWeight: 500 }}>tweet</a>. Over 300 Nigerians named every book they remembered from literature class. This is where those titles live now.
         </p>
         <p className="spl-body" style={spl.body}>
           A playlist plays while you browse — music chosen to sit beside these books, not above them.
@@ -1086,7 +1084,7 @@ const spl = {
   body: {
     fontFamily: "'Georgia', 'Times New Roman', serif",
     fontSize: 16, lineHeight: 1.75,
-    color: "var(--text-2, #444)", margin: 0, maxWidth: 520,
+    color: "var(--text-2, #444)", margin: "0 auto", maxWidth: 520,
   },
   enterBtn: {
     marginTop: 12,
@@ -2249,8 +2247,9 @@ const s = {
   modalFallback: { display: "none" },
   modalLinks: { display: "none" },
   linkPrimary: {
-    display: "block",
-    textAlign: "center",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     background: "var(--text)",
     color: "var(--bg)",
     padding: "9px 14px",
@@ -2262,8 +2261,9 @@ const s = {
     lineHeight: 1.4,
   },
   linkSecondary: {
-    display: "block",
-    textAlign: "center",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     background: "transparent",
     color: "var(--text-2)",
     border: "1px solid var(--border-2)",
