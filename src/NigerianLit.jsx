@@ -572,7 +572,7 @@ function DetailModal({ book, onClose }) {
               )}
               <div style={s.modalMiniRow}>
                 <button type="button" style={s.moreToggleMin} onClick={() => setShowMore(v => !v)}>
-                  {showMore ? "fewer stores ↑" : "more stores ↓"}
+                  {showMore ? "Fewer stores ↑" : "More stores ↓"}
                 </button>
                 {copied ? (
                   <span style={s.copiedLabel}>Link copied</span>
@@ -2248,10 +2248,10 @@ const s = {
     textAlign: "center",
     background: "var(--text)",
     color: "var(--bg)",
-    padding: "11px 16px",
+    padding: "9px 14px",
     borderRadius: 8,
     textDecoration: "none",
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
     fontWeight: 400,
     lineHeight: 1.4,
@@ -2262,10 +2262,10 @@ const s = {
     background: "transparent",
     color: "var(--text-2)",
     border: "1px solid var(--border-2)",
-    padding: "11px 16px",
+    padding: "9px 14px",
     borderRadius: 8,
     textDecoration: "none",
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
   },
   modalRight: {
@@ -2282,7 +2282,7 @@ const s = {
     display: "flex",
     gap: 16,
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: 10,
   },
   modalGenre: {
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
@@ -2299,10 +2299,10 @@ const s = {
     letterSpacing: "0.05em",
   },
   modalTitle: {
-    fontSize: 40,
+    fontSize: 34,
     fontFamily: "Georgia, 'Times New Roman', serif",
     fontWeight: 400,
-    margin: "0 0 12px",
+    margin: "0 0 10px",
     letterSpacing: "-0.03em",
     lineHeight: 1.08,
     color: "var(--text)",
@@ -2312,9 +2312,9 @@ const s = {
   },
   modalAuthor: {
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
-    fontSize: 15,
+    fontSize: 14,
     color: "var(--text-2)",
-    margin: "0 0 20px",
+    margin: "0 0 14px",
     textAlign: "left",
   },
   modalTags: {
@@ -2323,7 +2323,7 @@ const s = {
     flexWrap: "nowrap",
     overflowX: "auto",
     WebkitOverflowScrolling: "touch",
-    marginBottom: 28,
+    marginBottom: 18,
     paddingBottom: 4,
   },
   tag: {
@@ -2337,8 +2337,8 @@ const s = {
     whiteSpace: "nowrap",
   },
   synopsis: {
-    fontSize: 16,
-    lineHeight: 1.8,
+    fontSize: 15,
+    lineHeight: 1.7,
     color: "var(--text-2)",
     margin: 0,
     fontFamily: "Georgia, 'Times New Roman', serif",
@@ -2434,10 +2434,10 @@ const css = `
     .search-row { flex-wrap: wrap !important; }
     .dropdown-row { width: 100% !important; flex-wrap: wrap !important; }
     .modal-inner { grid-template-columns: 1fr !important; min-height: 0 !important; }
-    .modal-left { order: 2 !important; border-radius: 0 !important; padding: 20px 28px 32px !important; }
-    .modal-right { order: 1 !important; border-radius: 0 !important; padding: 36px 28px 32px !important; overflow-y: visible !important; }
+    .modal-left { order: 2 !important; border-radius: 0 !important; padding: 16px 20px 22px !important; }
+    .modal-right { order: 1 !important; border-radius: 0 !important; padding: 28px 20px 20px !important; overflow-y: visible !important; }
     .modal-letter-wrap { display: none !important; }
-    .modal-title { font-size: 26px !important; }
+    .modal-title { font-size: 23px !important; }
     .detail-overlay { align-items: flex-end !important; padding: 0 !important; }
 
     .detail-modal { max-width: 100% !important; width: 100% !important; max-height: 88vh; max-height: 88dvh; border-radius: 20px 20px 0 0 !important; animation: slideUp 0.32s cubic-bezier(0.32, 0.72, 0, 1) both; -webkit-overflow-scrolling: touch; }
@@ -2458,7 +2458,8 @@ const css = `
     .about-modal { padding: 40px 16px 28px !important; }
     .recommend-modal { max-width: 100% !important; max-height: 92vh !important; }
     .recommend-modal form { padding: 36px 20px 32px !important; min-height: 0 !important; }
-    .modal-left { padding-left: 16px !important; padding-right: 16px !important; }
+    .modal-left { padding: 12px 16px 18px !important; }
+    .modal-right { padding: 24px 16px 18px !important; }
     .modal-right { padding-left: 16px !important; padding-right: 16px !important; }
   }
 `;
