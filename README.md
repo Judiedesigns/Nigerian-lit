@@ -1,19 +1,51 @@
-# React + Vite
+# Nigerian Lit
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A living archive of Nigerian and West African literature texts many readers first encountered in secondary school literature classes.
 
-Currently, two official plugins are available:
+Live site: https://nigerian-lit.vercel.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## About
 
-## React Compiler
+Nigerian Lit helps readers rediscover books, plays, and poems by Nigerian and West African writers. The archive points people to available reading records, Nigerian bookstores, publisher pages, and other places where a book may be read or bought.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This project is independent and community-built. It is not affiliated with the authors, publishers, booksellers, or catalog providers listed on the site.
 
-## Expanding the ESLint configuration
+## Open Source
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The website code is open source under the MIT License.
 
---
-live link: https://nigerian-lit.vercel.app
+Book titles, author names, cover images, summaries, store links, third-party catalog data, and linked bookstore or library pages remain owned by their respective rights holders. This project does not host copyrighted book texts, PDFs, scans, or downloads.
+
+If you are a rights holder and want a link, cover image, source, or listing reviewed or removed, please use the report form on the site.
+
+## Contributing
+
+Contributions are welcome. You can help by:
+
+- Suggesting missing books.
+- Reporting broken or blocked links.
+- Finding Nigerian or West African stores that carry a listed book.
+- Improving accessibility, performance, or interface details.
+- Fixing incorrect metadata.
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
+
+## Local Development
+
+```sh
+npm install
+npm run dev
+```
+
+To check the app before submitting changes:
+
+```sh
+npm run lint
+npm run build
+```
+
+## Rights Boundaries
+
+Do not add copyrighted book text, full chapters, PDFs, scans, or download links to unauthorized copies.
+
+Only add links to legitimate sources such as publisher pages, bookstores, library records, author pages, or verified public catalog records.
