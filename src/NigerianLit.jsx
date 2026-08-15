@@ -1527,9 +1527,17 @@ export default function NigerianLit() {
       </section>
 
       <footer style={{ textAlign: "center", padding: "40px 24px 100px", fontFamily: "'Helvetica Neue', Arial, sans-serif", fontSize: 12, color: "var(--text-2)", lineHeight: 1.7 }}>
-        This archive contains affiliate links.{" "}
-        <a href="https://bookshop.org/?affiliate=florenceeze" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline" }}>Bookshop.org</a>
-        {" "}and Amazon links earn a small commission if you buy — at no extra cost to you.
+        <p style={{ maxWidth: 720, margin: "0 auto 10px" }}>
+          Metadata, summaries, and links are provided for discovery and educational reference. This is an independent, community-built archive and is not affiliated with the authors, publishers, or booksellers listed. This archive does not host copyrighted texts. If you are a rights holder and want a link, cover image, or listing reviewed, please{" "}
+          <button type="button" onClick={() => setShowRecommend(true)} style={{ color: "inherit", textDecoration: "underline", background: "none", border: "none", padding: 0, font: "inherit", cursor: "pointer" }}>
+            report it here
+          </button>.
+        </p>
+        <p style={{ maxWidth: 720, margin: "0 auto" }}>
+          This archive contains affiliate links.{" "}
+          <a href="https://bookshop.org/?affiliate=florenceeze" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline" }}>Bookshop.org</a>
+          {" "}and Amazon links earn a small commission if you buy — at no extra cost to you.
+        </p>
       </footer>
 
       {selectedBook && (
