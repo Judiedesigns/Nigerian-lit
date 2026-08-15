@@ -876,13 +876,13 @@ function RecommendModal({ onClose, onViewBook }) {
             <button type="button" style={s.modalCloseBtn} onClick={onClose} aria-label="Close">×</button>
             <p style={s.recommendEyebrow}>Nigerian &amp; West African Literature Archive</p>
             <h2 id="recommend-modal-title" style={s.recommendTitle}>Recommend or Report.</h2>
-            <p style={s.recommendSubtitle}>{form.type === "suggest" ? "Know a book that belongs in this archive? Tell us about it." : "Found a broken link or wrong source? Send the details."}</p>
+            <p style={s.recommendSubtitle}>{form.type === "suggest" ? "Know a book that belongs in this archive? Tell us about it." : "Found a broken link, wrong source, or rights concern? Send the details."}</p>
             <div style={s.recommendModeToggle} role="group" aria-label="Submission type">
               <button type="button" className={form.type === "suggest" ? "mode-active" : undefined} style={s.recommendModeBtn} aria-pressed={form.type === "suggest"} onClick={() => setForm((f) => ({ ...f, type: "suggest" }))}>
                 Suggest a book
               </button>
               <button type="button" className={form.type === "report" ? "mode-active" : undefined} style={s.recommendModeBtn} aria-pressed={form.type === "report"} onClick={() => setForm((f) => ({ ...f, type: "report" }))}>
-                Report a broken link
+                Report an issue
               </button>
             </div>
             <div style={s.recommendFields}>
@@ -910,8 +910,8 @@ function RecommendModal({ onClose, onViewBook }) {
               )}
               {form.type === "report" && (
                 <div style={s.recommendField}>
-                  <label style={s.recommendLabel} htmlFor="rec-issue">What went wrong?</label>
-                  <textarea id="rec-issue" className="recommend-input" style={{ ...s.recommendInput, ...s.recommendTextarea }} placeholder="e.g. The link is blocked or opens the wrong page..." value={form.issue} onChange={handleChange("issue")} />
+                  <label style={s.recommendLabel} htmlFor="rec-issue">What should we review?</label>
+                  <textarea id="rec-issue" className="recommend-input" style={{ ...s.recommendInput, ...s.recommendTextarea }} placeholder="e.g. A link is blocked, opens the wrong page, or should be removed..." value={form.issue} onChange={handleChange("issue")} />
                 </div>
               )}
               {form.type === "suggest" && (
@@ -1528,15 +1528,13 @@ export default function NigerianLit() {
 
       <footer style={{ textAlign: "center", padding: "40px 24px 100px", fontFamily: "'Helvetica Neue', Arial, sans-serif", fontSize: 12, color: "var(--text-2)", lineHeight: 1.7 }}>
         <p style={{ maxWidth: 720, margin: "0 auto 10px" }}>
-          Metadata, summaries, and links are provided for discovery and educational reference. This is an independent, community-built archive and is not affiliated with the authors, publishers, or booksellers listed. This archive does not host copyrighted texts. If you are a rights holder and want a link, cover image, or listing reviewed, please{" "}
+          Metadata, summaries, cover images from third-party catalog sources, and links are provided for discovery and educational reference. This is an independent, community-built archive and is not affiliated with the authors, publishers, or booksellers listed. This archive does not host copyrighted texts. If you are a rights holder and want a link, cover image, source, or listing reviewed or removed, please{" "}
           <button type="button" onClick={() => setShowRecommend(true)} style={{ color: "inherit", textDecoration: "underline", background: "none", border: "none", padding: 0, font: "inherit", cursor: "pointer" }}>
             report it here
           </button>.
         </p>
         <p style={{ maxWidth: 720, margin: "0 auto" }}>
-          This archive contains affiliate links.{" "}
-          <a href="https://bookshop.org/?affiliate=florenceeze" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline" }}>Bookshop.org</a>
-          {" "}and Amazon links earn a small commission if you buy — at no extra cost to you.
+          Some outbound links may be affiliate links. If you buy through them, this archive may earn a small commission at no extra cost to you.
         </p>
       </footer>
 
