@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
+import { ChevronDown, ChevronUp, Share2 } from "lucide-react";
 
 
 let _audioCtx = null;
@@ -25,7 +26,9 @@ function playPageTurn() {
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
     src.connect(bp).connect(gain).connect(ctx.destination);
     src.start(); src.stop(ctx.currentTime + 0.2);
-  } catch {}
+  } catch {
+    // Audio can be blocked until the user interacts with the page.
+  }
 }
 function playStamp() {
   if (!_soundEnabled) return;
@@ -48,7 +51,9 @@ function playStamp() {
     click.connect(cGain).connect(ctx.destination); click.start();
     osc.connect(gain).connect(ctx.destination);
     osc.start(); osc.stop(ctx.currentTime + 0.2);
-  } catch {}
+  } catch {
+    // Audio can be blocked until the user interacts with the page.
+  }
 }
 function playTypewriter() {
   if (!_soundEnabled) return;
@@ -64,7 +69,9 @@ function playTypewriter() {
     hp.type = "highpass"; hp.frequency.value = 2000;
     const gain = ctx.createGain(); gain.gain.value = 0.3;
     src.connect(hp).connect(gain).connect(ctx.destination); src.start();
-  } catch {}
+  } catch {
+    // Audio can be blocked until the user interacts with the page.
+  }
 }
 function playSoftClick() {
   if (!_soundEnabled) return;
@@ -80,7 +87,9 @@ function playSoftClick() {
     osc.connect(gain).connect(ctx.destination);
     osc.start();
     osc.stop(ctx.currentTime + 0.12);
-  } catch {}
+  } catch {
+    // Audio can be blocked until the user interacts with the page.
+  }
 }
 function playChime() {
   if (!_soundEnabled) return;
@@ -96,7 +105,9 @@ function playChime() {
       osc.connect(gain).connect(ctx.destination);
       osc.start(ctx.currentTime + i * 0.06); osc.stop(ctx.currentTime + i * 0.06 + 1.3);
     });
-  } catch {}
+  } catch {
+    // Audio can be blocked until the user interacts with the page.
+  }
 }
 
 const books = [
@@ -135,7 +146,7 @@ const books = [
   { id: 33, title: "The Bottled Leopard", author: "Chukwuemeka Ike", year: 1985, genre: "Novel", description: "A secondary school student is haunted by dreams of a leopard — a mystical link he cannot escape.", synopsis: "Amobi is a new secondary school student troubled by recurring dreams of a leopard. When his parents consult a dibia (traditional healer), they learn of a mystical connection between their son and the leopard. As the secret leaks at school, Amobi faces ridicule and ostracism. Chukwuemeka Ike weaves together school life and Igbo spirituality in this beloved coming-of-age novel.", cover: "https://covers.openlibrary.org/b/id/8228558-L.jpg", openLibrary: "https://openlibrary.org/search?q=bottled+leopard+chukwuemeka+ike", tags: ["Coming of Age", "School Life", "Igbo Culture", "Spirituality"] },
   { id: 34, title: "Toads for Supper", author: "Chukwuemeka Ike", year: 1965, genre: "Novel", description: "A university student is caught between competing romantic and family expectations in colonial-era Nigeria.", synopsis: "Set at the University of Ibadan, Toads for Supper follows Chike Obiora, a final-year student in love with Adaeze — a Yoruba girl his Igbo parents will never accept — while also being pursued by the daughter of a powerful Igbo chief. Comic in tone but sharp in its observations about tribalism, class, and parental pressure.", cover: "https://covers.openlibrary.org/b/id/8228560-L.jpg", openLibrary: "https://openlibrary.org/search?q=toads+for+supper+chukwuemeka+ike", tags: ["Comedy", "University Life", "Tribalism", "Love"] },
   { id: 35, title: "Eze Goes to School", author: "Onuora Nzekwu & Michael Crowder", year: 1963, genre: "Novel", description: "A village boy's determined journey to get an education against all odds — a beloved Nigerian childhood classic.", synopsis: "One of the most widely read books in Nigerian primary education. Eze, a bright village boy, is determined to attend school despite poverty and his father's lack of enthusiasm. The novel follows his struggles to raise school fees, navigate the school environment, and prove that education is worth fighting for. Honest, warm, and quietly inspiring, it shaped the reading lives of millions of Nigerian children.", cover: "", noCover: true, openLibrary: "https://openlibrary.org/search?q=eze+goes+to+school+nzekwu", tags: ["Children's", "Education", "Coming of Age"] },
-  { id: 36, title: "A Woman in Her Prime", author: "Asare Konadu", year: 1967, genre: "Novel", description: "A Ghanaian woman with no children faces social shame — her desperate search for fertility drives the novel.", synopsis: "Pokuwaa is a woman of social standing who has never borne a child — in her community, the deepest possible failure. As she tries remedy after remedy — spiritual, herbal, marital — the novel becomes a moving meditation on womanhood, social expectation, and the cruelty of communities toward those who deviate from the norm. Long taught in Nigerian schools as part of the West African literary tradition.", cover: "https://covers.openlibrary.org/b/id/8228564-L.jpg", openLibrary: "https://openlibrary.org/search?q=a+woman+in+her+prime+konadu", noBookshop: true, tags: ["West African", "Women", "Tradition", "Ghana"] },
+  { id: 36, title: "A Woman in Her Prime", author: "Asare Konadu", year: 1967, genre: "Novel", description: "A Ghanaian woman with no children faces social shame — her desperate search for fertility drives the novel.", synopsis: "Pokuwaa is a woman of social standing who has never borne a child — in her community, the deepest possible failure. As she tries remedy after remedy — spiritual, herbal, marital — the novel becomes a moving meditation on womanhood, social expectation, and the cruelty of communities toward those who deviate from the norm. Long taught in Nigerian schools as part of the West African literary tradition.", cover: "https://covers.openlibrary.org/b/id/8228564-L.jpg", openLibrary: "https://openlibrary.org/books/OL5578624M/A_woman_in_her_prime", readableUrl: "https://archive.org/details/womaninherprime0000kona", accessibleEbook: "https://accessiblepublishers.com/product/a-woman-in-her-prime-e-booke-book/", accessiblePrint: "https://accessiblepublishers.com/product/a-woman-in-her-prime/", bookMarketNg: "https://thebookmarketng.com/product/a-woman-in-her-prime/", noAmazon: true, noBookshop: true, tags: ["West African", "Women", "Tradition", "Ghana"] },
   { id: 37, title: "The Beautyful Ones Are Not Yet Born", author: "Ayi Kwei Armah", year: 1968, genre: "Novel", description: "An unnamed Ghanaian railway clerk resists corruption in a society that despises his integrity.", synopsis: "Set in post-independence Ghana under Kwame Nkrumah, this novel follows an unnamed man who refuses to take bribes despite the scorn of his wife, family, and colleagues. Armah's prose is dense and sensory — decay and rot everywhere, symbols of a nation that exchanged colonial masters for home-grown ones. When a coup arrives, the man watches the same corruption simply reassemble itself under new management.", cover: "https://covers.openlibrary.org/b/id/8228580-L.jpg", openLibrary: "https://openlibrary.org/search?q=beautyful+ones+are+not+yet+born+armah", noBookshop: true, tags: ["Pan-African", "Corruption", "Postcolonial", "Ghana"] },
   { id: 38, title: "Without a Silver Spoon", author: "Eddie Iroh", year: 1981, genre: "Novel", description: "A poor Nigerian boy's struggle to survive and succeed against the odds — a school classic.", synopsis: "Without a Silver Spoon was one of the most widely read novels in Nigerian secondary schools. It follows a young protagonist from a poor background determined to make something of his life through hard work, education, and resilience. Iroh's frank portrayal of poverty, ambition, and the struggle for dignity in Nigerian society made it enormously relatable to generations of students.", cover: "https://covers.openlibrary.org/b/id/8228598-L.jpg", openLibrary: "https://openlibrary.org/search?q=without+a+silver+spoon+eddie+iroh", tags: ["Novel", "Coming of Age", "Poverty", "School Life"] },
   { id: 39, title: "The Drummer Boy", author: "Cyprian Ekwensi", year: 1960, genre: "Novel", description: "Akin, a blind boy with extraordinary musical talent, navigates Lagos in search of his destiny.", synopsis: "One of Ekwensi's most beloved books for young readers. Akin is a blind boy whose gift for drumming is remarkable. Navigating the streets and social hierarchies of Lagos, Akin uses his music to survive, connect, and eventually find his place in the world. Ekwensi captures the texture of Lagos city life with his characteristic energy and empathy.", cover: "https://covers.openlibrary.org/b/id/8228600-L.jpg", openLibrary: "https://openlibrary.org/search?q=the+drummer+boy+cyprian+ekwensi", tags: ["Children's", "Lagos", "Music", "Coming of Age"] },
@@ -144,7 +155,7 @@ const books = [
   { id: 42, title: "Burning Grass", author: "Cyprian Ekwensi", year: 1962, genre: "Novel", description: "A Fulani cattle herder and his family journey across northern Nigeria in this episodic pastoral novel.", synopsis: "Burning Grass is Ekwensi's lyrical novel of the Fulani people of northern Nigeria. Mai Sunsaye, a respected cattle herder, is struck by the wandering sickness — the 'Sokugo' — that compels him to leave his home. His sons scatter across the savannah trying to find him. Ekwensi renders the landscape of northern Nigeria with beauty and ethnographic care.", cover: "https://covers.openlibrary.org/b/id/8228606-L.jpg", openLibrary: "https://openlibrary.org/search?q=burning+grass+cyprian+ekwensi", rovingHeights: "https://rhbooks.com.ng/product/burning-grass/", tags: ["Novel", "Northern Nigeria", "Fulani Culture", "Pastoral"] },
   { id: 43, title: "Ralia the Sugar Girl", author: "Cyprian Ekwensi", year: 1965, genre: "Novel", description: "A sweet-selling girl navigates Lagos street life in this charming short novel for young readers.", synopsis: "Ralia the Sugar Girl is one of Ekwensi's most charming books for young readers. Ralia is a young girl who sells sweets on the streets of Lagos, navigating the city's energy, dangers, and kindnesses with resourcefulness and warmth. Ekwensi uses the child protagonist to illuminate the textures of Lagos city life — the markets, the street characters, the rhythms of urban survival.", cover: "https://covers.openlibrary.org/b/id/8228612-L.jpg", openLibrary: "https://openlibrary.org/search?q=ralia+the+sugar+girl+ekwensi", tags: ["Children's", "Lagos", "School Classic", "Urban Life"] },
   { id: 44, title: "An African Night's Entertainment", author: "Cyprian Ekwensi", year: 1962, genre: "Novel", description: "A gripping tale of love, jealousy, and generational revenge set in northern Nigeria.", synopsis: "An African Night's Entertainment is a suspenseful story-within-a-story set in the Lake Chad region. Abu Bakir Saddiq, a young man whose father died under mysterious circumstances, embarks on a quest for justice. Told in the tradition of oral storytelling — an elder narrating to a village audience — the novel weaves together love, betrayal, a devastating curse, and revenge in a way that feels both ancient and immediate.", cover: "https://covers.openlibrary.org/b/id/8228614-L.jpg", openLibrary: "https://openlibrary.org/search?q=african+night+entertainment+ekwensi", tags: ["Novel", "Northern Nigeria", "Revenge", "Oral Tradition", "School Classic"] },
-  { id: 45, title: "One Week One Trouble", author: "Anezi Okoro", year: 1973, genre: "Novel", description: "The funniest Nigerian school novel — Chike's misadventures at boarding school are relentlessly entertaining.", synopsis: "Widely regarded as the funniest book in the Nigerian school canon, One Week One Trouble follows the irrepressible Chike through escalating scrapes at a Nigerian boarding school. Anezi Okoro writes with a comic touch and a sharp ear for schoolboy dialogue, capturing the hierarchies, pranks, punishments, and solidarity of secondary school life. Generations of Nigerian students have read this book with pure delight — and many rate it their favourite school text, decades later.", cover: "https://covers.openlibrary.org/b/id/8228608-L.jpg", openLibrary: "https://openlibrary.org/search?q=one+week+one+trouble+anezi+okoro", tags: ["Novel", "Comedy", "School Life", "Children's"] },
+  { id: 45, title: "One Week One Trouble", author: "Anezi Okoro", year: 1973, genre: "Novel", description: "The funniest Nigerian school novel — Chike's misadventures at boarding school are relentlessly entertaining.", synopsis: "Widely regarded as the funniest book in the Nigerian school canon, One Week One Trouble follows the irrepressible Chike through escalating scrapes at a Nigerian boarding school. Anezi Okoro writes with a comic touch and a sharp ear for schoolboy dialogue, capturing the hierarchies, pranks, punishments, and solidarity of secondary school life. Generations of Nigerian students have read this book with pure delight — and many rate it their favourite school text, decades later.", cover: "https://covers.openlibrary.org/b/id/8228608-L.jpg", openLibrary: "https://openlibrary.org/books/OL50334246M/One_week_one_trouble", buyBooks: "https://buybooks.ng/product/one-week-one-trouble/", tags: ["Novel", "Comedy", "School Life", "Children's"] },
   { id: 46, title: "The Incorruptible Judge", author: "D. Olu Olagoke", year: 1962, genre: "Play", description: "A bribe-taking defendant meets a judge he cannot buy — a beloved primary school classic.", synopsis: "Written in simple, accessible language, The Incorruptible Judge has been a staple of Nigerian primary and junior secondary school reading lists since 1962. A guilty man on trial attempts every stratagem — bribery, mercy pleas, Shakespeare quotations — to escape justice. The judge refuses every overture and sentences him to three years hard labour. The play's clarity of purpose made it an ideal introduction to drama for young readers.", cover: "https://covers.openlibrary.org/b/id/8228610-L.jpg", openLibrary: "https://openlibrary.org/search?q=incorruptible+judge+olagoke", tags: ["Play", "Children's", "Justice", "School Classic"] },
   { id: 47, title: "The Only Son", author: "John Munonye", year: 1966, genre: "Novel", description: "A widow's fierce love for her only son collides with colonial education and Christian conversion in Igboland.", synopsis: "Set in an Igbo village in the early colonial period. Chiaku is a widow whose entire world revolves around her son Nnanna. When Nnanna is drawn toward the Christian mission school, the novel becomes a quiet, aching drama about the fractures colonialism introduced into family and community. Munonye writes with precision and deep sympathy.", cover: "https://covers.openlibrary.org/b/id/8228616-L.jpg", openLibrary: "https://openlibrary.org/search?q=the+only+son+john+munonye", tags: ["Novel", "Colonialism", "Igbo Culture", "Family", "Religion"] },
   { id: 48, title: "Efuru", author: "Flora Nwapa", year: 1966, genre: "Novel", description: "The first novel published in English by an African woman — a beautiful, independent Igbo woman searches for fulfilment beyond marriage.", synopsis: "Flora Nwapa's Efuru holds a landmark place in African literary history as the first novel in English published by an African woman. Efuru is beautiful, industrious, and admired by all — but her marriages fail and she cannot keep her children alive. Rather than defining herself by these losses, she turns to the worship of Uhamiri, the Woman of the Lake, a childless but universally beloved goddess.", cover: "https://covers.openlibrary.org/b/id/8228620-L.jpg", openLibrary: "https://openlibrary.org/works/OL3659778W", tags: ["Novel", "Feminism", "Igbo Culture", "Women", "Classic"] },
@@ -208,21 +219,41 @@ const books = [
   { id: 106, title: "Eze Goes to College", author: "Onuora Nzekwu", year: 1975, genre: "Novel", description: "The sequel to Eze Goes to School follows a now older Eze through the wider world of college — new freedoms and new tests of character.", synopsis: "The sequel to the beloved Eze Goes to School picks up with Eze now old enough for college, facing the expanded challenges of higher education: greater independence, stronger social pressures, and questions about his future that school could not answer. Nzekwu extends the warmth and accessibility of the first book into a slightly more complex social world, following Eze as he negotiates ambition, friendship, and the responsibilities of becoming an educated Nigerian man. Read widely in Nigerian schools as the natural continuation of Eze's story.", cover: "", openLibrary: "https://openlibrary.org/search?q=eze+goes+to+college+nzekwu", tags: ["Novel", "Children's", "Education", "Coming of Age", "Sequel"] },
   { id: 107, title: "Koku Baboni", author: "Kola Onadipe", year: 1966, genre: "Novel", description: "A young boy's adventures and moral lessons in Yoruba village life — a beloved Nigerian children's classic.", synopsis: "Koku Baboni follows a young Yoruba boy whose curiosity, mischief, and encounters with community life teach him a series of hard-won moral lessons. Kola Onadipe — best known for The Boy Slave — brings the same warmth and accessibility to this shorter novel, rooting Koku's adventures in the rhythms of traditional village life. The book's moral clarity and engaging storytelling made it a staple of Nigerian primary school reading lists, and it remains fondly remembered by generations of readers who encountered it in their early school years.", cover: "", openLibrary: "https://openlibrary.org/search?q=koku+baboni+kola+onadipe", tags: ["Novel", "Children's", "Yoruba Culture", "Moral Lessons", "School Classic"] },
   { id: 108, title: "Ige Adubi: The Vanguard", author: "Bola Olusanya", year: 2001, genre: "Novel", description: "A tomboy princess overcomes struggle and expectation — her name, Ige Adubi, meaning born feet-first, a Yoruba mark of resilience.", synopsis: "Ige Adubi is the traditional Yoruba name for a child born feet first — a breech birth seen as a sign of resilience and uncommon spirit. Bola Olusanya's novel follows Efunkunmi, a princess who carries that name and the identity it confers: spirited, unconventional, and unwilling to be shaped by the limits placed on her. Her story is one of struggle and self-determination, rooted in the living culture of the Yoruba world where the name Ige Adubi echoes through chants and Fuji music as a symbol of those who arrive in the world on their own terms.", cover: "", openLibrary: "https://openlibrary.org/books/OL20711635M/Ige_Adubi", noAmazon: true, noAbebooks: true, tags: ["Novel", "Yoruba Culture", "Women", "Coming of Age", "Identity"] },
+  { id: 109, title: "Dizzy Angel", author: "Gracy Nma Osifo", year: 1985, genre: "Novel", description: "A Nigerian classic about a girl named Ogbanje caught between prophecy, tradition, education, and the right to choose her own future.", synopsis: "Dizzy Angel follows Ogbanje Agu, whose birth is surrounded by spiritual warnings and family fear. An oracle declares that she can only survive if she marries an Olokun priest, but her father chooses Western education for her instead, sending her to school and setting tradition against ambition. When Ogbanje runs away on her wedding day, the novel turns into a tense story of belief, danger, love, and cultural identity in a changing Nigeria.", cover: "", openLibrary: "https://openlibrary.org/books/OL2342501M/Dizzy_angel", sunshineBooks: "https://sunshinebookseller.com/product/dizzy-angel/", tags: ["Novel", "Nigerian Fiction", "Tradition", "Education", "Women"] },
+  { id: 110, title: "Hero's Welcome", author: "Laide Anigbedu and Ola Omiyale", year: 1986, genre: "Novel", description: "A scarce Nigerian novel remembered by readers but currently hard to find through online booksellers.", synopsis: "Hero's Welcome is one of the harder-to-find titles in the Nigerian school and popular fiction memory. Bibliographic records identify Laide Anigbedu as a pen name associated with Ola Omiyale, and list the book as a 1986 Writers' Fraternity publication from Yaba, Lagos. No current readable copy or direct Nigerian bookseller page has surfaced yet, so this archive keeps the title visible without pretending a purchase link is available.", cover: "", noAmazon: true, noBookshop: true, noAbebooks: true, tags: ["Novel", "Nigerian Fiction", "School Classic", "Out of Print"] },
+  { id: 111, title: "The Adventures of Souza", author: "Kola Onadipe", year: 1963, genre: "Novel", description: "A Nigerian children's adventure classic by Kola Onadipe, still remembered from school reading lists.", synopsis: "The Adventures of Souza belongs to the tradition of compact Nigerian adventure stories written for younger readers and school audiences. Kola Onadipe's fiction often pairs fast-moving plots with moral pressure, courage, and the dangers faced by children navigating a difficult world. The book was first published in the 1960s and later circulated through African Universities Press and school-reader editions.", cover: "", openLibrary: "https://openlibrary.org/works/OL4843212W/The_adventures_of_Souza", sunshineBooks: "https://sunshinebookseller.com/product/the-adventures-of-souza/", tags: ["Novel", "Children's", "Adventure", "School Classic"] },
+  { id: 112, title: "The Worshippers", author: "Victor Thorpe", year: 1979, genre: "Novel", description: "A Pacesetters thriller following Paul Okoro into danger, mystery, murder, and the sinister back streets of Ibadan.", synopsis: "The Worshippers introduces Paul Okoro, a Nigerian journalist and adventurer who tells his story from a hospital bed after losing his leg in a crocodile encounter. What follows is a strange and dangerous tale of murder, kidnapping, violence, and mystery in Ibadan. Part of Victor Thorpe's Paul Okoro sequence, the novel is remembered as one of the Pacesetters titles that mixed thriller plotting with Nigerian humour, danger, and the supernatural.", cover: "", openLibrary: "https://openlibrary.org/search?q=the+worshippers+victor+thorpe", pacesettersEbook: "https://pacesettersnovels.com/novel/the-worshippers-by-victor-thorpe/", tags: ["Novel", "Thriller", "Pacesetters", "Ibadan", "Mystery"] },
 ];
 const genres = ["All", ...new Set(books.map((b) => b.genre))];
 const authors = ["All Authors", ...new Set(books.map((b) => b.author))];
 const alphabet = ["All", ..."ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")];
 
 const CACHE_KEY = "nlitCovers_v1";
+const SAVED_KEY = "nlitSavedBooks_v1";
 function readCoverCache() {
-  try { return JSON.parse(localStorage.getItem(CACHE_KEY) || "{}"); } catch { return {}; }
+  try {
+    return JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
+  } catch {
+    return {};
+  }
 }
 function writeCoverCache(key, value) {
   try {
     const cache = readCoverCache();
     cache[key] = value;
     localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
-  } catch {}
+  } catch {
+    // Cover cache writes are optional.
+  }
+}
+
+function readSavedBooks() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(SAVED_KEY) || "[]");
+    return Array.isArray(saved) ? saved : [];
+  } catch {
+    return [];
+  }
 }
 
 
@@ -402,56 +433,87 @@ function FilterPill({ label, onClear }) {
   );
 }
 
-function BookCard({ book, onSelect, index }) {
+function SaveButton({ saved, onToggle, label }) {
   return (
-    <button type="button" className="book-card" style={s.card} onClick={() => { playPageTurn(); onSelect(book); }}>
-      <div style={s.cardCover}>
-        <BookCover
-          book={book}
-          delay={index * 60}
-          style={s.cardCoverImg}
-          fallbackStyle={s.cardCoverFallback}
-          letterStyle={s.cardCoverLetter}
-        />
-      </div>
-      <div style={s.cardBody}>
-        <p style={s.cardGenreTag}>{book.genre}</p>
-        <h3 style={s.cardTitle}>{book.title}</h3>
-        <p style={s.cardAuthor}>{book.author}</p>
-        <p style={s.cardYear}>{book.year}</p>
-        <p style={s.cardDesc}>{book.description}</p>
-      </div>
+    <button
+      type="button"
+      className={saved ? "save-btn save-btn-active" : "save-btn"}
+      style={s.saveBtn}
+      onClick={(e) => {
+        e.stopPropagation();
+        playSoftClick();
+        onToggle();
+      }}
+      aria-pressed={saved}
+      aria-label={label}
+      title={label}
+    >
+      <svg aria-hidden="true" width="14" height="14" viewBox="0 0 20 20" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 3.5h10a1 1 0 0 1 1 1v12l-6-3.5-6 3.5v-12a1 1 0 0 1 1-1Z" />
+      </svg>
     </button>
+  );
+}
+
+function BookCard({ book, onSelect, index, saved, onToggleSaved }) {
+  return (
+    <div className="book-card-wrap" style={s.cardWrap}>
+      <button type="button" className="book-card" style={s.card} onClick={() => { playPageTurn(); onSelect(book); }}>
+        <div style={s.cardCover}>
+          <BookCover
+            book={book}
+            delay={index * 60}
+            style={s.cardCoverImg}
+            fallbackStyle={s.cardCoverFallback}
+            letterStyle={s.cardCoverLetter}
+          />
+        </div>
+        <div style={s.cardBody}>
+          <p style={s.cardGenreTag}>{book.genre}</p>
+          <h3 style={s.cardTitle}>{book.title}</h3>
+          <p style={s.cardAuthor}>{book.author}</p>
+          <p style={s.cardYear}>{book.year}</p>
+          <p style={s.cardDesc}>{book.description}</p>
+        </div>
+      </button>
+      <SaveButton saved={saved} onToggle={onToggleSaved} label={`${saved ? "Remove from" : "Save to"} reading list: ${book.title}`} />
+    </div>
   );
 }
 
 const spineColors = ["#2C3E50","#5B4A3F","#3D6B55","#7B4F3A","#4A5568","#6B5B45","#3B5998","#704214","#2D6A4F","#8B4513","#4A4E69","#6B7355","#3D5A80","#7A5C4E","#4E6B4A","#8E5C3A","#3A5A6B","#6B4A7A"];
 
-function ShelfCard({ book, onSelect, index }) {
+function ShelfCard({ book, onSelect, index, saved, onToggleSaved }) {
   const bg = spineColors[index % spineColors.length];
   const lastName = book.author.split(" ").pop();
   return (
-    <button
-      type="button"
-      className="spine-card"
-      style={{ ...s.spine, background: bg }}
-      onClick={() => { playPageTurn(); onSelect(book); }}
-      title={`${book.title} — ${book.author} (${book.year})`}
-    >
-      <span style={s.spineAuthor}>{lastName}</span>
-      <span style={s.spineTitle}>{book.title}</span>
-    </button>
+    <div className="spine-wrap" style={s.spineWrap}>
+      <button
+        type="button"
+        className="spine-card"
+        style={{ ...s.spine, background: bg }}
+        onClick={() => { playPageTurn(); onSelect(book); }}
+        title={`${book.title} — ${book.author} (${book.year})`}
+      >
+        <span style={s.spineAuthor}>{lastName}</span>
+        <span style={s.spineTitle}>{book.title}</span>
+      </button>
+      <SaveButton saved={saved} onToggle={onToggleSaved} label={`${saved ? "Remove from" : "Save to"} reading list: ${book.title}`} />
+    </div>
   );
 }
 
-function ListRow({ book, onSelect }) {
+function ListRow({ book, onSelect, saved, onToggleSaved }) {
   return (
-    <button type="button" className="list-row" style={s.listRow} onClick={() => { playPageTurn(); onSelect(book); }}>
-      <span style={s.listTitle}>{book.title}</span>
-      <span className="list-author" style={s.listAuthor}>{book.author}</span>
-      <span style={s.listYear}>{book.year}</span>
-      <span style={s.listGenreTag}>{book.genre}</span>
-    </button>
+    <div className="list-row-wrap" style={s.listRowWrap}>
+      <button type="button" className="list-row" style={s.listRow} onClick={() => { playPageTurn(); onSelect(book); }}>
+        <span style={s.listTitle}>{book.title}</span>
+        <span className="list-author" style={s.listAuthor}>{book.author}</span>
+        <span style={s.listYear}>{book.year}</span>
+        <span style={s.listGenreTag}>{book.genre}</span>
+      </button>
+      <SaveButton saved={saved} onToggle={onToggleSaved} label={`${saved ? "Remove from" : "Save to"} reading list: ${book.title}`} />
+    </div>
   );
 }
 
@@ -489,7 +551,7 @@ function ViewToggle({ view, onChange }) {
   );
 }
 
-function DetailModal({ book, onClose }) {
+function DetailModal({ book, onClose, saved, onToggleSaved }) {
   const [showMore, setShowMore] = useState(false);
   const [copied, setCopied] = useState(false);
   const trapRef = useFocusTrap(true);
@@ -521,6 +583,21 @@ function DetailModal({ book, onClose }) {
     }).catch(() => {});
   }
 
+  const nigeriaBuyLink =
+    book.rovingHeights ? { label: "Roving Heights", href: book.rovingHeights } :
+    book.sunshineBooks ? { label: "Sunshine Books", href: book.sunshineBooks } :
+    book.accessibleEbook ? { label: "Accessible eBook", href: book.accessibleEbook } :
+    book.accessiblePrint ? { label: "Accessible Print", href: book.accessiblePrint } :
+    book.bookMarketNg ? { label: "BookMarketNG", href: book.bookMarketNg } :
+    book.buyBooks ? { label: "BuyBooks.NG", href: book.buyBooks } :
+    book.pacesettersEbook ? { label: "Pacesetters eBook", href: book.pacesettersEbook } :
+    null;
+  const searchStoreLinks = [
+    !book.noBookshop ? { label: "Search Bookshop.org", href: `https://bookshop.org/search?keywords=${q}&affiliate=florenceeze` } : null,
+    !book.noAmazon ? { label: "Search Amazon US", href: `https://www.amazon.com/s?k=${q}&tag=judie02-20` } : null,
+    !book.noAbebooks ? { label: "Search AbeBooks", href: `https://www.abebooks.com/servlet/SearchResults?kn=${q}` } : null,
+  ].filter(Boolean);
+
   return (
     <div className="detail-overlay" style={{ ...s.overlay, alignItems: isMobile ? "flex-end" : "center", padding: isMobile ? 0 : 16 }} onClick={onClose} aria-hidden="true">
       <div
@@ -540,46 +617,39 @@ function DetailModal({ book, onClose }) {
             </div>
             <div style={s.modalLinksWrap}>
               <div style={{ display: "flex", gap: 8 }}>
-                <a href={book.openLibrary || `https://openlibrary.org/search?q=${q}`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkPrimary, flex: 1 }} className="link-btn">
-                  Open Library
+                <a href={book.readableUrl || book.openLibrary || `https://openlibrary.org/search?q=${q}`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkPrimary, flex: 1 }} className="link-btn">
+                  {book.readableUrl ? "Read / Borrow" : "Open Library record"}
                 </a>
-                {!book.noAmazon && (
-                  <a href={`https://www.amazon.com/s?k=${q}&tag=judie02-20`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: 1 }} className="link-btn-sec">
-                    Amazon
+                {nigeriaBuyLink && (
+                  <a href={nigeriaBuyLink.href} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: 1 }} className="link-btn-sec">
+                    {nigeriaBuyLink.label}
                   </a>
                 )}
               </div>
-              {showMore && (
+              {showMore && searchStoreLinks.length > 0 && (
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {!book.noBookshop && (
-                    <a href={`https://bookshop.org/search?keywords=${q}&affiliate=florenceeze`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: "1 1 calc(50% - 4px)" }} className="link-btn-sec">
-                      Bookshop.org
+                  {searchStoreLinks.map((link) => (
+                    <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: "1 1 calc(50% - 4px)" }} className="link-btn-sec">
+                      {link.label}
                     </a>
-                  )}
-                  {book.rovingHeights && (
-                    <a href={book.rovingHeights} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: "1 1 calc(50% - 4px)" }} className="link-btn-sec">
-                      Roving Heights
-                    </a>
-                  )}
-                  {!book.noAbebooks && (
-                    <a href={`https://www.abebooks.com/servlet/SearchResults?kn=${q}`} target="_blank" rel="noopener noreferrer" style={{ ...s.linkSecondary, flex: "1 1 calc(50% - 4px)" }} className="link-btn-sec">
-                      AbeBooks
-                    </a>
-                  )}
+                  ))}
                 </div>
               )}
               <div style={s.modalMiniRow}>
-                <button type="button" style={s.moreToggleMin} onClick={() => setShowMore(v => !v)}>
-                  {showMore ? "Fewer stores ↑" : "More stores ↓"}
-                </button>
+                {searchStoreLinks.length > 0 ? (
+                  <button type="button" style={s.moreToggleMin} onClick={() => setShowMore(v => !v)}>
+                    {showMore ? "Fewer stores" : "More stores"}
+                    {showMore ? <ChevronUp size={14} strokeWidth={1.8} aria-hidden="true" /> : <ChevronDown size={14} strokeWidth={1.8} aria-hidden="true" />}
+                  </button>
+                ) : (
+                  <span />
+                )}
                 {copied ? (
                   <span style={s.copiedLabel}>Link copied</span>
                 ) : (
                   <button type="button" className="share-icon-btn" style={s.shareIconBtn} onClick={handleShare} aria-label="Copy link to share">
-                    <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M8 11V3M5 6l3-3 3 3" />
-                      <path d="M3 10v3a1 1 0 001 1h8a1 1 0 001-1v-3" />
-                    </svg>
+                    <Share2 size={14} strokeWidth={1.8} aria-hidden="true" />
+                    <span>Share</span>
                   </button>
                 )}
               </div>
@@ -593,6 +663,21 @@ function DetailModal({ book, onClose }) {
             </div>
             <h2 id="detail-modal-title" className="modal-title" style={s.modalTitle}>{book.title}</h2>
             <p style={s.modalAuthor}>{book.author}</p>
+            <button
+              type="button"
+              className={saved ? "modal-save active" : "modal-save"}
+              style={s.modalSaveBtn}
+              onClick={() => {
+                playSoftClick();
+                onToggleSaved(book.id);
+              }}
+              aria-pressed={saved}
+            >
+              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 20 20" fill={saved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 3.5h10a1 1 0 0 1 1 1v12l-6-3.5-6 3.5v-12a1 1 0 0 1 1-1Z" />
+              </svg>
+              {saved ? "Saved to reading list" : "Save to reading list"}
+            </button>
             <div style={s.modalTags}>
               {book.tags.map((tag) => (
                 <span key={tag} style={s.tag}>{tag}</span>
@@ -696,7 +781,7 @@ const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbzaB4_-RyljURd0jzFyRB-XbDO397UQjyI97l62DWog22LUxNXrnnEczl0XbR66vmro/exec";
 
 function RecommendModal({ onClose, onViewBook }) {
-  const [form, setForm] = useState({ name: "", bookTitle: "", author: "", why: "" });
+  const [form, setForm] = useState({ type: "suggest", name: "", bookTitle: "", author: "", why: "", sourceUrl: "", issue: "" });
   const [status, setStatus] = useState("idle");
   const [duplicate, setDuplicate] = useState(null);
   const trapRef = useFocusTrap(true);
@@ -740,13 +825,13 @@ function RecommendModal({ onClose, onViewBook }) {
       submittingRef.current = false;
       clearTimeout(timeoutRef.current);
       setStatus("success");
-      setForm({ name: "", bookTitle: "", author: "", why: "" });
+      setForm((current) => ({ type: current.type, name: "", bookTitle: "", author: "", why: "", sourceUrl: "", issue: "" }));
     }
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!form.name.trim() || !form.bookTitle.trim()) return;
+    if (!form.bookTitle.trim()) return;
     setStatus("loading");
     submittingRef.current = true;
 
@@ -755,6 +840,9 @@ function RecommendModal({ onClose, onViewBook }) {
     f.querySelector('[name="bookTitle"]').value = form.bookTitle.trim();
     f.querySelector('[name="author"]').value = form.author.trim();
     f.querySelector('[name="why"]').value = form.why.trim();
+    f.querySelector('[name="type"]').value = form.type;
+    f.querySelector('[name="sourceUrl"]').value = form.sourceUrl.trim();
+    f.querySelector('[name="issue"]').value = form.issue.trim();
     f.submit();
 
     timeoutRef.current = setTimeout(() => {
@@ -787,12 +875,20 @@ function RecommendModal({ onClose, onViewBook }) {
           <form onSubmit={handleSubmit} style={s.recommendForm}>
             <button type="button" style={s.modalCloseBtn} onClick={onClose} aria-label="Close">×</button>
             <p style={s.recommendEyebrow}>Nigerian &amp; West African Literature Archive</p>
-            <h2 id="recommend-modal-title" style={s.recommendTitle}>Recommend a Book.</h2>
-            <p style={s.recommendSubtitle}>Know a book that belongs in this archive? Tell us about it.</p>
+            <h2 id="recommend-modal-title" style={s.recommendTitle}>Recommend or Report.</h2>
+            <p style={s.recommendSubtitle}>{form.type === "suggest" ? "Know a book that belongs in this archive? Tell us about it." : "Found a broken link or wrong source? Send the details."}</p>
+            <div style={s.recommendModeToggle} role="group" aria-label="Submission type">
+              <button type="button" className={form.type === "suggest" ? "mode-active" : undefined} style={s.recommendModeBtn} aria-pressed={form.type === "suggest"} onClick={() => setForm((f) => ({ ...f, type: "suggest" }))}>
+                Suggest a book
+              </button>
+              <button type="button" className={form.type === "report" ? "mode-active" : undefined} style={s.recommendModeBtn} aria-pressed={form.type === "report"} onClick={() => setForm((f) => ({ ...f, type: "report" }))}>
+                Report a broken link
+              </button>
+            </div>
             <div style={s.recommendFields}>
               <div style={s.recommendField}>
-                <label style={s.recommendLabel} htmlFor="rec-name">Your name <span style={s.recommendRequired}>*</span></label>
-                <input id="rec-name" type="text" required className="recommend-input" style={s.recommendInput} placeholder="e.g. Ngozi Adeyemi" value={form.name} onChange={handleChange("name")} />
+                <label style={s.recommendLabel} htmlFor="rec-name">Your name <span style={s.recommendOptional}>(optional)</span></label>
+                <input id="rec-name" type="text" className="recommend-input" style={s.recommendInput} placeholder="e.g. Ngozi Adeyemi" value={form.name} onChange={handleChange("name")} />
               </div>
               <div style={s.recommendField}>
                 <label style={s.recommendLabel} htmlFor="rec-title">Book title <span style={s.recommendRequired}>*</span></label>
@@ -806,21 +902,32 @@ function RecommendModal({ onClose, onViewBook }) {
                   </div>
                 )}
               </div>
-              <div style={s.recommendField}>
-                <label style={s.recommendLabel} htmlFor="rec-author">Author name</label>
-                <input id="rec-author" type="text" className="recommend-input" style={s.recommendInput} placeholder="e.g. Amos Tutuola" value={form.author} onChange={handleChange("author")} />
-              </div>
-              <div style={s.recommendField}>
-                <label style={s.recommendLabel} htmlFor="rec-why">Why do you recommend it?</label>
-                <textarea id="rec-why" className="recommend-input" style={{ ...s.recommendInput, ...s.recommendTextarea }} placeholder="Tell us what makes this book special..." value={form.why} onChange={handleChange("why")} />
-              </div>
+              {form.type === "suggest" && (
+                <div style={s.recommendField}>
+                  <label style={s.recommendLabel} htmlFor="rec-author">Author name</label>
+                  <input id="rec-author" type="text" className="recommend-input" style={s.recommendInput} placeholder="e.g. Amos Tutuola" value={form.author} onChange={handleChange("author")} />
+                </div>
+              )}
+              {form.type === "report" && (
+                <div style={s.recommendField}>
+                  <label style={s.recommendLabel} htmlFor="rec-issue">What went wrong?</label>
+                  <textarea id="rec-issue" className="recommend-input" style={{ ...s.recommendInput, ...s.recommendTextarea }} placeholder="e.g. The link is blocked or opens the wrong page..." value={form.issue} onChange={handleChange("issue")} />
+                </div>
+              )}
+              {form.type === "suggest" && (
+                <>
+                  <div style={s.recommendField}>
+                    <label style={s.recommendLabel} htmlFor="rec-why">Why do you recommend it? <span style={s.recommendOptional}>(optional)</span></label>
+                    <textarea id="rec-why" className="recommend-input" style={{ ...s.recommendInput, ...s.recommendTextarea }} placeholder="Tell us what makes this book special..." value={form.why} onChange={handleChange("why")} />
+                  </div>
+                </>
+              )}
             </div>
             {status === "error" && <p style={s.recommendError}>Something went wrong. Please try again.</p>}
             <div style={s.recommendActions}>
-              <button type="submit" style={s.recommendSubmit} disabled={status === "loading" || !form.name.trim() || !form.bookTitle.trim()}>
-                {status === "loading" ? "Sending..." : "Submit Recommendation"}
+              <button type="submit" style={s.recommendSubmit} disabled={status === "loading" || !form.bookTitle.trim()}>
+                {status === "loading" ? "Sending..." : form.type === "suggest" ? "Submit Recommendation" : "Submit Report"}
               </button>
-              <button type="button" style={s.recommendCancel} onClick={onClose}>Cancel</button>
             </div>
           </form>
         )}
@@ -840,9 +947,12 @@ function RecommendModal({ onClose, onViewBook }) {
           style={{ display: "none" }}
         >
           <input name="name" />
+          <input name="type" />
           <input name="bookTitle" />
           <input name="author" />
           <input name="why" />
+          <input name="sourceUrl" />
+          <input name="issue" />
         </form>
       </div>
     </div>
@@ -1109,14 +1219,21 @@ export default function NigerianLit() {
   const [selectedGenre, setSelectedGenre] = useState("All");
   const [selectedAuthor, setSelectedAuthor] = useState("All Authors");
   const [alphaFilter, setAlphaFilter] = useState("All");
-  const [selectedBook, setSelectedBook] = useState(null);
+  const initialBook = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    const bookId = parseInt(params.get("book") || "", 10);
+    return books.find((book) => book.id === bookId) || null;
+  }, []);
+  const [selectedBook, setSelectedBook] = useState(initialBook);
   const [sortOrder, setSortOrder] = useState("az");
   const [viewMode, setViewMode] = useState("cards");
   const [theme, setTheme] = useState("white");
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [showAbout, setShowAbout] = useState(false);
   const [showRecommend, setShowRecommend] = useState(false);
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(!initialBook);
+  const [savedBookIds, setSavedBookIds] = useState(() => readSavedBooks());
+  const [showSavedOnly, setShowSavedOnly] = useState(false);
   const ytPlayerRef = useRef(null);
   const ytContainerRef = useRef(null);
 
@@ -1174,18 +1291,13 @@ export default function NigerianLit() {
     _soundEnabled = next;
     setSoundEnabled(next);
     if (ytPlayerRef.current) {
-      try { next ? ytPlayerRef.current.playVideo() : ytPlayerRef.current.pauseVideo(); } catch {}
+      try {
+        next ? ytPlayerRef.current.playVideo() : ytPlayerRef.current.pauseVideo();
+      } catch {
+        // YouTube playback state is best-effort.
+      }
     }
   }
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const bookId = parseInt(params.get("book") || "", 10);
-    if (bookId) {
-      const found = books.find((b) => b.id === bookId);
-      if (found) setSelectedBook(found);
-    }
-  }, []);
 
   function handleSelectBook(book) {
     setSelectedBook(book);
@@ -1195,6 +1307,20 @@ export default function NigerianLit() {
   function handleCloseModal() {
     setSelectedBook(null);
     history.replaceState(null, "", window.location.pathname);
+  }
+
+  function toggleSavedBook(bookId) {
+    setSavedBookIds((current) => {
+      const next = current.includes(bookId)
+        ? current.filter((id) => id !== bookId)
+        : [...current, bookId];
+      try {
+        localStorage.setItem(SAVED_KEY, JSON.stringify(next));
+      } catch {
+        // Saved books still work for this session if persistence is unavailable.
+      }
+      return next;
+    });
   }
 
   const filtered = useMemo(() => {
@@ -1208,7 +1334,8 @@ export default function NigerianLit() {
       const matchesGenre = selectedGenre === "All" || book.genre === selectedGenre;
       const matchesAuthor = selectedAuthor === "All Authors" || book.author === selectedAuthor;
       const matchesAlpha = alphaFilter === "All" || book.title.toUpperCase().startsWith(alphaFilter);
-      return matchesSearch && matchesGenre && matchesAuthor && matchesAlpha;
+      const matchesSaved = !showSavedOnly || savedBookIds.includes(book.id);
+      return matchesSearch && matchesGenre && matchesAuthor && matchesAlpha && matchesSaved;
     });
     const sorted = [...list];
     if (sortOrder === "az") sorted.sort((a, b) => a.title.localeCompare(b.title));
@@ -1216,13 +1343,14 @@ export default function NigerianLit() {
     if (sortOrder === "oldest") sorted.sort((a, b) => a.year - b.year);
     if (sortOrder === "newest") sorted.sort((a, b) => b.year - a.year);
     return sorted;
-  }, [search, selectedGenre, selectedAuthor, alphaFilter, sortOrder]);
+  }, [search, selectedGenre, selectedAuthor, alphaFilter, sortOrder, showSavedOnly, savedBookIds]);
 
   const activeFilters = [
     search ? { label: `"${search}"`, clear: () => setSearch("") } : null,
     selectedGenre !== "All" ? { label: selectedGenre, clear: () => setSelectedGenre("All") } : null,
     selectedAuthor !== "All Authors" ? { label: selectedAuthor, clear: () => setSelectedAuthor("All Authors") } : null,
     alphaFilter !== "All" ? { label: `Letter: ${alphaFilter}`, clear: () => setAlphaFilter("All") } : null,
+    showSavedOnly ? { label: "Saved books", clear: () => setShowSavedOnly(false) } : null,
   ].filter(Boolean);
 
   function resetAll() {
@@ -1231,6 +1359,7 @@ export default function NigerianLit() {
     setSelectedAuthor("All Authors");
     setAlphaFilter("All");
     setSortOrder("az");
+    setShowSavedOnly(false);
   }
 
   return (
@@ -1241,7 +1370,7 @@ export default function NigerianLit() {
         <div style={s.headerInner}>
           <p style={s.eyebrow}>A Reading Archive</p>
           <h1 style={s.title}>Nigerian &amp; West African Literature</h1>
-          <p style={s.subtitle}>{books.length} essential works — novels, plays &amp; poetry</p>
+          <p style={s.subtitle}>A living archive of the books, plays, and poems many of us first encountered in secondary school literature classes across Nigeria and West Africa. {books.length} essential works and counting.</p>
         </div>
       </header>
 
@@ -1323,7 +1452,24 @@ export default function NigerianLit() {
             <div>
               <p style={s.bookCount}>{filtered.length} {filtered.length === 1 ? "book" : "books"}</p>
             </div>
-            <ViewToggle view={viewMode} onChange={setViewMode} />
+            <div style={s.catalogueActions}>
+              <button
+                type="button"
+                className={showSavedOnly ? "saved-filter saved-filter-active" : "saved-filter"}
+                style={s.savedFilter}
+                onClick={() => {
+                  playSoftClick();
+                  setShowSavedOnly((value) => !value);
+                }}
+                aria-pressed={showSavedOnly}
+              >
+                <svg aria-hidden="true" width="13" height="13" viewBox="0 0 20 20" fill={showSavedOnly ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 3.5h10a1 1 0 0 1 1 1v12l-6-3.5-6 3.5v-12a1 1 0 0 1 1-1Z" />
+                </svg>
+                Saved ({savedBookIds.length})
+              </button>
+              <ViewToggle view={viewMode} onChange={setViewMode} />
+            </div>
           </div>
 
           {filtered.length === 0 ? (
@@ -1334,14 +1480,28 @@ export default function NigerianLit() {
           ) : viewMode === "cards" ? (
             <div className="books-grid" style={s.grid}>
               {filtered.map((book, i) => (
-                <BookCard key={book.id} book={book} onSelect={handleSelectBook} index={i} />
+                <BookCard
+                  key={book.id}
+                  book={book}
+                  onSelect={handleSelectBook}
+                  index={i}
+                  saved={savedBookIds.includes(book.id)}
+                  onToggleSaved={() => toggleSavedBook(book.id)}
+                />
               ))}
               <SuggestCard onRecommend={() => setShowRecommend(true)} />
             </div>
           ) : viewMode === "shelf" ? (
             <div style={s.shelfGrid}>
               {filtered.map((book, i) => (
-                <ShelfCard key={book.id} book={book} onSelect={handleSelectBook} index={i} />
+                <ShelfCard
+                  key={book.id}
+                  book={book}
+                  onSelect={handleSelectBook}
+                  index={i}
+                  saved={savedBookIds.includes(book.id)}
+                  onToggleSaved={() => toggleSavedBook(book.id)}
+                />
               ))}
             </div>
           ) : (
@@ -1353,7 +1513,13 @@ export default function NigerianLit() {
                 <span>Genre</span>
               </div>
               {filtered.map((book) => (
-                <ListRow key={book.id} book={book} onSelect={handleSelectBook} />
+                <ListRow
+                  key={book.id}
+                  book={book}
+                  onSelect={handleSelectBook}
+                  saved={savedBookIds.includes(book.id)}
+                  onToggleSaved={() => toggleSavedBook(book.id)}
+                />
               ))}
             </div>
           )}
@@ -1366,7 +1532,14 @@ export default function NigerianLit() {
         {" "}and Amazon links earn a small commission if you buy — at no extra cost to you.
       </footer>
 
-      {selectedBook && <DetailModal book={selectedBook} onClose={handleCloseModal} />}
+      {selectedBook && (
+        <DetailModal
+          book={selectedBook}
+          onClose={handleCloseModal}
+          saved={savedBookIds.includes(selectedBook.id)}
+          onToggleSaved={toggleSavedBook}
+        />
+      )}
       {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
       {showRecommend && <RecommendModal onClose={() => setShowRecommend(false)} onViewBook={handleSelectBook} />}
       <Toolbar theme={theme} onTheme={setTheme} soundEnabled={soundEnabled} onSound={toggleSound} onAbout={() => setShowAbout(true)} onRecommend={() => setShowRecommend(true)} />
@@ -1599,6 +1772,31 @@ const s = {
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 20,
+    gap: 12,
+    flexWrap: "wrap",
+  },
+  catalogueActions: {
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+    flexWrap: "wrap",
+    justifyContent: "flex-end",
+  },
+  savedFilter: {
+    display: "flex",
+    alignItems: "center",
+    gap: 6,
+    padding: "8px 13px",
+    borderRadius: 999,
+    border: "1px solid var(--border-2)",
+    background: "var(--surface)",
+    color: "var(--text-3)",
+    cursor: "pointer",
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    fontSize: 11,
+    fontWeight: 600,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
   },
   viewToggle: {
     display: "flex",
@@ -1630,6 +1828,12 @@ const s = {
     flexWrap: "wrap",
     gap: 4,
     alignItems: "flex-start",
+  },
+  spineWrap: {
+    position: "relative",
+    width: 76,
+    height: 270,
+    flexShrink: 0,
   },
   spine: {
     width: 76,
@@ -1668,6 +1872,12 @@ const s = {
     display: "flex",
     flexDirection: "column",
   },
+  listRowWrap: {
+    position: "relative",
+    display: "flex",
+    alignItems: "stretch",
+    borderBottom: "1px solid var(--border)",
+  },
   listHeader: {
     display: "grid",
     gridTemplateColumns: "1fr 200px 64px 100px",
@@ -1689,10 +1899,11 @@ const s = {
     padding: "13px 0",
     background: "none",
     border: "none",
-    borderBottom: "1px solid var(--border)",
+    borderBottom: "none",
     cursor: "pointer",
     textAlign: "left",
     width: "100%",
+    paddingRight: 44,
   },
   listTitle: {
     fontFamily: "Georgia, serif",
@@ -1733,6 +1944,11 @@ const s = {
     gap: "8px 8px",
     background: "transparent",
   },
+  cardWrap: {
+    position: "relative",
+    minWidth: 0,
+    background: "var(--surface)",
+  },
   card: {
     textAlign: "left",
     background: "var(--surface)",
@@ -1742,6 +1958,8 @@ const s = {
     color: "inherit",
     display: "flex",
     flexDirection: "column",
+    width: "100%",
+    height: "100%",
   },
   cardCover: {
     background: "var(--cover)",
@@ -2041,6 +2259,25 @@ const s = {
     gap: 16,
     marginBottom: 24,
   },
+  recommendModeToggle: {
+    display: "flex",
+    background: "var(--surface-2)",
+    borderRadius: 10,
+    padding: 3,
+    gap: 3,
+    marginBottom: 24,
+  },
+  recommendModeBtn: {
+    flex: 1,
+    border: "none",
+    borderRadius: 8,
+    background: "transparent",
+    color: "var(--text-3)",
+    cursor: "pointer",
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    fontSize: 12,
+    padding: "10px 8px",
+  },
   recommendField: {
     display: "flex",
     flexDirection: "column",
@@ -2057,6 +2294,11 @@ const s = {
   },
   recommendRequired: {
     color: "var(--text-2)",
+  },
+  recommendOptional: {
+    color: "var(--text-4)",
+    letterSpacing: "0.04em",
+    textTransform: "none",
   },
   recommendInput: {
     background: "var(--surface-2)",
@@ -2216,6 +2458,9 @@ const s = {
     letterSpacing: "0.06em",
   },
   moreToggleMin: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 4,
     background: "none",
     border: "none",
     cursor: "pointer",
@@ -2231,16 +2476,37 @@ const s = {
   shareIconBtn: {
     background: "transparent",
     border: "1px solid var(--border-2)",
-    borderRadius: "50%",
-    width: 30,
+    borderRadius: 999,
+    minWidth: 78,
     height: 30,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    gap: 6,
     cursor: "pointer",
     color: "var(--text-3)",
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    fontSize: 12,
     flexShrink: 0,
+    padding: "0 11px",
+  },
+  saveBtn: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    width: 32,
+    height: 32,
+    borderRadius: "50%",
+    border: "1px solid var(--border-2)",
+    background: "var(--surface)",
+    color: "var(--text-3)",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 0,
+    zIndex: 2,
+    boxShadow: "0 4px 14px rgba(0,0,0,0.08)",
   },
   modalCoverWrap: { display: "none" },
   modalImg: { display: "none" },
@@ -2322,6 +2588,21 @@ const s = {
     margin: "0 0 14px",
     textAlign: "left",
   },
+  modalSaveBtn: {
+    alignSelf: "flex-start",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 7,
+    border: "1px solid var(--border-2)",
+    borderRadius: 999,
+    background: "var(--surface-2)",
+    color: "var(--text-2)",
+    cursor: "pointer",
+    fontFamily: "'Helvetica Neue', Arial, sans-serif",
+    fontSize: 12,
+    padding: "7px 12px",
+    margin: "0 0 14px",
+  },
   modalTags: {
     display: "flex",
     gap: 8,
@@ -2373,6 +2654,11 @@ const css = `
   body { margin: 0; background: var(--bg); }
   .book-card { transition: background 0.15s; }
   .book-card:hover { background: var(--bg-hover) !important; }
+  .save-btn:hover, .saved-filter:hover, .modal-save:hover { background: var(--surface-2) !important; }
+  .save-btn-active, .saved-filter-active, .modal-save.active { background: var(--text) !important; color: var(--bg) !important; border-color: var(--text) !important; }
+  .list-row-wrap:hover { background: var(--bg-hover) !important; }
+  .list-row-wrap .save-btn { top: 50% !important; right: 0 !important; transform: translateY(-50%); box-shadow: none !important; }
+  .spine-wrap .save-btn { top: 8px !important; right: 8px !important; width: 28px !important; height: 28px !important; opacity: 0.94; }
   .link-btn:hover { opacity: 0.82; }
   .spine-card:hover { opacity: 0.75; }
   .list-row:hover { background: var(--bg-hover) !important; }
@@ -2397,6 +2683,7 @@ const css = `
   .alpha-bar-wrap { position: relative; }
   .alpha-bar-wrap::after { content: ""; pointer-events: none; position: absolute; top: 0; right: 0; width: 48px; height: 100%; background: linear-gradient(to right, transparent, var(--bg)); }
   .view-active  { background: var(--text) !important; color: var(--bg) !important; }
+  .mode-active  { background: var(--surface) !important; color: var(--text) !important; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
   @keyframes rainbowSweep {
     0%   { background-position: 0% 50%; }
     50%  { background-position: 100% 50%; }
