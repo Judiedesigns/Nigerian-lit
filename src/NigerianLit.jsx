@@ -314,12 +314,16 @@ function readSavedBooks() {
 }
 
 
+const MOBILE_QUERY = "(max-width: 768px)";
+
+function isMobileViewport() {
+  return typeof window !== "undefined" && window.matchMedia(MOBILE_QUERY).matches;
+}
+
 function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== "undefined" && window.matchMedia("(max-width: 768px)").matches
-  );
+  const [isMobile, setIsMobile] = useState(isMobileViewport);
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 768px)");
+    const mq = window.matchMedia(MOBILE_QUERY);
     const handler = (e) => setIsMobile(e.matches);
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
@@ -1210,6 +1214,7 @@ const THEMES = [
 
 function SplashScreen({ onEnter }) {
   const trapRef = useFocusTrap(true);
+  const isMobile = useIsMobile();
   return (
     <div style={spl.overlay}>
       <div ref={trapRef} style={spl.inner}>
@@ -1222,7 +1227,9 @@ function SplashScreen({ onEnter }) {
           It started with a <a href="https://x.com/mochievous/status/2044355352808796469" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecorationLine: "underline", textUnderlineOffset: 3, fontWeight: 500 }}>tweet</a>. Over 300 Nigerians named every book they remembered from literature class. This is where those titles live now.
         </p>
         <p className="spl-body" style={spl.body}>
-          A playlist plays while you browse — music chosen to sit beside these books, not above them.
+          {isMobile
+            ? "A playlist is here if you want it — music chosen to sit beside these books, not above them. Tap the speaker to begin."
+            : "A playlist plays while you browse — music chosen to sit beside these books, not above them."}
         </p>
         <button type="button" style={spl.enterBtn} onClick={onEnter}>
           Enter the Archive
@@ -1294,7 +1301,10 @@ export default function NigerianLit() {
   const [sortOrder, setSortOrder] = useState("az");
   const [viewMode, setViewMode] = useState("cards");
   const [theme, setTheme] = useState("white");
-  const [soundEnabled, setSoundEnabled] = useState(() => readPref(SOUND_KEY, true));
+  // Phones only allow one audio source, so starting the playlist stops whatever the
+  // visitor already had playing, and streams over their mobile data uninvited. Sound
+  // therefore starts off on phones and on at desks. A stored choice always wins.
+  const [soundEnabled, setSoundEnabled] = useState(() => readPref(SOUND_KEY, !isMobileViewport()));
   // The sound helpers read a module-level flag, so mirror the stored choice into it.
   useEffect(() => { _soundEnabled = soundEnabled; }, [soundEnabled]);
   const [showAbout, setShowAbout] = useState(false);
