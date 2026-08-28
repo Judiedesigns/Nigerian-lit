@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { ChevronDown, ChevronUp, Share2 } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, Share2 } from "lucide-react";
 
 
 let _audioCtx = null;
@@ -478,7 +478,9 @@ function CustomSelect({ value, options, onChange, label }) {
               style={opt.value === value ? { ...s.selectOption, ...s.selectOptionActive } : s.selectOption}
               onClick={() => { onChange(opt.value); setOpen(false); }}
             >
-              <span style={s.selectOptCheck}>{opt.value === value ? "✓" : ""}</span>
+              <span style={s.selectOptCheck}>
+                {opt.value === value && <Check size={13} strokeWidth={2.2} aria-hidden="true" />}
+              </span>
               {opt.label}
             </button>
           ))}
@@ -1802,9 +1804,10 @@ const s = {
   selectOptCheck: {
     width: 16,
     flexShrink: 0,
-    color: "var(--accent)",
-    fontSize: 12,
-    fontWeight: 700,
+    display: "flex",
+    alignItems: "center",
+    // var(--accent) was #aa3bff from the Vite starter, the one purple in the app.
+    color: "var(--text)",
   },
   alphaBar: {
     display: "flex",
