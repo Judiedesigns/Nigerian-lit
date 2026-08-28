@@ -230,7 +230,7 @@ const genres = ["All", ...new Set(books.map((b) => b.genre))];
 const authors = ["All Authors", ...new Set(books.map((b) => b.author))];
 const alphabet = ["All", ..."ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")];
 
-const CACHE_KEY = "nlitCovers_v1";
+const CACHE_KEY = "nlitCovers_v2";
 const SAVED_KEY = "nlitSavedBooks_v1";
 function readCoverCache() {
   try {
@@ -247,6 +247,43 @@ function writeCoverCache(key, value) {
   } catch {
     // Cover cache writes are optional.
   }
+}
+
+// Open Library search is fuzzy: for less-catalogued titles the top hit is often an
+// unrelated book. Verify a candidate really is the book before using its cover,
+// otherwise we show the letter fallback instead of someone else's cover.
+function normalizeText(value) {
+  return (value || "")
+    .toLowerCase()
+    .replace(/[\u2018\u2019'`]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function titleKey(value) {
+  return normalizeText(value).replace(/^(the|a|an) /, "");
+}
+
+function nameParts(value) {
+  return normalizeText(value)
+    .split(" ")
+    .filter((part) => part.length > 2);
+}
+
+function isPlausibleCoverMatch(book, doc) {
+  const want = titleKey(book.title);
+  const got = titleKey(doc.title);
+  if (!want || !got) return false;
+
+  // Allow subtitle drift ("Things Fall Apart: A Novel") but nothing looser.
+  const titleMatches = got === want || got.startsWith(want) || want.startsWith(got);
+  if (!titleMatches) return false;
+
+  // The title alone is not enough — different books share titles.
+  const wanted = nameParts(book.author);
+  const found = (doc.author_name || []).flatMap(nameParts);
+  if (!wanted.length || !found.length) return false;
+  return wanted.some((part) => found.includes(part));
 }
 
 function readSavedBooks() {
@@ -314,11 +351,14 @@ function BookCover({ book, style, fallbackStyle, delay = 0, letterStyle }) {
     let cancelled = false;
     const timer = setTimeout(() => {
       const q = encodeURIComponent(`${book.title} ${book.author}`);
-      fetch(`https://openlibrary.org/search.json?q=${q}&fields=cover_i&limit=1`)
+      fetch(`https://openlibrary.org/search.json?q=${q}&fields=title,author_name,cover_i&limit=5`)
         .then((r) => r.json())
         .then((data) => {
           if (cancelled) return;
-          const id = data.docs?.[0]?.cover_i;
+          const match = (data.docs || []).find(
+            (doc) => doc.cover_i && isPlausibleCoverMatch(book, doc)
+          );
+          const id = match?.cover_i;
           if (id) {
             const url = `https://covers.openlibrary.org/b/id/${id}-L.jpg`;
             setCoverUrl(url);
