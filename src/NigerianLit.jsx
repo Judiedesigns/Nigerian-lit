@@ -2710,7 +2710,33 @@ const css = `
   .save-btn-active, .saved-filter-active, .modal-save.active { background: var(--text) !important; color: var(--bg) !important; border-color: var(--text) !important; }
   .list-row-wrap:hover { background: var(--bg-hover) !important; }
   .list-row-wrap .save-btn { top: 50% !important; right: 0 !important; transform: translateY(-50%); box-shadow: none !important; }
-  .spine-wrap .save-btn { top: 8px !important; right: 8px !important; width: 28px !important; height: 28px !important; opacity: 0.94; }
+  .spine-wrap .save-btn { top: 8px !important; right: 8px !important; width: 28px !important; height: 28px !important; }
+  /* The save button stays out of the way until a card is hovered or focused, so
+     covers and spines read cleanly. Three things keep it reachable: only devices
+     that actually hover get the hidden state, keyboard focus reveals it, and a
+     saved book always shows its button — otherwise it could not be un-saved.
+     Only opacity animates; the list and spine variants use transform to position
+     themselves and must not be overridden. */
+  @media (hover: hover) and (pointer: fine) {
+    .book-card-wrap .save-btn,
+    .spine-wrap .save-btn,
+    .list-row-wrap .save-btn { opacity: 0; transition: opacity 140ms ease; }
+
+    .book-card-wrap:hover .save-btn,
+    .spine-wrap:hover .save-btn,
+    .list-row-wrap:hover .save-btn,
+    .book-card-wrap:focus-within .save-btn,
+    .spine-wrap:focus-within .save-btn,
+    .list-row-wrap:focus-within .save-btn,
+    .book-card-wrap .save-btn.save-btn-active,
+    .spine-wrap .save-btn.save-btn-active,
+    .list-row-wrap .save-btn.save-btn-active { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .book-card-wrap .save-btn,
+    .spine-wrap .save-btn,
+    .list-row-wrap .save-btn { transition: none; }
+  }
   .link-btn:hover { opacity: 0.82; }
   .spine-card:hover { opacity: 0.75; }
   .list-row:hover { background: var(--bg-hover) !important; }
