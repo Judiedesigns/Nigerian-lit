@@ -1118,11 +1118,15 @@ function Toolbar({ theme, onTheme, soundEnabled, onSound, musicEnabled, onMusic,
             </div>
           )}
         </div>
-        <button type="button" className="toolbar-btn" style={s.toolbarBtn} onClick={onSound} aria-label={soundEnabled ? "Mute interface sounds" : "Unmute interface sounds"} aria-pressed={soundEnabled}>
-          {soundEnabled ? <SvgSoundOn /> : <SvgSoundOff />}
-        </button>
-        <button type="button" className="toolbar-btn" style={s.toolbarBtn} onClick={onMusic} aria-label={musicEnabled ? "Pause music" : "Play music"} aria-pressed={musicEnabled}>
+        <button type="button" className="toolbar-btn" style={s.toolbarBtn} onClick={onMusic}
+          title={musicEnabled ? "Pause music" : "Play music"}
+          aria-label={musicEnabled ? "Pause music" : "Play music"} aria-pressed={musicEnabled}>
           {musicEnabled ? <SvgMusicOn /> : <SvgMusicOff />}
+        </button>
+        <button type="button" className="toolbar-btn" style={s.toolbarBtn} onClick={onSound}
+          title={soundEnabled ? "Interface sounds on" : "Interface sounds off"}
+          aria-label={soundEnabled ? "Mute interface sounds" : "Unmute interface sounds"} aria-pressed={soundEnabled}>
+          {soundEnabled ? <SvgSoundOn /> : <SvgSoundOff />}
         </button>
       </div>
     );
@@ -1179,16 +1183,19 @@ function Toolbar({ theme, onTheme, soundEnabled, onSound, musicEnabled, onMusic,
                 <SvgPalette /> Change theme
               </button>
             </div>
+            <div>
+              {/* Interface sounds is a rarely-changed preference, so it lives in the
+                  menu where it can carry a text label, leaving music in the toolbar. */}
+              <button type="button" className="toolbar-btn-pill" style={{ ...pillBase, animationDelay: "0.16s" }}
+                onClick={onSound} aria-pressed={soundEnabled}>
+                {soundEnabled ? <SvgSoundOn /> : <SvgSoundOff />} Interface sounds {soundEnabled ? "on" : "off"}
+              </button>
+            </div>
           </>
         )}
 
-        {/* Bottom row: speaker + dots always visible */}
+        {/* Bottom row: music + dots always visible */}
         <div style={{ display: "flex", gap: 8 }}>
-          <button type="button" className="toolbar-btn" style={s.toolbarBtn}
-            onClick={onSound} aria-label={soundEnabled ? "Mute interface sounds" : "Unmute interface sounds"} aria-pressed={soundEnabled}>
-            {soundEnabled ? <SvgSoundOn /> : <SvgSoundOff />}
-          </button>
-
           <button type="button" className="toolbar-btn" style={s.toolbarBtn}
             onClick={onMusic} aria-label={musicEnabled ? "Pause music" : "Play music"} aria-pressed={musicEnabled}>
             {musicEnabled ? <SvgMusicOn /> : <SvgMusicOff />}
